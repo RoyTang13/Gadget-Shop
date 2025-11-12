@@ -1,3 +1,4 @@
+
 <?php
 require '../_base.php';
 
@@ -7,8 +8,8 @@ include '../_head.php';
       
 <style>
     #img {
-        width: 600px;
-        height: 400px;
+        width: 400px;
+        height: 250px;
         border: 10px solid #fff;
         box-shadow: 0 0 5px #000;
         border-radius: 5px;
