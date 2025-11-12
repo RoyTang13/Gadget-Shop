@@ -10,14 +10,24 @@
     <script src="/js/app.js"></script>
 </head>
 <body>
+    <header>
+    <h1> <a href="/">TechNest</a></h1>
+    <button class="login-btn" data-get="/page/login.php"> Login Now </button>
+    </header>
 
+    <nav class="navbar">
+        <a href="/">Home</a>
+        <a href="/page/product.php">Product</a>
+        <a href="/page/contactus.php">Contact Us</a>
+
+
+    </nav>
 </body>
 
-<footer>
-
-
-</footer>
-
 <main>
-        <h1><?= $_title ?? 'Untitled' ?></h1>
+   
+   
+
+
+</main>
 </html>

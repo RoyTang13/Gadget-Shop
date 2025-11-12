@@ -1,4 +1,3 @@
-</main>
 <footer>
     Developed by <b>TLY,KC,ZF,Ms</b> &middot;
     Copyrighted &copy; <?= date('Y') ?>
