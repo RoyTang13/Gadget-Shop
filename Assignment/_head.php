@@ -12,7 +12,10 @@
 <body>
     <header>
     <h1> <a href="/">TechNest</a></h1>
-    <button class="login-btn" data-get="/page/login.php"> Login Now </button>
+    <div class="Login_Register">
+    <button class="login-btn" data-get="/page/login.php"> Login</button>
+    <button class="login-btn" data-get="/page/register.php"> Register </button>
+    </div>
     </header>
 
     <nav class="navbar">
