@@ -28,8 +28,6 @@
         box-sizing: border-box;
     }
 
-
-
     header {
         background: #ccc;
         display: flex;
@@ -61,6 +59,7 @@
         font-weight: 700;
     }
 
+    /* -----------Login Style ----------*/
     /* Login button styling */
     .login-btn {
         background: #4b6cff;
@@ -185,9 +184,199 @@
         margin-top: 0;
     }
 
+    .login-form-box {
+        width: 100%;
+        max-width: 380px;
+        background: none;
+        box-shadow: none;
+        padding: 35px 40px;
+    }
+
+    /* Ensure the wrapper itself has overflow hidden for rounded corners */
+    .login-wrapper {
+        display: flex;
+        width: 100%;
+        max-width: 1100px;
+        margin: 60px auto;
+        border-radius: 15px;
+        overflow: hidden;
+        background: #ffffff;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 12px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Left content (form section) */
+    .login-left {
+        flex: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        background-color: #ffffff;
+    }
+
+    /* Right content (image with text overlay) */
+    .login-right {
+        flex: 3;
+        background-image: url('/images/login2.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 400px;
+    }
+
+    /* Styling for the text overlay on the image */
+    .image-text-overlay {
+        text-align: center;
+        color: #ffffff;
+        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .login-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 25px;
+        text-align: center;
+        color: #333;
+    }
+
+    /* Label + input */
+    .login-form-box label {
+        display: block;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #222;
+    }
+
+    .login-form-box input {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: 17px;
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Buttons section */
+    section {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    button {
+        padding: 12px 23px;
+        border: none;
+        background: #4b6cff;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #ff0000;
+    }
+
+    /* Register link */
+    .links {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .links a {
+        margin-left: 6px;
+        color: #4b6cff;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .links a:hover {
+        text-decoration: underline;
+    }
+
+    /* Responsive adjustment for smaller screens */
+    @media (max-width: 768px) {
+        .login-wrapper {
+            flex-direction: column;
+            margin: 30px auto;
+        }
+
+        .login-left {
+            padding: 20px;
+        }
+
+        .login-right {
+            height: 250px;
+        }
+
+        .image-text-overlay h1 {
+            font-size: 2.2em;
+        }
+
+        .image-text-overlay p {
+            font-size: 1em;
+        }
+    }
+
+    /*-------------- register form ----------------------*/
+
+    /* Make page stay centered */
     .container {
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 90vh;
+        min-height: 500px;
+        padding-top: 120px;
+    }
+
+    .box {
+        background: #fdfdfd;
+        display: flex;
+        flex-direction: column;
+        padding: 30px 60px;
+        border-radius: 20px;
+        box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.5),
+            0 32px 64px -48px rgba(0, 0, 0, 0.5);
+    }
+
+    .form-box {
+        width: 500px;
+        margin: 0px 10px;
+    }
+
+    .form-box h2 {
+        font-size: 25px;
+        font-weight: 600;
+        padding-bottom: 1px solid #e6e6e6;
+        margin-bottom: 10px;
+
+    }
+
+    .form-box form label {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 5px;
+    }
+
+    .form-box form input {
+        height: 40px;
+        width: 100%;
+        font-size: 16px;
+        padding: 0 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+
+
+    }
+
+    .links {
+        margin-bottom: 10px;
     }
