@@ -67,6 +67,12 @@ $(() => {
             $('.dropdown-content').removeClass('show');
         });
     });
+    window.closePopup = function () {
+        const overlay = document.getElementById('popupOverlay');
+        if (overlay) overlay.style.display = 'none';
+    }
+
+
 
 
 

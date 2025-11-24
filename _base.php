@@ -153,3 +153,30 @@ session_start();
         $stm->execute([$value]);
         return $stm->fetchColumn() > 0;
     }
+
+    // ------------------ Popup Function ------------------
+
+    // Set a temporary message (stored in session)
+    function set_popup($msg) {
+        $_SESSION['popup'] = $msg;
+    }
+    
+    function show_popup() {
+        if (!empty($_SESSION['popup'])) {
+            $msg = $_SESSION['popup'];
+            if (is_array($msg)) {
+                $msg = implode('<br>', $msg);  // optional: join array to string
+            }
+            echo '<div class="popup-overlay" id="popupOverlay">
+                    <div class="popup-box">
+                        <p>'.htmlspecialchars($msg).'</p>
+                        <button onclick="closePopup()">OK</button>
+                    </div>
+                  </div>';
+            unset($_SESSION['popup']);
+        }
+    }
+    
+
+
+        
