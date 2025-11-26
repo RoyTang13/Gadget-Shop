@@ -1,6 +1,7 @@
 <?php
 require '../admin_base.php';
 
+
 $_title = 'Admin Dashboard';
 include '../admin_head.php';
 ?>

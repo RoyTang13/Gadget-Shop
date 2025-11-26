@@ -137,3 +137,104 @@ section {
     font-weight: bold;
     color: #0a5275;
 }
+
+.login-form-box {
+    width: 100%;
+    max-width: 380px;
+    background: none;
+    box-shadow: none;
+    padding: 35px 40px;
+}
+
+/* Ensure the wrapper itself has overflow hidden for rounded corners */
+.login-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 1100px;
+    margin: 60px auto;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Left content (form section) */
+.login-left {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    background-color: #ffffff;
+}
+
+/* Right content (image with text overlay) */
+.login-right {
+    flex: 3;
+    background-image: url('/images/login2.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+/* Styling for the text overlay on the image */
+.image-text-overlay {
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.login-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #333;
+}
+
+/* Label + input */
+.login-form-box label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #222;
+}
+
+.login-form-box input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 17px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+/* Buttons section */
+section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+button {
+    padding: 12px 23px;
+    border: none;
+    background: #693b9f;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #de87ee;
+    color: #ffffff
+}
