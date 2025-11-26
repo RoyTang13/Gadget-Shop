@@ -410,7 +410,7 @@
         background: #844ed1;
     }
 
-    .dropdown-content {
+    .user-dropdown .dropdown-content {
         display: none;
         position: absolute;
         right: 0;
@@ -431,7 +431,7 @@
         opacity: 1;
     }
 
-    .dropdown-content a {
+    .user-dropdown .dropdown-content a {
         display: block;
         padding: 12px 16px;
         font-size: 14px;
@@ -441,7 +441,7 @@
         transition: background 0.3s, color 0.3s;
     }
 
-    .dropdown-content a:hover {
+    .user-dropdown .dropdown-content a:hover {
         background: #693382;
         color: #f2f2f2;
     }

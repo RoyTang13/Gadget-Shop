@@ -64,8 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?= err('password') ?>
 
                 <section>
-                    <button>Submit</button>
-                    <button type="reset">Reset</button>
+                     <button type="reset">Reset</button>
+                    <button>Submit</button> 
+                    
                 </section>
 
                 <div class="links">
