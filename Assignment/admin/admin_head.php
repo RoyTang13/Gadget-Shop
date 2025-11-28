@@ -17,13 +17,14 @@
     <div class="sidebar">
         <header>TechNest</header>
         <ul>
-            <li><a href="../page/admin_dashboard.php"><i class='fas fa-qrcode'></i>Dashboards</a></li>
+            <li><a href="../admin/admin_dashboard.php"><i class='fas fa-qrcode'></i>Dashboards</a></li>
             <li><a href="#"><i class='fas fa-link'></i>Shortcuts</a></li>
             <li><a href="#"><i class='fas fa-stream'></i>Overview</a></li>
             <li><a href="#"><i class='far fa-calendar-alt'>Events</i></a></li>
             <li><a href="#"><i class='fas fa-question-circle'>About</i></a></li>
             <li><a href="#"><i class='fas fa-sliders-h'></i>Services</a></li>
             <li><a href="#"><i class='fas fa-envelope'></i>Contact</a></li>
+            <li><a href="../admin/admin_logout.php"><i class='fas fa-right-from-bracket'></i>Logout</a></li>
         </ul>
     </div>
     <section></section>

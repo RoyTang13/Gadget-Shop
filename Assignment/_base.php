@@ -154,6 +154,63 @@ session_start();
         return $stm->fetchColumn() > 0;
     }
 
+        // ============================================================================
+    // Admin-Specific Functions
+    // ============================================================================
+
+    // Connect to admin database
+    try {
+        $_admin_db = new PDO('mysql:host=localhost;dbname=technest;charset=utf8mb4', 'root', '', [
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]);
+        $_admin_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+        die("Admin database connection failed: " . $e->getMessage());
+    }
+
+    // Check if admin is logged in
+    function check_admin_login() {
+        if (!isset($_SESSION['adminID'])) {
+            redirect('/admin/index.php');
+            exit;
+        }
+    }
+
+    // Admin logout
+    function admin_logout() {
+        session_unset();
+        session_destroy();
+        redirect('/admin/login.php');
+    }
+
+    // Hash password
+    function hash_password($password) {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    // Verify password
+    function verify_password($password, $hash) {
+        return password_verify($password, $hash);
+    }
+
+    // Fetch admin by email
+    function get_admin_by_email($email) {
+        global $_admin_db;
+        $stm = $_admin_db->prepare("SELECT * FROM admin WHERE email = ? LIMIT 1");
+        $stm->execute([$email]);
+        return $stm->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Optional: Add a new admin
+    function add_admin($fname, $lname, $email, $phoneNo, $password) {
+        global $_admin_db;
+        $hash = hash_password($password);
+        $stm = $_admin_db->prepare("INSERT INTO admin (fname, lname, email, phoneNo, password) VALUES (?, ?, ?, ?, ?)");
+        return $stm->execute([$fname, $lname, $email, $phoneNo, $hash]);
+}
+
+
+
     // ------------------ Popup Function ------------------
 
     // Set a temporary message (stored in session)

@@ -1,16 +1,17 @@
 <?php
-require '../admin_base.php';
+require '../_base.php';
 
 
 $_title = 'Admin Dashboard';
-include '../admin_head.php';
+include 'admin_head.php';
 ?>
 
 <body>
 
-    <section class="dashboard">
+<section class="dashboard">
+    <div class="dashboard-wrapper">
         <div class="dashboard-container">
-            <div class="card">
+        <div class="card">
                 <h3>Total Users</h3>
                 <p>120</p>
             </div>
@@ -27,7 +28,10 @@ include '../admin_head.php';
                 <p>18</p>
             </div>
         </div>
-    </section>
+
+    </div>
+</section>
+
 
 </body>
 </html>

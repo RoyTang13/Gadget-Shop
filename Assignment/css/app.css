@@ -41,8 +41,14 @@
     }
 
     footer {
-        margin-top: auto;
-
+        padding: 10px 50px;
+        width: 100%;
+        box-sizing: border-box;
+        position: fixed;
+        left: 0px;
+        bottom: 0px;
+        height: 30px;
+        background: #ccc;
     }
 
     header h1 {
