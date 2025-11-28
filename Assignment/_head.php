@@ -19,7 +19,8 @@
         <?php else: ?>
             <div class="user-dropdown">
                 <button class="user-btn">
-                    Hi, <?= htmlspecialchars($_SESSION['lname'] ?? $_SESSION['fname'] ?? 'User') ?> &#9662;
+                <img class="user-photo" src="/images/animeboy.jpg" width="36px">
+                    <span>Hi, <?= htmlspecialchars($_SESSION['lname'] ?? $_SESSION['fname'] ?? 'User') ?> &#9662; </span>
                 </button>
                 <div class="dropdown-content">
                     <a href="/page/profile.php">Update Profile</a>
