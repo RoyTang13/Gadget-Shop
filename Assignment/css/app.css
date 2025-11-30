@@ -686,30 +686,38 @@
     }
 
     /* ---------------- Product Page ---------------- */
-
     /* Part 1 - Searching */
+
+    /* Search bar style */
     .search_bar-font {
         font-style: italic;
-        font-size: 18px;
+        font-size: 12px;
         font-family: 'Courier New', Courier, monospace;
         font-weight: lighter;
-        width: 360px;
-        padding: 3px 0px 1.6px 6px;
+        width: 200px;
+        height: 30px;
+        padding: 3px 0px 2px 6px;
+        border: #000 solid 2px;
     }
-
+    
+    /* "Search" button style */
     .search_bar-button {
         background: #be06ec;
         color: #fff;
         padding: 4px 17px;
-        border-radius: 6px;
+        width: 100px;
+        font-family:'Courier New', Courier, monospace ;
+        font-size: 16px;
+        border: #000 solid 2px;
         cursor: pointer;
-        font-weight: 600;
     }
 
+    /* Change background color of "Search" button */
     .search_bar-button:hover {
         background: #d17de6;
     }
 
+    /* Distance between buttons and search bar */
     .search {
         display: flex;
         justify-content: left;
@@ -721,8 +729,11 @@
 
     /* ---------------------------------------------- */
     /* Part 2 - Filtering and Category*/
+
+    /* Adjust dropdown position */
     .browser .search .dropdown {
         position: relative;
+        z-index: 10;
     }
 
     /* Style the dropdown button */
@@ -731,8 +742,9 @@
         color: #fff;
         padding: 4px 17px;
         width: 155px;
+        font-family:'Courier New', Courier, monospace ;
         font-size: 16px;
-        border: none;
+        border: #000 solid 2px;
         cursor: pointer;
     }
 
@@ -740,6 +752,41 @@
     .browser .search .dropdown:hover .dropbtn {
         background-color: #d17de6;
     }
+
+    /* Dropdown content */
+    .browser .search .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fccdfb;
+        border: #341738 ridge 2px;
+        width: 205px;
+        font-family:'Courier New', Courier, monospace ;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
+    /* Links inside dropdown content */
+    .browser .search .dropdown-content label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 30px 8px 10px;
+        cursor: pointer;
+    }
+
+    /* Change selection style from Dropdowns */
+    .browser .search .dropdown-content input[type = "checkbox"] {
+        cursor: pointer;
+        width: 15px;
+        height: 15px;
+    }
+
+    /* Show the dropdown content on hover */
+    .browser .search .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* ---------------------------------------------- */
+    /* Part 3 - Price Range */
 
     /* Dropdown Row */
     .browser .search .dropdown-row {
@@ -756,16 +803,6 @@
         background-color: #fff
     }
 
-    /* Dropdown content */
-    .browser .search .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #fccdfb;
-        border: #341738 ridge 2px;
-        min-width: 10px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    }
-
     /* Links inside dropdown content */
     .browser .search .dropdown-content .dropdown-row {
         color: #000;
@@ -778,13 +815,8 @@
     .browser .search .dropdown-content .dropdown-row:hover {
         background-color: #fff
     }
-
-    /* Show the dropdown content on hover */
-    .browser .search .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-    /* Dropdown subcontent*/
+        
+    /* Dropdown subcontent */
     .browser .search .dropdown-subcontent {
         display: none;
         position: absolute;
@@ -793,7 +825,7 @@
         background-color: #fccdfb;
         border: #341738 ridge 2px;
         min-width: 10px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     }
 
     /* Show the dropdown subcontent on hover */
@@ -811,32 +843,28 @@
     }
 
     /* Change color of dropdown subcontent links on hover */
-    .browser .search .dropdown-subcontent:hover span {
+    .browser .search .dropdown-subcontent:hover span{
         background-color: #fff
     }
 
-    /* Style the checkbox inside dropdown subcontent */
-    .browser .search .dropdown-subcontent input[type="checkbox"] {
-        transform: scale(1.2);
-    }
-
-    /* ---------------------------------------------- */
-    /* Part 3 - Price Range */
-    .browser .search .dropdown-subcontent input[type="number"] {
-        font-family: 'Courier New', Courier, monospace;
+    /* Change style inside box from Custom Range */
+    .browser .search .dropdown-subcontent input[type = "number"] {
+        font-family:'Courier New', Courier, monospace ;
         font-size: 12px;
         padding: 4px;
         border: 1px solid #888;
         border-radius: 4px;
-    }
+        }
 
+    /* Change "Apply" button style inside Custom Range */
     .browser .search .dropdown-subcontent button {
         padding: 6px 15px;
         background-color: #be06ec;
         color: #fff;
-        border: none;
+        border: #000 solid 2px;
         cursor: pointer;
         border-radius: 6px;
+        font-family:'Courier New', Courier, monospace ;
     }
 
     /* ---------------------------------------------- */
