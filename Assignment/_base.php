@@ -94,6 +94,26 @@ session_start();
         echo '</div>';
     }
 
+    // Generate <input type='checkbox'> list
+    function html_checkboxes($key, $items, $br = false) {
+        $value = is_array($GLOBALS[$key]) ? $GLOBALS[$key] : [];
+        echo '<div>';
+        foreach ($items as $id => $text) {
+            $state = in_array($id, $value) ? 'checked' : '';
+            echo "<label><input type='checkbox' id='{$key}_$id' name='$key' value='$id' $state>$text</label>";
+            if ($br) {
+                echo '<br>';
+            }
+        }
+        echo '</div>';
+    }
+
+    // Generate <input type='search'> list
+    function html_search($key, $attr = '') {
+        $value = encode($GLOBALS[$key] ?? '');
+        echo "<input type='search' id='$key' name='$key' value='$value' $attr>";
+    }
+
     // Generate <select>
     function html_select($key, $items, $default = '- Select One -', $attr = '') {
         $value = encode($GLOBALS[$key] ?? '');
@@ -106,6 +126,11 @@ session_start();
             echo "<option value='$id' $state>$text</option>";
         }
         echo '</select>';
+    }
+
+    // Generate <input type='file'>
+    function html_file($key, $accept = '', $attr = '') {
+        echo "<input type='file' id='$key' name='$key' accept='$accept' $attr>";
     }
 
     // ============================================================================
@@ -132,7 +157,6 @@ session_start();
     // ============================================================================
 
     // Global PDO object
-    //TODO
     $_db = new PDO('mysql:dbname=technest', 'root', '', [
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
     ]);
@@ -154,7 +178,31 @@ session_start();
         return $stm->fetchColumn() > 0;
     }
 
-        // ============================================================================
+    // Obtain uploaded file --> cast to object
+    function get_file($key) {
+        $f = $_FILES[$key] ?? null;
+    
+        if ($f && $f['error'] == 0) {
+            return (object)$f;
+        }
+
+        return null;
+    }
+
+    // Crop, resize and save photo
+    function save_photo($f, $folder, $width = 300, $height = 300) {
+        $productImg = uniqid() . '.jpg';
+    
+        require_once 'lib/SimpleImage.php';
+        $productImg = new SimpleImage();
+        $productImg->fromFile($f->tmp_name)
+                   ->thumbnail($width, $height)
+                   ->toFile("$folder/$productImg", 'image/jpeg');
+
+        return $productImg;
+    }
+
+    // ============================================================================
     // Admin-Specific Functions
     // ============================================================================
 
