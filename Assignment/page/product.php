@@ -2,7 +2,8 @@
 <?php
 require '../_base.php';
 
-$arr = $_db->query('SELECT * FROM product')->fetchAll();
+$arr = $_db->query('SELECT * FROM product')->fetchAll(PDO::FETCH_OBJ);
+
 
 $_title = 'Product | TechNest';
 
@@ -172,32 +173,20 @@ include '../_head.php';
 </div>
 
 <!-- Product Photo with Name, Description and Price-->
-<div class="gallery"> 
-    <div class="gallery-item"> 
-        <img src="images/banner1.jpg"> 
-        <div class="desc">Product Name 1<br>RM 199.00</div> 
-    </div> 
-    
-    <div class="gallery-item"> 
-        <img src="images/banner1.jpg"> 
-        <div class="desc">Product Name 2<br>RM 249.00</div> 
-    </div> 
-    
-    <div class="gallery-item"> 
-        <img src="images/banner1.jpg"> 
-        <div class="desc">Product Name 3<br>RM 299.00</div> 
-    </div> 
-    
-    <div class="gallery-item"> 
-        <img src="images/banner1.jpg"> 
-        <div class="desc">Product Name 4<br>RM 349.00</div> 
-    </div> 
-    
-    <div class="gallery-item"> 
-        <img src="images/banner1.jpg"> 
-        <div class="desc">Product Name 5<br>RM 399.00</div> 
-    </div> 
+<div class="gallery">
+<?php foreach ($arr as $p): ?>
+    <div class="gallery-item">
+    <img src="/photos/<?= $p->productPhoto ?>
+    " alt="<?= htmlspecialchars($p->productName) ?>">
+        <div class="desc">
+            <?= htmlspecialchars($p->productName) ?><br>
+            RM <?= number_format($p->productPrice, 2) ?>
+        </div>
+    </div>
+<?php endforeach; ?>
 </div>
+
+
 
 <style>
 
@@ -207,3 +196,8 @@ include '../_head.php';
 <script>
 
 </script>
+<!--     <div class="gallery-item"> 
+        <img src="images/banner1.jpg"> 
+        <div class="desc">Product Name 1<br>RM 199.00</div> 
+    </div>  -->
+    <!-- -->

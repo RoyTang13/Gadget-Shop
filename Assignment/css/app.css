@@ -22,13 +22,13 @@
 
     header,
     footer {
-        padding: 10px 50px;
         background: #ccc;
         width: 100%;
         box-sizing: border-box;
     }
 
     header {
+        padding: 10px 50px;
         background: #7555a0;
         display: flex;
         flex-direction: row;
@@ -84,13 +84,13 @@
     }
 
     nav {
-        padding: 5px 8px;
+        padding: 10px 8px;
         width: 100%;
         background: #693382;
         display: flex;
         box-sizing: border-box;
         position: fixed;
-        top: 78px;
+        top: calc(10px + 36px + 10px);
         z-index: 9;
     }
 
@@ -526,11 +526,11 @@
         margin-top: 10px;
     }
 
-/* =============================================================================
+    /* =============================================================================
     -------------------------------- Product Form ------------------------------- 
-    ============================================================================= */ 
-    
-   .product_container {
+    ============================================================================= */
+
+    .product_container {
         max-width: 750px;
         margin: 40px auto;
         padding: 20px;
@@ -539,7 +539,7 @@
     .product_form {
         background-color: #af70ccc6;
         padding: 30px 40px;
-        border:#000 2px solid;
+        border: #000 2px solid;
         border-radius: 12px;
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
     }
@@ -553,7 +553,8 @@
         color: #444;
     }
 
-    .product_form_input, .product_form_select {
+    .product_form_input,
+    .product_form_select {
         display: flex;
         align-items: center;
         margin-bottom: 18px;
@@ -564,8 +565,11 @@
         align-items: center;
         margin-bottom: 18px;
     }
-    .product_form_input label, .product_form_input_long label, .product_form_select label {
-        width: 180px; 
+
+    .product_form_input label,
+    .product_form_input_long label,
+    .product_form_select label {
+        width: 180px;
         font-family: 'Courier New', Courier, monospace;
         font-weight: 600;
         color: #850078;
@@ -583,7 +587,7 @@
     }
 
     .product_form_input_long textarea {
-        width: 100%;      
+        width: 100%;
         resize: vertical;
         box-sizing: border-box;
         line-height: 1.4;
@@ -615,7 +619,8 @@
         width: 180px;
     }
 
-    .product_form_select input, .product_form_select span {
+    .product_form_select input,
+    .product_form_select span {
         display: flex;
         align-items: center;
     }
@@ -679,10 +684,25 @@
     }
 
     @keyframes fade {
-          0% { top: -100px; opacity: 0; }
-         10% { top:  100px; opacity: 1; }
-         90% { top:  100px; opacity: 1; }
-        100% { top: -100px; opacity: 0; }
+        0% {
+            top: -100px;
+            opacity: 0;
+        }
+
+        10% {
+            top: 100px;
+            opacity: 1;
+        }
+
+        90% {
+            top: 100px;
+            opacity: 1;
+        }
+
+        100% {
+            top: -100px;
+            opacity: 0;
+        }
     }
 
     /* ---------------- Product Page ---------------- */
@@ -699,14 +719,14 @@
         padding: 3px 0px 2px 6px;
         border: #000 solid 2px;
     }
-    
+
     /* "Search" button style */
     .search_bar-button {
         background: #be06ec;
         color: #fff;
         padding: 4px 17px;
         width: 100px;
-        font-family:'Courier New', Courier, monospace ;
+        font-family: 'Courier New', Courier, monospace;
         font-size: 16px;
         border: #000 solid 2px;
         cursor: pointer;
@@ -742,7 +762,7 @@
         color: #fff;
         padding: 4px 17px;
         width: 155px;
-        font-family:'Courier New', Courier, monospace ;
+        font-family: 'Courier New', Courier, monospace;
         font-size: 16px;
         border: #000 solid 2px;
         cursor: pointer;
@@ -760,8 +780,8 @@
         background-color: #fccdfb;
         border: #341738 ridge 2px;
         width: 205px;
-        font-family:'Courier New', Courier, monospace ;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        font-family: 'Courier New', Courier, monospace;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     }
 
     /* Links inside dropdown content */
@@ -774,7 +794,7 @@
     }
 
     /* Change selection style from Dropdowns */
-    .browser .search .dropdown-content input[type = "checkbox"] {
+    .browser .search .dropdown-content input[type="checkbox"] {
         cursor: pointer;
         width: 15px;
         height: 15px;
@@ -815,7 +835,7 @@
     .browser .search .dropdown-content .dropdown-row:hover {
         background-color: #fff
     }
-        
+
     /* Dropdown subcontent */
     .browser .search .dropdown-subcontent {
         display: none;
@@ -825,7 +845,7 @@
         background-color: #fccdfb;
         border: #341738 ridge 2px;
         min-width: 10px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     }
 
     /* Show the dropdown subcontent on hover */
@@ -843,18 +863,18 @@
     }
 
     /* Change color of dropdown subcontent links on hover */
-    .browser .search .dropdown-subcontent:hover span{
+    .browser .search .dropdown-subcontent:hover span {
         background-color: #fff
     }
 
     /* Change style inside box from Custom Range */
-    .browser .search .dropdown-subcontent input[type = "number"] {
-        font-family:'Courier New', Courier, monospace ;
+    .browser .search .dropdown-subcontent input[type="number"] {
+        font-family: 'Courier New', Courier, monospace;
         font-size: 12px;
         padding: 4px;
         border: 1px solid #888;
         border-radius: 4px;
-        }
+    }
 
     /* Change "Apply" button style inside Custom Range */
     .browser .search .dropdown-subcontent button {
@@ -864,7 +884,7 @@
         border: #000 solid 2px;
         cursor: pointer;
         border-radius: 6px;
-        font-family:'Courier New', Courier, monospace ;
+        font-family: 'Courier New', Courier, monospace;
     }
 
     /* ---------------------------------------------- */
@@ -882,9 +902,9 @@
     /* Part 5 - Sorting Section */
 
     /* Style the sorting title */
-    .sort_bar .sorting_left h5{
+    .sort_bar .sorting_left h5 {
         color: #fff;
-        font-family:'Courier New', Courier, monospace ;
+        font-family: 'Courier New', Courier, monospace;
         font-size: 16px;
     }
 
@@ -900,7 +920,7 @@
         color: #fff;
         padding: 4px 14px;
         width: 155px;
-        font-family:'Courier New', Courier, monospace ;
+        font-family: 'Courier New', Courier, monospace;
         font-size: 16px;
         border: #000 solid 2px;
         cursor: pointer;
@@ -915,7 +935,7 @@
         color: #fff;
         padding: 4px 14px;
         width: 155px;
-        font-family:'Courier New', Courier, monospace ;
+        font-family: 'Courier New', Courier, monospace;
         font-size: 16px;
         border: #000 solid 2px;
         cursor: pointer;
@@ -932,8 +952,8 @@
         background-color: #fccdfb;
         border: #341738 ridge 2px;
         width: 205px;
-        font-family:'Courier New', Courier, monospace ;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        font-family: 'Courier New', Courier, monospace;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     }
 
     /* Links inside dropdown content */
