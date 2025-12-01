@@ -94,6 +94,26 @@ session_start();
         echo '</div>';
     }
 
+    // Generate <input type='checkbox'> list
+    function html_checkboxes($key, $items, $br = false) {
+        $value = is_array($GLOBALS[$key]) ? $GLOBALS[$key] : [];
+        echo '<div>';
+        foreach ($items as $id => $text) {
+            $state = in_array($id, $value) ? 'checked' : '';
+            echo "<label><input type='checkbox' id='{$key}_$id' name='$key' value='$id' $state>$text</label>";
+            if ($br) {
+                echo '<br>';
+            }
+        }
+        echo '</div>';
+    }
+
+    // Generate <input type='search'> list
+    function html_search($key, $attr = '') {
+        $value = encode($GLOBALS[$key] ?? '');
+        echo "<input type='search' id='$key' name='$key' value='$value' $attr>";
+    }
+
     // Generate <select>
     function html_select($key, $items, $default = '- Select One -', $attr = '') {
         $value = encode($GLOBALS[$key] ?? '');
@@ -106,6 +126,11 @@ session_start();
             echo "<option value='$id' $state>$text</option>";
         }
         echo '</select>';
+    }
+
+    // Generate <input type='file'>
+    function html_file($key, $accept = '', $attr = '') {
+        echo "<input type='file' id='$key' name='$key' accept='$accept' $attr>";
     }
 
     // ============================================================================
@@ -132,7 +157,6 @@ session_start();
     // ============================================================================
 
     // Global PDO object
-    //TODO
     $_db = new PDO('mysql:dbname=technest', 'root', '', [
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
     ]);
@@ -153,6 +177,87 @@ session_start();
         $stm->execute([$value]);
         return $stm->fetchColumn() > 0;
     }
+
+    // Obtain uploaded file --> cast to object
+    function get_file($key) {
+        $f = $_FILES[$key] ?? null;
+    
+        if ($f && $f['error'] == 0) {
+            return (object)$f;
+        }
+
+        return null;
+    }
+
+    // Crop, resize and save photo
+    function save_photo($f, $folder, $width = 300, $height = 300) {
+        $productImg = uniqid() . '.jpg';
+    
+        require_once 'lib/SimpleImage.php';
+        $productImg = new SimpleImage();
+        $productImg->fromFile($f->tmp_name)
+                   ->thumbnail($width, $height)
+                   ->toFile("$folder/$productImg", 'image/jpeg');
+
+        return $productImg;
+    }
+
+    // ============================================================================
+    // Admin-Specific Functions
+    // ============================================================================
+
+    // Connect to admin database
+    try {
+        $_admin_db = new PDO('mysql:host=localhost;dbname=technest;charset=utf8mb4', 'root', '', [
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]);
+        $_admin_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+        die("Admin database connection failed: " . $e->getMessage());
+    }
+
+    // Check if admin is logged in
+    function check_admin_login() {
+        if (!isset($_SESSION['adminID'])) {
+            redirect('/admin/index.php');
+            exit;
+        }
+    }
+
+    // Admin logout
+    function admin_logout() {
+        session_unset();
+        session_destroy();
+        redirect('/admin/login.php');
+    }
+
+    // Hash password
+    function hash_password($password) {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    // Verify password
+    function verify_password($password, $hash) {
+        return password_verify($password, $hash);
+    }
+
+    // Fetch admin by email
+    function get_admin_by_email($email) {
+        global $_admin_db;
+        $stm = $_admin_db->prepare("SELECT * FROM admin WHERE email = ? LIMIT 1");
+        $stm->execute([$email]);
+        return $stm->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Optional: Add a new admin
+    function add_admin($fname, $lname, $email, $phoneNo, $password) {
+        global $_admin_db;
+        $hash = hash_password($password);
+        $stm = $_admin_db->prepare("INSERT INTO admin (fname, lname, email, phoneNo, password) VALUES (?, ?, ?, ?, ?)");
+        return $stm->execute([$fname, $lname, $email, $phoneNo, $hash]);
+}
+
+
 
     // ------------------ Popup Function ------------------
 

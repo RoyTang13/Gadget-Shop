@@ -4,6 +4,18 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+footer {
+    padding: 10px 50px;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    height: 30px;
+    background: #ccc;
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -96,33 +108,40 @@ label #cancel {
 }
 
 #check:checked~section {
-    margin-left: 250px;
+    margin-left: 200px;
     transition: all .5s;
-
 }
 
-section {
-    background: url(../images/earphone.jpg) no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 100vh;
-    transition: all .5s;
+/* Make dashboard wrapper flexible */
+.dashboard {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    transition: all 0.5s ease;
 }
 
 .dashboard-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #f8f8f8;
+    padding: 30px 10px;
+    border-radius: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 1500px;
+    margin: 20px auto;
+    flex-wrap: wrap;
 }
 
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.dashboard-container .card {
+    background: #D2E5F6;
+    padding: 25px 35px;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
+    min-width: 200px;
+    margin: 0 15px;
 }
 
 
@@ -143,11 +162,12 @@ section {
     max-width: 380px;
     background: none;
     box-shadow: none;
-    padding: 35px 40px;
+    padding: 80px 40px;
 }
 
 /* Ensure the wrapper itself has overflow hidden for rounded corners */
 .login-wrapper {
+    flex: 1;
     display: flex;
     width: 100%;
     max-width: 1100px;
@@ -171,7 +191,7 @@ section {
 /* Right content (image with text overlay) */
 .login-right {
     flex: 3;
-    background-image: url('/images/login2.png');
+    background-image: url('/images/earphone.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -217,7 +237,7 @@ section {
 }
 
 /* Buttons section */
-section {
+.button-section {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
@@ -237,4 +257,8 @@ button {
 button:hover {
     background: #de87ee;
     color: #ffffff
+}
+
+.err {
+    color: red;
 }

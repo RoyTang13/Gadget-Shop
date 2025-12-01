@@ -22,13 +22,13 @@
 
     header,
     footer {
-        padding: 10px 50px;
         background: #ccc;
         width: 100%;
         box-sizing: border-box;
     }
 
     header {
+        padding: 10px 50px;
         background: #7555a0;
         display: flex;
         flex-direction: row;
@@ -41,8 +41,14 @@
     }
 
     footer {
-        margin-top: auto;
-
+        padding: 10px 50px;
+        width: 100%;
+        box-sizing: border-box;
+        position: fixed;
+        left: 0px;
+        bottom: 0px;
+        height: 30px;
+        background: #ccc;
     }
 
     header h1 {
@@ -78,13 +84,13 @@
     }
 
     nav {
-        padding: 5px 8px;
+        padding: 10px 8px;
         width: 100%;
         background: #693382;
         display: flex;
         box-sizing: border-box;
         position: fixed;
-        top: 55px;
+        top: calc(10px + 36px + 10px);
         z-index: 9;
     }
 
@@ -393,21 +399,34 @@
     .user-dropdown {
         position: relative;
         display: inline-block;
+        font-family: Arial, sans-serif;
     }
 
     .user-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
         background: #693b9f;
         color: #fff;
         border: none;
-        padding: 10px 12px;
+        padding: 10px 16px;
         font-size: 16px;
         cursor: pointer;
-        border-radius: 8px;
-        transition: background 0.3s;
+        border-radius: 24px;
+        transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .user-btn .user-photo {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #fff;
     }
 
     .user-btn:hover {
         background: #844ed1;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     }
 
     .user-dropdown .dropdown-content {
@@ -507,31 +526,218 @@
         margin-top: 10px;
     }
 
-    /* ---------------- Product Page ---------------- */
+    /* =============================================================================
+    -------------------------------- Product Form ------------------------------- 
+    ============================================================================= */
 
-    /* Part 1 - Searching */
-    .search_bar-font {
-        font-style: italic;
-        font-size: 18px;
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: lighter;
-        width: 360px;
-        padding: 3px 0px 1.6px 6px;
+    .product_container {
+        max-width: 750px;
+        margin: 40px auto;
+        padding: 20px;
     }
 
+    .product_form {
+        background-color: #af70ccc6;
+        padding: 30px 40px;
+        border: #000 2px solid;
+        border-radius: 12px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .product_form_title {
+        text-align: center;
+        margin-bottom: 25px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 26px;
+        font-weight: 700;
+        color: #444;
+    }
+
+    .product_form_input,
+    .product_form_select {
+        display: flex;
+        align-items: center;
+        margin-bottom: 18px;
+    }
+
+    .product_form_input_long {
+        display: block;
+        align-items: center;
+        margin-bottom: 18px;
+    }
+
+    .product_form_input label,
+    .product_form_input_long label,
+    .product_form_select label {
+        width: 180px;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: 600;
+        color: #850078;
+    }
+
+    .product_form_input input[type="text"],
+    .product_form_input input[type="number"],
+    .product_form_input input[type="file"] {
+        flex: 1;
+        padding: 8px 10px;
+        border: 2px solid #000000;
+        border-radius: 6px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+    }
+
+    .product_form_input_long textarea {
+        width: 100%;
+        resize: vertical;
+        box-sizing: border-box;
+        line-height: 1.4;
+        flex: 1;
+        padding: 8px 10px;
+        border: 2px solid #000000;
+        border-radius: 6px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 15px;
+        height: 180px;
+    }
+
+    .product_form_input .upload img {
+        max-width: 250px;
+        max-height: 250px;
+    }
+
+    .product_form_select input[type="radio"] {
+        margin-right: 6px;
+    }
+
+    .product_form_select {
+        font-family: 'Courier New', Courier, monospace;
+        gap: 10px;
+    }
+
+    .product_form_select label {
+        font-weight: 600;
+        width: 180px;
+    }
+
+    .product_form_select input,
+    .product_form_select span {
+        display: flex;
+        align-items: center;
+    }
+
+    .product_form_button {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .product_form_button button {
+        padding: 10px 18px;
+        font-size: 15px;
+        border: #000 solid 2px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 0 8px;
+        transition: 0.2s;
+    }
+
+    .product_form_button button[type="submit"] {
+        background: #be06ec;
+        color: white;
+    }
+
+    .product_form_button button[type="submit"]:hover {
+        background: #d17de6;
+    }
+
+    .product_form_button button[type="reset"] {
+        background: #be06ec;
+    }
+
+    .product_form_button button[type="reset"]:hover {
+        background: #d17de6;
+    }
+
+    .product_form::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    /* Flash Message ----------------------------------------------------------- */
+
+    #info {
+        position: fixed;
+        color: #fff;
+        background: #666;
+        border: 1px solid #333;
+        border-radius: 5px;
+        padding: 10px 20px;
+        left: 50%;
+        translate: -50% 0;
+        z-index: 999;
+        top: -100px;
+        opacity: 0;
+    }
+
+    #info:not(:empty) {
+        animation: fade 5s;
+    }
+
+    @keyframes fade {
+        0% {
+            top: -100px;
+            opacity: 0;
+        }
+
+        10% {
+            top: 100px;
+            opacity: 1;
+        }
+
+        90% {
+            top: 100px;
+            opacity: 1;
+        }
+
+        100% {
+            top: -100px;
+            opacity: 0;
+        }
+    }
+
+    /* ---------------- Product Page ---------------- */
+    /* Part 1 - Searching */
+
+    /* Search bar style */
+    .search_bar-font {
+        font-style: italic;
+        font-size: 12px;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: lighter;
+        width: 200px;
+        height: 30px;
+        padding: 3px 0px 2px 6px;
+        border: #000 solid 2px;
+    }
+
+    /* "Search" button style */
     .search_bar-button {
         background: #be06ec;
         color: #fff;
         padding: 4px 17px;
-        border-radius: 6px;
+        width: 100px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 16px;
+        border: #000 solid 2px;
         cursor: pointer;
-        font-weight: 600;
     }
 
+    /* Change background color of "Search" button */
     .search_bar-button:hover {
         background: #d17de6;
     }
 
+    /* Distance between buttons and search bar */
     .search {
         display: flex;
         justify-content: left;
@@ -543,8 +749,11 @@
 
     /* ---------------------------------------------- */
     /* Part 2 - Filtering and Category*/
+
+    /* Adjust dropdown position */
     .browser .search .dropdown {
         position: relative;
+        z-index: 10;
     }
 
     /* Style the dropdown button */
@@ -553,8 +762,9 @@
         color: #fff;
         padding: 4px 17px;
         width: 155px;
+        font-family: 'Courier New', Courier, monospace;
         font-size: 16px;
-        border: none;
+        border: #000 solid 2px;
         cursor: pointer;
     }
 
@@ -562,6 +772,41 @@
     .browser .search .dropdown:hover .dropbtn {
         background-color: #d17de6;
     }
+
+    /* Dropdown content */
+    .browser .search .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fccdfb;
+        border: #341738 ridge 2px;
+        width: 205px;
+        font-family: 'Courier New', Courier, monospace;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Links inside dropdown content */
+    .browser .search .dropdown-content label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 30px 8px 10px;
+        cursor: pointer;
+    }
+
+    /* Change selection style from Dropdowns */
+    .browser .search .dropdown-content input[type="checkbox"] {
+        cursor: pointer;
+        width: 15px;
+        height: 15px;
+    }
+
+    /* Show the dropdown content on hover */
+    .browser .search .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* ---------------------------------------------- */
+    /* Part 3 - Price Range */
 
     /* Dropdown Row */
     .browser .search .dropdown-row {
@@ -578,16 +823,6 @@
         background-color: #fff
     }
 
-    /* Dropdown content */
-    .browser .search .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #fccdfb;
-        border: #341738 ridge 2px;
-        min-width: 10px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    }
-
     /* Links inside dropdown content */
     .browser .search .dropdown-content .dropdown-row {
         color: #000;
@@ -601,12 +836,7 @@
         background-color: #fff
     }
 
-    /* Show the dropdown content on hover */
-    .browser .search .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-    /* Dropdown subcontent*/
+    /* Dropdown subcontent */
     .browser .search .dropdown-subcontent {
         display: none;
         position: absolute;
@@ -637,13 +867,7 @@
         background-color: #fff
     }
 
-    /* Style the checkbox inside dropdown subcontent */
-    .browser .search .dropdown-subcontent input[type="checkbox"] {
-        transform: scale(1.2);
-    }
-
-    /* ---------------------------------------------- */
-    /* Part 3 - Price Range */
+    /* Change style inside box from Custom Range */
     .browser .search .dropdown-subcontent input[type="number"] {
         font-family: 'Courier New', Courier, monospace;
         font-size: 12px;
@@ -652,13 +876,15 @@
         border-radius: 4px;
     }
 
+    /* Change "Apply" button style inside Custom Range */
     .browser .search .dropdown-subcontent button {
         padding: 6px 15px;
         background-color: #be06ec;
         color: #fff;
-        border: none;
+        border: #000 solid 2px;
         cursor: pointer;
         border-radius: 6px;
+        font-family: 'Courier New', Courier, monospace;
     }
 
     /* ---------------------------------------------- */
@@ -672,6 +898,101 @@
         background-position: top;
     }
 
+    /* ---------------------------------------------- */
+    /* Part 5 - Sorting Section */
+
+    /* Style the sorting title */
+    .sort_bar .sorting_left h5 {
+        color: #fff;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 16px;
+    }
+
+    /* Adjust dropdown position */
+    .sort_bar .sorting_left .dropdown {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Style sorting buttons */
+    .sort_bar .sorting_left .dropbtn {
+        background-color: #be06ec;
+        color: #fff;
+        padding: 4px 14px;
+        width: 155px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 16px;
+        border: #000 solid 2px;
+        cursor: pointer;
+    }
+
+    .sort_bar .sorting_left .dropdown:hover .dropbtn {
+        background-color: #d17de6;
+    }
+
+    .sort_bar .sorting_left .directbtn {
+        background-color: #be06ec;
+        color: #fff;
+        padding: 4px 14px;
+        width: 155px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 16px;
+        border: #000 solid 2px;
+        cursor: pointer;
+    }
+
+    .sort_bar .sorting_left .direct:hover .directbtn {
+        background-color: #d17de6;
+    }
+
+    /* Dropdown content */
+    .sort_bar .sorting_left .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fccdfb;
+        border: #341738 ridge 2px;
+        width: 205px;
+        font-family: 'Courier New', Courier, monospace;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Links inside dropdown content */
+    .sort_bar .sorting_left .dropdown-content label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 30px 8px 10px;
+        cursor: pointer;
+    }
+
+    /* Show the dropdown content on hover */
+    .sort_bar .sorting_left .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* ---------------------------------------------- */
+    /* Part 6 - Sorting Frame */
+
+    /* Sorting alignment */
+    .sort_bar .sorting_left {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        gap: 5px 25px;
+        margin-left: 40px;
+        margin-top: 15px;
+    }
+
+    /* Sorting bar style */
+    .sort_bar {
+        border: 4px solid #c764e0;
+        border-radius: 5px;
+        padding: -10px 0px 10px 0%;
+        margin: -15px 150px;
+        background-color: #440552d5;
+    }
+
+    /* ---------------------------------------------- */
     /* Part X - Product Display with name and price */
     .gallery {
         margin: 4% 10%;
@@ -684,6 +1005,8 @@
         margin: 5px;
         border: 1px solid #ccc;
         width: calc(25% - 20px);
+        cursor: pointer;
+
     }
 
     .gallery-item:hover {

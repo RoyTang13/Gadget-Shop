@@ -2,41 +2,46 @@
 <?php
 require '../_base.php';
 
+$arr = $_db->query('SELECT * FROM product')->fetchAll(PDO::FETCH_OBJ);
+
+
+$_title = 'Product | TechNest';
+
 include '../_head.php';
 ?>
 
 <div class = "browser">
     <div class = "search">
+
+        <!-- Connection Filter -->
         <div class = "dropdown">
-            <button class = "dropbtn">Filter</button>
+            <button class = "dropbtn">🔌Connection</button>
             <div class = "dropdown-content">
-                <div class = "dropdown-row">
-                    <span>🔌 Connectivity</span>
-                    <div class = "dropdown-subcontent">
-                        <label><input type = "checkbox" name = "connectivity[]" value = "wired"> Wired</label>
-                        <label><input type = "checkbox" name = "connectivity[]" value = "wireless"> Wireless</label>
-                    </div>
-                </div>
-
-                <div class = "dropdown-row">
-                    <span>🎧 Fit Type</span>
-                    <div class = "dropdown-subcontent">
-                        <label><input type = "checkbox" name = "design[]" value = "in-ear"> In-ear</label>
-                        <label><input type = "checkbox" name = "design[]" value = "over-ear"> Over-ear</label>
-                    </div>
-                </div>
-
-                <div class = "dropdown-row">
-                    <span>🎶 Acoustic</span>
-                    <div class = "dropdown-subcontent">
-                        <label><input type = "checkbox" name = "acoustic[]" value = "noise-canceled"> Noise-canceled</label>
-                        <label><input type = "checkbox" name = "acoustic[]" value = "balanced"> Balanced</label>
-                        <label><input type = "checkbox" name = "acoustic[]" value = "clear vocals"> Clear Vocals</label>
-                    </div>
-                </div>
+                <label><input type = "checkbox" name = "connectivity[]" value = "wired"> Wired</label>
+                <label><input type = "checkbox" name = "connectivity[]" value = "wireless"> Wireless</label>
             </div>
         </div>
 
+        <!-- Fit Type Filter -->
+        <div class = "dropdown">         
+            <button class = "dropbtn">🎧Fit Type</button>
+            <div class = "dropdown-content">
+                <label><input type = "checkbox" name = "design[]" value = "in-ear"> In-ear</label>
+                <label><input type = "checkbox" name = "design[]" value = "over-ear"> Over-ear</label>
+            </div>              
+        </div>
+
+        <!-- Acoustic Filter -->
+        <div class = "dropdown">            
+            <button class = "dropbtn">🎶Acoustic</button>
+            <div class = "dropdown-content">
+                <label><input type = "checkbox" name = "acoustic[]" value = "noise-canceled"> Noise-canceled</label>
+                <label><input type = "checkbox" name = "acoustic[]" value = "balanced"> Balanced</label>
+                <label><input type = "checkbox" name = "acoustic[]" value = "clear vocals"> Clear Vocals</label>
+            </div>
+        </div>
+
+        <!-- Price Range Filter -->
         <div class = "dropdown">
             <button class = "dropbtn">Price Range</button>
             <div class = "dropdown-content">
@@ -45,10 +50,10 @@ include '../_head.php';
                 <div class = "dropdown-row">
                     <span>Quick Select</span>
                     <div class = "dropdown-subcontent">
-                        <label><input type = "radio" name = "fixed_range" value 0.01-250.00>RM 0.01 - RM 250.00</label>
-                        <label><input type = "radio" name = "fixed_range" value 250.01-500.00>RM 250.01 - RM 500.00</label>
-                        <label><input type = "radio" name = "fixed_range" value 500.01-750.00>RM 500.01 - RM 750.00</label>
-                        <label><input type = "radio" name = "fixed_range" value 750.01-1000.00>RM 750.01 - RM 1000.00</label>
+                        <label><input type = "radio" name = "fixed_range" value 0.01-300.00>RM 0.01 - RM 300.00</label>
+                        <label><input type = "radio" name = "fixed_range" value 300.01-600.00>RM 300.01 - RM 600.00</label>
+                        <label><input type = "radio" name = "fixed_range" value 600.01-900.00>RM 600.01 - RM 900.00</label>
+                        <label><input type = "radio" name = "fixed_range" value 900.01-1200.00>RM 900.01 - RM 1200.00</label>
                     </div>
                 </div>
 
@@ -86,7 +91,6 @@ include '../_head.php';
             <button type = "Submit" class = "search_bar-button">Search</button>
             </form>
         </div>
-
     </div>
 </div>
 
@@ -132,40 +136,68 @@ include '../_head.php';
     });
 </script>
 
+<!-- Sort Bar + Paging -->
+<div class = "sort_bar">
+    <div class = "sorting_left">
+        <h5>Arranging by: </h5>
+        
+        <!-- Sort by Name -->
+        <div class = "dropdown">
+            <button class = "dropbtn">Name</button>
+            <div class = "dropdown-content">
+                <label><input type = "radio" name = "sort" value = "asc">From A - Z</label>
+                <label><input type = "radio" name = "sort" value = "desc">From Z - A</label>
+            </div>
+        </div>
 
-<div class="gallery">
-    <div class="gallery-item">
-        <img src="images/banner1.jpg">
-        <div class="desc">Product Name 1<br>RM 199.00</div>
+        <!-- Sort by Price -->
+        <div class = "dropdown">
+            <button class = "dropbtn">Price</button>
+            <div class = "dropdown-content">
+                <label><input type = "radio" name = "sort" value = "asc">↑ Ascending</label>
+                <label><input type = "radio" name = "sort" value = "desc">↓ Descending</label>
+            </div>
+        </div>
+
+        <!-- Sort by Latest Release Time -->
+        <div class = "direct">
+            <button class = "directbtn">Latest Time</button>
+        </div>
     </div>
 
-    <div class="gallery-item">
-        <img src="images/banner1.jpg">
-        <div class="desc">Product Name 2<br>RM 249.00</div>
-    </div>
+    <div class = "sorting_right">
 
-    <div class="gallery-item">
-        <img src="images/banner1.jpg">
-        <div class="desc">Product Name 3<br>RM 299.00</div>
-    </div>
+        <!-- Paging with textable page number -->
 
-    <div class="gallery-item">
-        <img src="images/banner1.jpg">
-        <div class="desc">Product Name 4<br>RM 349.00</div>
-    </div>
-
-    <div class="gallery-item">
-        <img src="images/banner1.jpg">
-        <div class="desc">Product Name 5<br>RM 399.00</div>
     </div>
 </div>
 
+<!-- Product Photo with Name, Description and Price-->
+<div class="gallery">
+<?php foreach ($arr as $p): ?>
+    <div class="gallery-item">
+    <img src="/photos/<?= $p->productPhoto ?>
+    " alt="<?= htmlspecialchars($p->productName) ?>">
+        <div class="desc">
+            <?= htmlspecialchars($p->productName) ?><br>
+            RM <?= number_format($p->productPrice, 2) ?>
+        </div>
+    </div>
+<?php endforeach; ?>
+</div>
+
+
+
 <style>
-    
+
 </style>
 
 
 <script>
 
 </script>
-
+<!--     <div class="gallery-item"> 
+        <img src="images/banner1.jpg"> 
+        <div class="desc">Product Name 1<br>RM 199.00</div> 
+    </div>  -->
+    <!-- -->
