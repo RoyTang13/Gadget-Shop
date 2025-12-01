@@ -38,6 +38,8 @@
         position: fixed;
         width: 100%;
         z-index: 10;
+        height: 75px;
+
     }
 
     footer {
@@ -90,7 +92,7 @@
         display: flex;
         box-sizing: border-box;
         position: fixed;
-        top: calc(10px + 36px + 10px);
+        top: 75px;
         z-index: 9;
     }
 
