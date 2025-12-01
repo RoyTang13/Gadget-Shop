@@ -52,13 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ];
                 $mail->Host = "smtp.gmail.com";
                 $mail->SMTPAuth = true;
-                $mail->Username = "leyitang031013@gmail.com";  
-                $mail->Password = "hgovnkdmrcxbpfil";  
+                $mail->Username = "technest0123@gmail.com";  
+                $mail->Password = "gmxj vniw ypjk dish";  
                 $mail->SMTPSecure = "tls";
                 $mail->Port = 587;
 
                 // Email content
-                $mail->setFrom("leyitang031013@gmail.com", "TechNest");
+                $mail->setFrom("technest0123@gmail.com", "TechNest");
                 $mail->addAddress($email);
                 $mail->Subject = "Password Reset Code";
                 $mail->Body = "Your verification code is: $code";
