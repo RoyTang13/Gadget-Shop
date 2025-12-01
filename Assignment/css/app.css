@@ -1005,6 +1005,8 @@
         margin: 5px;
         border: 1px solid #ccc;
         width: calc(25% - 20px);
+        cursor: pointer;
+
     }
 
     .gallery-item:hover {
