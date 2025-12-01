@@ -188,20 +188,35 @@ session_start();
 
         return null;
     }
+    $_user = $_SESSION['user'] ?? null;
 
-    // Crop, resize and save photo
-    function save_photo($f, $folder, $width = 300, $height = 300) {
-        $productImg = uniqid() . '.jpg';
-    
-        require_once 'lib/SimpleImage.php';
-        $productImg = new SimpleImage();
-        $productImg->fromFile($f->tmp_name)
-                   ->thumbnail($width, $height)
-                   ->toFile("$folder/$productImg", 'image/jpeg');
+// Global user object
+$_user = $_SESSION['user'] ?? null;
 
-        return $productImg;
-    }
+// Login user
+function login($user, $url = '/') {
+    $_SESSION['user'] = $user;
+    redirect($url);
+}
 
+// Logout user
+function logout($url = '/') {
+    unset($_SESSION['user']);
+    redirect($url);
+}
+
+    // Crop, resize and save photofunction save_photo($f, $folder, $width = 300, $height = 300) {
+        function save_photo($f, $folder, $width = 300, $height = 300) {
+            $photo = uniqid() . '.jpg';
+            
+            require_once 'lib/SimpleImage.php';
+            $img = new SimpleImage();
+            $img->fromFile($f->tmp_name)
+                ->thumbnail($width, $height)
+                ->toFile("$folder/$photo", 'image/jpeg');
+        
+            return $photo;
+        }
     // ============================================================================
     // Admin-Specific Functions
     // ============================================================================
