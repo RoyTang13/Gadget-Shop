@@ -713,7 +713,7 @@
         }
     }
 
-    /* ---------------- Product Page ---------------- */
+/* ---------------- Product Page ---------------- */
     /* Part 1 - Searching */
 
     /* Search bar style */
@@ -774,6 +774,7 @@
         font-size: 16px;
         border: #000 solid 2px;
         cursor: pointer;
+        z-index: 1px;
     }
 
     /* Change background color of dropdown button on hover */
@@ -904,6 +905,8 @@
         margin: 10px 150px;
         background-color: #440552d5;
         background-position: top;
+        top: 155px;
+        z-index: 8;
     }
 
     /* ---------------------------------------------- */
@@ -927,29 +930,15 @@
         background-color: #be06ec;
         color: #fff;
         padding: 4px 14px;
-        width: 155px;
+        width: 135px;
         font-family: 'Courier New', Courier, monospace;
         font-size: 16px;
         border: #000 solid 2px;
         cursor: pointer;
+        z-index: 5px;
     }
 
     .sort_bar .sorting_left .dropdown:hover .dropbtn {
-        background-color: #d17de6;
-    }
-
-    .sort_bar .sorting_left .directbtn {
-        background-color: #be06ec;
-        color: #fff;
-        padding: 4px 14px;
-        width: 155px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 16px;
-        border: #000 solid 2px;
-        cursor: pointer;
-    }
-
-    .sort_bar .sorting_left .direct:hover .directbtn {
         background-color: #d17de6;
     }
 
@@ -997,7 +986,7 @@
         border-radius: 5px;
         padding: -10px 0px 10px 0%;
         margin: -15px 150px;
-        background-color: #440552d5;
+        background: linear-gradient(to bottom, #68077dd5, #440552d5);
     }
 
     /* ---------------------------------------------- */
@@ -1011,36 +1000,113 @@
 
     .gallery-item {
         margin: 5px;
-        border: 1px solid #ccc;
+        border: 2px solid #777;
         width: calc(25% - 20px);
-        cursor: pointer;
-
+        background: linear-gradient(to bottom, #e1c8ff, #c494ff);
     }
 
     .gallery-item:hover {
-        border: 1.5px solid #777;
+        border: 1.5px solid #555;
     }
 
-    .gallery-item .img {
+    .gallery-item img {
+        padding: 4.5%;
         width: 90%;
-        height: 250px;
-        height: auto;
+        height: 50%;
+        border: #a154ff solid 1.5px;
     }
 
-    .gallery-item .desc {
-        padding: 90px 10px 5px 10px;
+    .gallery-item .tag {
+        display: flex;
+        justify-content: space-between;
+        height: 45px;
+        overflow: hidden;
+        gap: 3px;
+    }
+
+    .gallery-item .tag1,
+    .gallery-item .tag2,
+    .gallery-item .tag3 {
+        display: inline-block;
+        padding: 5px 15px 5px 15px;
+        border:#000 solid 0.6px;
+        border-radius: 5%;
         font-family: 'Courier New', Courier, monospace;
-        text-align: center;
+        font-size: 12px;
+        text-align: left;
+        background-color: #ebc8ff;
+        color: #000000; 
+    }
+
+    .gallery-item .name {
+        padding: 20px 10px 5px 10px;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: 600;
+        text-align: left;
+        height: 60px;
+        overflow: hidden;
+    }
+
+    .gallery-item .name a {
+        text-decoration: none;
+        color: #000000;
+    }
+
+    .gallery-item .name a:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .gallery-item .price_wishlist {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .gallery-item .price {
+        padding: 5px 10px 10px 10px;
+        font-family: 'Courier New', Courier, monospace;
+        text-align: left;
+    }
+
+    .gallery-item .price_wishlist button {
+        background-color: #be06ec;
+        color: #fff;
+        padding: 2px 13px;
+        width: 90px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 13px;
+        border: #000 solid 2px;
+        cursor: pointer;
+    }
+
+    .gallery-item .price_wishlist button:hover {
+        background-color: #d17de6;
     }
 
     @media only screen and (max-width: 768px) {
-        .gallery-item {
+        .gallery-item, 
+        .gallery-item img{
             width: calc(50% - 20px);
+        }
+
+        .gallery-item img{
+            height: auto;
+        }
+
+        .gallery-item .tag1,
+        .gallery-item .tag2,
+        .gallery-item .tag3 {
+            padding: 5px 10px 5px 10px;
         }
     }
 
     @media only screen and (max-width: 480px) {
-        .gallery-item {
+        .gallery-item,
+        .gallery-item img {
             width: calc(100% - 20px);
+        }
+
+        .gallery-item img {
+            height: auto;
         }
     }
