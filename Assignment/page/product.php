@@ -2,7 +2,91 @@
 <?php
 require '../_base.php';
 
-$arr = $_db->query('SELECT * FROM product')->fetchAll(PDO::FETCH_OBJ);
+$where = [];
+$params = [];
+
+// Functionable Searching
+if (!empty($_GET['search'])) {
+    $where[] = "productName LIKE :search";
+    $params[':search'] = '%' . $_GET['search'] . '%';
+}
+
+// Functionable Filtering
+    // 1. Connectivity
+if (!empty($_GET['connectivity'])) {
+    $placeholders = [];
+    foreach ($_GET['connectivity'] as $i => $c) {
+        $key = ":conn$i";
+        $placeholders[] = $key;
+        $params[$key] = $c;
+    }
+    $where[] = "productCat1 IN (" . implode(",", $placeholders) . ")";
+}
+
+    // 2. Fit Type
+if (!empty($_GET['design'])) {
+    $placeholders = [];
+    foreach ($_GET['design'] as $i => $d) {
+        $key = ":design$i";
+        $placeholders[] = $key;
+        $params[$key] = $d;
+    }
+    $where[] = "productCat2 IN (" . implode(",", $placeholders) . ")";
+}
+
+    // 3. Acoustic
+if (!empty($_GET['acoustic'])) {
+    $placeholders = [];
+    foreach ($_GET['acoustic'] as $i => $a) {
+        $key = ":acoustic$i";
+        $placeholders[] = $key;
+        $params[$key] = $a;
+    }
+    $where[] = "productCat3 IN (" . implode(",", $placeholders) . ")";
+}
+
+    // 4a. Fixed Price
+if (!empty($_GET['fixedPrice'])) {
+    list($min, $max) = explode('-', $_GET['fixedPrice']);
+    $where[] = "productPrice BETWEEN :min AND :max";
+    $params[':min'] = $min;
+    $params[':max'] = $max;
+}
+
+    // 4b. Custom Price
+if (!empty($_GET['customMin']) && !empty($_GET['customMax'])) {
+    $where[] = "productPrice BETWEEN :cmin AND :cmax";
+    $params[':cmin'] = $_GET['customMin'];
+    $params[':cmax'] = $_GET['customMax'];
+}
+
+// Functionable Sorting
+$order = "productID ASC";
+
+if (!empty($_GET['sort_name'])) {
+    $order = "productName " . ($_GET['sort_name'] === 'desc' ? "DESC" : "ASC");
+}
+
+if (!empty($_GET['sort_price'])) {
+    $order = "productPrice " . ($_GET['sort_price'] === 'desc' ? "DESC" : "ASC");
+}
+
+// Functionable Paging
+$page = max(1, intval($_GET['page'] ?? 1));
+$limit = 12;  // number of products per page
+$offset = ($page - 1) * $limit;
+
+$sql = "SELECT * FROM product";
+
+if ($where) {
+    $sql .= " WHERE " . implode(" AND ", $where);
+}
+
+$sql .= " ORDER BY $order LIMIT $limit OFFSET $offset";
+
+$stmt = $_db->prepare($sql);
+$stmt->execute($params);
+$arr = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 $_title = 'Product | TechNest';
 
@@ -10,6 +94,7 @@ include '../_head.php';
 ?>
 
 <div class = "browser">
+<form method = "get" action = "product.php">
     <div class = "search">
 
         <!-- Connection Filter -->
@@ -49,10 +134,10 @@ include '../_head.php';
                 <div class = "dropdown-row">
                     <span>Quick Select</span>
                     <div class = "dropdown-subcontent">
-                        <label><input type = "radio" name = "fixed_range" value 0.01-300.00>RM 0.01 - RM 300.00</label>
-                        <label><input type = "radio" name = "fixed_range" value 300.01-600.00>RM 300.01 - RM 600.00</label>
-                        <label><input type = "radio" name = "fixed_range" value 600.01-900.00>RM 600.01 - RM 900.00</label>
-                        <label><input type = "radio" name = "fixed_range" value 900.01-1200.00>RM 900.01 - RM 1200.00</label>
+                        <label><input type = "radio" name = "fixedPrice" value = "0.01-300.00">RM 0.01 - RM 300.00</label>
+                        <label><input type = "radio" name = "fixedPrice" value = "300.01-600.00">RM 300.01 - RM 600.00</label>
+                        <label><input type = "radio" name = "fixedPrice" value = "600.01-900.00">RM 600.01 - RM 900.00</label>
+                        <label><input type = "radio" name = "fixedPrice" value = "900.01-1200.00">RM 900.01 - RM 1200.00</label>
                     </div>
                 </div>
 
@@ -62,6 +147,7 @@ include '../_head.php';
                     <div class = "dropdown-subcontent" style = "padding: 10px 15px;">
                         <label>Minimum (RM): <input type = "number" 
                                                     id = "customMin" 
+                                                    name = "customMin"
                                                     min = "0.01" 
                                                     step = "0.01" 
                                                     placeholder = "Start 0.01" 
@@ -69,6 +155,7 @@ include '../_head.php';
                         </label>
                         <label style = "margin-top: 8px;">Maximum (RM): <input type = "number" 
                                                                                id = "customMax" 
+                                                                               name = "customMax"
                                                                                min = "0.01" 
                                                                                step = "0.01" 
                                                                                placeholder = "Start 0.02"
@@ -81,14 +168,13 @@ include '../_head.php';
         </div>
 
         <div class = "search_bar">
-            <form method = "get">
-                <input type = "search" 
+                <input type = "search"
+                    name = "search" 
                     placeholder = "Type the product name..." 
                     value = "<?= ($_GET['search'] ?? '') ?>"
                     class = "search_bar-font"
                     >        
             <button type = "Submit" class = "search_bar-button">Search</button>
-            </form>
         </div>
     </div>
 </div>
@@ -144,8 +230,8 @@ include '../_head.php';
         <div class = "dropdown">
             <button class = "dropbtn">Name</button>
             <div class = "dropdown-content">
-                <label><input type = "radio" name = "sort" value = "asc">From A - Z</label>
-                <label><input type = "radio" name = "sort" value = "desc">From Z - A</label>
+                <label><input type = "radio" name = "sort_name" value = "asc">From A - Z</label>
+                <label><input type = "radio" name = "sort_name" value = "desc">From Z - A</label>
             </div>
         </div>
 
@@ -153,8 +239,8 @@ include '../_head.php';
         <div class = "dropdown">
             <button class = "dropbtn">Price</button>
             <div class = "dropdown-content">
-                <label><input type = "radio" name = "sort" value = "asc">↑ Ascending</label>
-                <label><input type = "radio" name = "sort" value = "desc">↓ Descending</label>
+                <label><input type = "radio" name = "sort_price" value = "asc">↑ Ascending</label>
+                <label><input type = "radio" name = "sort_price" value = "desc">↓ Descending</label>
             </div>
         </div>
     </div>
@@ -165,14 +251,16 @@ include '../_head.php';
             <button class = "pagination-btn" id = "prevBtn">‹</button>
             <input type = "number" 
                    id = "pageInput" 
+                   name = "page"
                    class = "page-input" 
                    min = "1" 
-                   value = "1"
+                   value = "<?= htmlspecialchars($_GET['page'] ?? 1) ?>"
                    placeholder = "Page">
             <button class = "pagination-btn" id = "nextBtn">›</button>
         </div>
     </div>
 </div>
+</form>
 
 <!-- Product Photo with Name and Price-->
 <div class = "gallery">
@@ -221,4 +309,3 @@ include '../_head.php';
 <script>
 
 </script>
-
