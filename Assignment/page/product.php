@@ -161,7 +161,16 @@ include '../_head.php';
 
     <div class = "sorting_right">
         <!-- Paging with textable page number -->
-        
+        <div class = "pagination">
+            <button class = "pagination-btn" id = "prevBtn">‹</button>
+            <input type = "number" 
+                   id = "pageInput" 
+                   class = "page-input" 
+                   min = "1" 
+                   value = "1"
+                   placeholder = "Page">
+            <button class = "pagination-btn" id = "nextBtn">›</button>
+        </div>
     </div>
 </div>
 
@@ -212,3 +221,4 @@ include '../_head.php';
 <script>
 
 </script>
+
