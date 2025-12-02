@@ -6,6 +6,7 @@
 
 <?php
 require '../_base.php';
+$fname = $lname = $email = $phoneNo = $password = $cpassword = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fname = $_POST['fname'];
@@ -15,7 +16,6 @@ require '../_base.php';
         $password = $_POST['password'];
         $cpassword = $_POST['cpassword'];
     }
-    $fname = $lname = $email = $phoneNo = $password = $cpassword = "";
 
 
     if (is_post()) {
@@ -25,10 +25,11 @@ require '../_base.php';
         $lname       = req('lname');
         $email       = req('email');
         $phoneNo     = req('phoneNo');
+        $f = get_file('userPhoto');
         $password    = req('password');
         $cpassword = req('cpassword');
 
-    }
+
 
     // Validate first name
     if ($fname == '') {
@@ -69,6 +70,18 @@ require '../_base.php';
         $_err['phoneNo'] = 'Duplicated phone number';
     }
 
+    // Validate: photo (file)
+    if (!$f) {
+        $_err['photo'] = 'Required';
+    }
+    else if (!str_starts_with($f->type, 'image/')) {
+        $_err['photo'] = 'Must be image';
+    }
+    else if ($f->size > 1 * 1024 * 1024) {
+        $_err['photo'] = 'Maximum 1MB';
+    }
+
+
     //valid password
     if ($password == '') {
         $_err['password'] = 'Required';
@@ -95,16 +108,17 @@ require '../_base.php';
 
      // Output
      if (!$_err) {
+        $userPhoto = save_photo($f, "../Assignment/userPhoto");
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $stm = $_db->prepare('INSERT INTO user
-            (fname, lname, email, phoneNo, password)
-            VALUES (?, ?, ?, ?, ?)');
-        $stm->execute([$fname, $lname, $email, $phoneNo, $hashed_password]);
+            (fname, lname, email, phoneNo,userPhoto, password)
+            VALUES (?, ?, ?, ?, ?, ?)');
+        $stm->execute([$fname, $lname, $email, $phoneNo, $userPhoto,$hashed_password]);
         
         temp('info', 'Record inserted');
         redirect('/page/login.php');
     }
-
+    }
 
 
 
@@ -115,7 +129,7 @@ include '../_head.php';
 <div class="container">
     <div class="box form-box">
     <h2 class="login-title">Sign Up</h2>
-    <form action="" method="post">
+    <form method="post" class="form" enctype="multipart/form-data">
                 <label for="fname">First Name</label>
                 <?= html_text('fname','maxlength="100" data-upper placeholder="Roy"') ?>
                 <?= err('fname') ?>
@@ -131,6 +145,13 @@ include '../_head.php';
                 <label for="phoneNo">Phone Number</label>
                 <?= html_text('phoneNo','maxlength="100" placeholder="012-3456789"') ?>
                 <?= err('phoneNo') ?>
+
+                <label for="photo">Photo</label>
+                <label class="upload" tabindex="0">
+                    <?= html_file('userPhoto', 'image/*','hidden') ?>
+                    <img src="/images/photo.jpg">
+                </label>
+                <?= err('photo') ?>
 
                 <label for="password">Password</label>
                 <?= html_password('password','maxlength="100" placeholder="Must include upper, lower, number, and special character" ') ?>

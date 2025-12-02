@@ -26,22 +26,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // If no errors → check admin table
     if (empty($_err)) {
-        $stm = $_admin_db->prepare("SELECT * FROM admin WHERE email = ? LIMIT 1");
-        $stm->execute([$email]);
-        $admin = $stm->fetch(PDO::FETCH_ASSOC);
+        try {
+            $stm = $_admin_db->prepare("SELECT * FROM admin WHERE email = ? LIMIT 1");
+            $stm->execute([$email]);
+            $admin = $stm->fetch(PDO::FETCH_ASSOC);
 
-        if (!$admin) {
-            $_err['email'] = 'Admin account not found';
-        } else if (!password_verify($password, $admin['password'])) {
-            $_err['password'] = 'Incorrect password';
-        } else {
-            // Save admin session
-            $_SESSION['adminID'] = $admin['adminID'];
-            $_SESSION['admin_email'] = $admin['email'];
+            if (!$admin) {
+                $_err['email'] = 'Admin account not found';
+            } else if (!password_verify($password, $admin['password'])) {
+                $_err['password'] = 'Incorrect password';
+            } else {
+                // Save admin session
+                $_SESSION['adminID'] = $admin['adminID'];
+                $_SESSION['admin_email'] = $admin['email'];
 
-            // Redirect to admin dashboard
-            redirect('/admin/admin_dashboard.php');
-            exit;
+                // Redirect to admin dashboard
+                redirect('/admin/admin_dashboard.php');
+                exit;
+            }
+        } catch (PDOException $e) {
+            // Friendly error message instead of fatal exception when table/database missing
+            $_err['email'] = 'Database error: ' . $e->getMessage() . '. Please import the database (see technest .sql).';
         }
     }
 }

@@ -21,14 +21,14 @@ try {
     
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'leyitang031013@gmail.com';
-    $mail->Password   = 'hgovnkdmrcxbpfil'; // Gmail App Password
+    $mail->Username   = 'technest0123@gmail.com';
+    $mail->Password   = 'gmxjvniwypjkdish'; // Gmail App Password
     $mail->SMTPSecure = 'tls';
     $mail->Port       = 587;
 
     // Sender & Receiver
-    $mail->setFrom('leyitang031013@gmail.com', 'Mailer');
-    $mail->addAddress('leyitang031013@gmail.com');
+    $mail->setFrom('technest0123@gmail.com', 'Mailer');
+    $mail->addAddress('technest0123@gmail.com');
 
     // Content
     $mail->isHTML(true);

@@ -22,7 +22,6 @@
 
     header,
     footer {
-        background: #ccc;
         width: 100%;
         box-sizing: border-box;
     }
@@ -33,17 +32,15 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        box-sizing: border-box;
         justify-content: space-between;
         position: fixed;
-        width: 100%;
-        z-index: 10;
+        z-index: 100;
+        height: 75px;
+
     }
 
     footer {
         padding: 10px 50px;
-        width: 100%;
-        box-sizing: border-box;
         position: fixed;
         left: 0px;
         bottom: 0px;
@@ -90,8 +87,8 @@
         display: flex;
         box-sizing: border-box;
         position: fixed;
-        top: calc(10px + 36px + 10px);
-        z-index: 9;
+        top: 75px;
+        z-index: 12;
     }
 
     nav a {
@@ -149,7 +146,7 @@
         cursor: pointer;
         font-weight: 600;
         transition: background 0.2s ease;
-        bottom: 22%;
+        bottom: 23%;
         left: 8%;
         position: absolute;
     }
@@ -188,7 +185,7 @@
 
     main {
         padding: 20px 50px;
-        padding-top: 85px;
+        padding-top: 105px;
     }
 
     main h1 {
@@ -346,7 +343,7 @@
         align-items: center;
         justify-content: center;
         min-height: 500px;
-        padding-top: 120px;
+        padding-top: 260px;
     }
 
     .box {
@@ -463,6 +460,17 @@
     .user-dropdown .dropdown-content a:hover {
         background: #693382;
         color: #f2f2f2;
+    }
+
+    /* Photo Upload ------------------------------------------------------------ */
+
+    label.upload img {
+        display: block;
+        border: 1px solid #333;
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        cursor: pointer;
     }
 
     .profile-box,

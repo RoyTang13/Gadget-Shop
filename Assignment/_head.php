@@ -11,6 +11,7 @@
 </head>
 <body>
 <header>
+
     <h1><a href="/">TechNest</a></h1>
     <div class="Login_Register">
         <?php if (!isset($_SESSION['userID'])): ?>
@@ -19,7 +20,7 @@
         <?php else: ?>
             <div class="user-dropdown">
                 <button class="user-btn">
-                <img class="user-photo" src="/images/animeboy.jpg" width="36px">
+                <img class="user-photo" src="/userPhoto/<?= htmlspecialchars($_SESSION['userPhoto']) ?? 'default.jpg' ?>" width="36">
                     <span>Hi, <?= htmlspecialchars($_SESSION['lname'] ?? $_SESSION['fname'] ?? 'User') ?> &#9662; </span>
                 </button>
                 <div class="dropdown-content">

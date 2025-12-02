@@ -201,6 +201,18 @@ label #cancel {
     align-items: center;
     min-height: 400px;
 }
+.chpass-right {
+    flex: 2;
+    background-image: url('/images/The herta.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
 
 /* Styling for the text overlay on the image */
 .image-text-overlay {

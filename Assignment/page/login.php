@@ -1,7 +1,7 @@
 <?php
 require '../_base.php';
 
-$_title = 'Page | Demo 2';
+$_title = 'Login';
 include '../_head.php';
 
 $_err = [];
@@ -40,7 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['userID'] = $user['userID'];
             $_SESSION['fname'] = $user['fname'];
             $_SESSION['email'] = $user['email'];
-    
+            $_SESSION['userPhoto'] = $user['userPhoto'];
+            $_SESSION['password'] = $user['password'];
+
             // Redirect to homepage or dashboard
             redirect('/'); 
         }
