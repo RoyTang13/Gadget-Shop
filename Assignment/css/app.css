@@ -88,7 +88,7 @@
         box-sizing: border-box;
         position: fixed;
         top: 75px;
-        z-index: 12;
+        z-index: 9;
     }
 
     nav a {
@@ -185,7 +185,7 @@
 
     main {
         padding: 20px 50px;
-        padding-top: 105px;
+        padding-top: 85px;
     }
 
     main h1 {
@@ -209,6 +209,7 @@
         border-radius: 15px;
         overflow: hidden;
         background: #ffffff;
+        min-height: 500px;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 12px 35px rgba(0, 0, 0, 0.3);
     }
 
@@ -343,7 +344,7 @@
         align-items: center;
         justify-content: center;
         min-height: 500px;
-        padding-top: 260px;
+        padding-top: 120px;
     }
 
     .box {
@@ -359,6 +360,7 @@
     .form-box {
         width: 500px;
         margin: 0px 10px;
+        
     }
 
     .form-box h2 {
@@ -391,6 +393,11 @@
 
     .err {
         color: red;
+        font-size: 14px;
+        margin-top: 4px;
+        margin-bottom: 12px;
+        display: block;
+        line-height: 1.2;
     }
 
     .user-dropdown {
@@ -1047,6 +1054,7 @@
         margin: -15px 150px;
         background: linear-gradient(to bottom, #68077dd5, #440552d5);
     }
+
     /* ---------------------------------------------- */
     /* Part X - Product Display with name and price */
     .gallery {
@@ -1061,6 +1069,7 @@
         border: 2px solid #777;
         width: calc(25% - 20px);
         background: linear-gradient(to bottom, #e1c8ff, #c494ff);
+        box-shadow: 0 4px 8px rgba(164, 17, 255, 0.379);
     }
 
     .gallery-item:hover {
