@@ -4,7 +4,6 @@ require '../_base.php';
 
 $arr = $_db->query('SELECT * FROM product')->fetchAll(PDO::FETCH_OBJ);
 
-
 $_title = 'Product | TechNest';
 
 include '../_head.php';
@@ -158,35 +157,52 @@ include '../_head.php';
                 <label><input type = "radio" name = "sort" value = "desc">↓ Descending</label>
             </div>
         </div>
-
-        <!-- Sort by Latest Release Time -->
-        <div class = "direct">
-            <button class = "directbtn">Latest Time</button>
-        </div>
     </div>
 
     <div class = "sorting_right">
-
         <!-- Paging with textable page number -->
-
+        
     </div>
 </div>
 
-<!-- Product Photo with Name, Description and Price-->
-<div class="gallery">
+<!-- Product Photo with Name and Price-->
+<div class = "gallery">
 <?php foreach ($arr as $p): ?>
-    <div class="gallery-item">
-    <img src="/photos/<?= $p->productPhoto ?>
-    " alt="<?= htmlspecialchars($p->productName) ?>">
-        <div class="desc">
-            <?= htmlspecialchars($p->productName) ?><br>
-            RM <?= number_format($p->productPrice, 2) ?>
+    <div class = "gallery-item">
+        <div class = "content">
+            <img src = "/photos/<?= $p->productPhoto ?>
+            " alt = "<?= htmlspecialchars($p->productName) ?>">
+            <div class = "tag">
+                <div class = "tag1">
+                    <span><?= htmlspecialchars($p->productCat1) ?></span>
+                </div>
+
+                <div class = "tag2">
+                    <span><?= htmlspecialchars($p->productCat2) ?></span>
+                </div>
+
+                <div class = "tag3">
+                    <span><?= htmlspecialchars($p->productCat3) ?></span>
+                </div>
+            </div>
+
+            <div class = "name">
+                <a href = "/page/product_page.php?name=<?= urlencode($p->productName) ?>">
+                    <?= htmlspecialchars($p->productName) ?>
+                </a>
+            </div>
+
+            <div class = "price_wishlist">
+                <div class = "price">
+                    RM <?= number_format($p->productPrice, 2) ?>
+                </div>
+
+                <button class = "wishlist">Wishlist</button>
+            </div>
         </div>
     </div>
 <?php endforeach; ?>
 </div>
-
-
 
 <style>
 
@@ -196,8 +212,3 @@ include '../_head.php';
 <script>
 
 </script>
-<!--     <div class="gallery-item"> 
-        <img src="images/banner1.jpg"> 
-        <div class="desc">Product Name 1<br>RM 199.00</div> 
-    </div>  -->
-    <!-- -->
