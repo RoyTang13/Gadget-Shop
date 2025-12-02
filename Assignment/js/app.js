@@ -25,6 +25,7 @@ $(() => {
     // Initiate POST request
     $('[data-post]').on('click', e => {
         e.preventDefault();
+
         const url = e.target.dataset.post;
         const f = $('<form>').appendTo(document.body)[0];
         f.method = 'POST';
@@ -73,23 +74,20 @@ $(() => {
     }
 
     // Photo preview
-        $('label.upload input[type=file]').on('change', e => {
-            const f = e.target.files[0];
-            const img = $(e.target).siblings('img')[0];
+    $('label.upload input[type=file]').on('change', e => {
+        const f = e.target.files[0];
+        const img = $(e.target).siblings('img')[0];
 
-            if (!img) return;
+        if (!img) return;
 
-            img.dataset.src ??= img.src;
+        img.dataset.src ??= img.src;
 
-            if (f?.type.startsWith('image/')) {
-                img.src = URL.createObjectURL(f);
-            }
-            else {
-                img.src = img.dataset.src;
-                e.target.value = '';
-            }
-        });
-
-
-
+        if (f?.type.startsWith('image/')) {
+            img.src = URL.createObjectURL(f);
+        }
+        else {
+            img.src = img.dataset.src;
+            e.target.value = '';
+        }
     });
+});

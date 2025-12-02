@@ -25,6 +25,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_err['password'] = 'Password is required';
     }
 
+    // ------------------------------
+    // reCAPTCHA VALIDATION
+    // ------------------------------
+    $recaptcha = $_POST['g-recaptcha-response'] ?? '';
+    $secretKey = "6Lfymx4sAAAAAAhjdZaclLmEl69dKnxzS8PRqwM7"; 
+
+    $response = file_get_contents(
+        "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptcha"
+    );
+    $responseKeys = json_decode($response, true);
+
+    if (empty($recaptcha) || !$responseKeys["success"]) {
+        $_err['recaptcha'] = "Please verify you're not a robot";
+    }
+
     // If no errors, check database
     if (empty($_err)) {
         $stm = $_db->prepare("SELECT * FROM user WHERE email = ?");
@@ -64,6 +79,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="password">Password</label>
                 <?= html_password('password','maxlength="100"') ?>
                 <?= err('password') ?>
+
+                <div class="g-recaptcha" data-sitekey="6Lfymx4sAAAAABMqtubtNWizFORYHqcABGmCZeOl"></div>
+                <?= err('recaptcha') ?>
 
                 <section>
                      <button type="reset">Reset</button>

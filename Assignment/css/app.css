@@ -146,7 +146,7 @@
         cursor: pointer;
         font-weight: 600;
         transition: background 0.2s ease;
-        bottom: 23%;
+        bottom: 22%;
         left: 8%;
         position: absolute;
     }
@@ -713,7 +713,7 @@
         }
     }
 
-/* ---------------- Product Page ---------------- */
+    /* ---------------- Product Page ---------------- */
     /* Part 1 - Searching */
 
     /* Search bar style */
@@ -1029,13 +1029,13 @@
     .gallery-item .tag3 {
         display: inline-block;
         padding: 5px 15px 5px 15px;
-        border:#000 solid 0.6px;
+        border: #000 solid 0.6px;
         border-radius: 5%;
         font-family: 'Courier New', Courier, monospace;
         font-size: 12px;
         text-align: left;
         background-color: #ebc8ff;
-        color: #000000; 
+        color: #000000;
     }
 
     .gallery-item .name {
@@ -1084,12 +1084,13 @@
     }
 
     @media only screen and (max-width: 768px) {
-        .gallery-item, 
-        .gallery-item img{
+
+        .gallery-item,
+        .gallery-item img {
             width: calc(50% - 20px);
         }
 
-        .gallery-item img{
+        .gallery-item img {
             height: auto;
         }
 
@@ -1101,6 +1102,7 @@
     }
 
     @media only screen and (max-width: 480px) {
+
         .gallery-item,
         .gallery-item img {
             width: calc(100% - 20px);
