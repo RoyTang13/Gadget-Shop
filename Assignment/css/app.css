@@ -353,8 +353,8 @@
         flex-direction: column;
         padding: 30px 60px;
         border-radius: 20px;
-        box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.5),
-            0 32px 64px -48px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.8),
+            0 32px 64px -16px rgba(0, 0, 0, 0.6);
     }
 
     .form-box {
@@ -381,7 +381,7 @@
         height: 40px;
         width: 100%;
         font-size: 16px;
-        padding: 0 10px;
+        padding: 0 px;
         border-radius: 5px;
         border: 1px solid #ccc;
 
@@ -393,6 +393,11 @@
 
     .err {
         color: red;
+        font-size: 14px;
+        margin-top: 4px;
+        margin-bottom: 12px;
+        display: block;
+        line-height: 1.2;
     }
 
     .user-dropdown {
@@ -497,7 +502,7 @@
     .password-profile form input {
         width: 100%;
         padding: 12px 15px;
-        margin-bottom: 15px;
+        margin-bottom: 1px;
         border-radius: 6px;
         border: 1px solid #ccc;
     }
