@@ -6,7 +6,7 @@ include 'admin_head.php';
 
 <main>
     <h1>User List</h1>
-    <table class ="user-table">
+    <table class ="table">
         <thead>
             <tr>
                 <th>User ID</th>
