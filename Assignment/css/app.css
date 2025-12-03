@@ -8,14 +8,15 @@
     button,
     textarea,
     select {
-        font: 16px 'Roboto', sans-serif;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
     }
 
     /* Layout ------------------------------------------------------------------ */
 
     body {
         margin: 0;
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
     }
@@ -36,7 +37,8 @@
         position: fixed;
         z-index: 100;
         height: 75px;
-
+        line-height: 75px;
+        /* helps maintain same height */
     }
 
     footer {
@@ -146,7 +148,7 @@
         cursor: pointer;
         font-weight: 600;
         transition: background 0.2s ease;
-        bottom: 23%;
+        bottom: 22%;
         left: 8%;
         position: absolute;
     }
@@ -185,7 +187,7 @@
 
     main {
         padding: 20px 50px;
-        padding-top: 105px;
+        padding-top: 70px;
     }
 
     main h1 {
@@ -209,6 +211,7 @@
         border-radius: 15px;
         overflow: hidden;
         background: #ffffff;
+        min-height: 500px;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 12px 35px rgba(0, 0, 0, 0.3);
     }
 
@@ -352,13 +355,14 @@
         flex-direction: column;
         padding: 30px 60px;
         border-radius: 20px;
-        box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.5),
-            0 32px 64px -48px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.8),
+            0 32px 64px -16px rgba(0, 0, 0, 0.6);
     }
 
     .form-box {
         width: 500px;
         margin: 0px 10px;
+
     }
 
     .form-box h2 {
@@ -379,7 +383,7 @@
         height: 40px;
         width: 100%;
         font-size: 16px;
-        padding: 0 10px;
+        padding: 0 px;
         border-radius: 5px;
         border: 1px solid #ccc;
 
@@ -391,6 +395,11 @@
 
     .err {
         color: red;
+        font-size: 14px;
+        margin-top: 4px;
+        margin-bottom: 12px;
+        display: block;
+        line-height: 1.2;
     }
 
     .user-dropdown {
@@ -495,7 +504,7 @@
     .password-profile form input {
         width: 100%;
         padding: 12px 15px;
-        margin-bottom: 15px;
+        margin-bottom: 1px;
         border-radius: 6px;
         border: 1px solid #ccc;
     }
@@ -774,6 +783,7 @@
         font-size: 16px;
         border: #000 solid 2px;
         cursor: pointer;
+        z-index: 1px;
     }
 
     /* Change background color of dropdown button on hover */
@@ -904,6 +914,8 @@
         margin: 10px 150px;
         background-color: #440552d5;
         background-position: top;
+        top: 155px;
+        z-index: 8;
     }
 
     /* ---------------------------------------------- */
@@ -927,29 +939,15 @@
         background-color: #be06ec;
         color: #fff;
         padding: 4px 14px;
-        width: 155px;
+        width: 135px;
         font-family: 'Courier New', Courier, monospace;
         font-size: 16px;
         border: #000 solid 2px;
         cursor: pointer;
+        z-index: 5px;
     }
 
     .sort_bar .sorting_left .dropdown:hover .dropbtn {
-        background-color: #d17de6;
-    }
-
-    .sort_bar .sorting_left .directbtn {
-        background-color: #be06ec;
-        color: #fff;
-        padding: 4px 14px;
-        width: 155px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 16px;
-        border: #000 solid 2px;
-        cursor: pointer;
-    }
-
-    .sort_bar .sorting_left .direct:hover .directbtn {
         background-color: #d17de6;
     }
 
@@ -997,7 +995,7 @@
         border-radius: 5px;
         padding: -10px 0px 10px 0%;
         margin: -15px 150px;
-        background-color: #440552d5;
+        background: linear-gradient(to bottom, #68077dd5, #440552d5);
     }
 
     /* ---------------------------------------------- */
@@ -1011,36 +1009,219 @@
 
     .gallery-item {
         margin: 5px;
-        border: 1px solid #ccc;
+        border: 2px solid #777;
         width: calc(25% - 20px);
-        cursor: pointer;
-
+        background: linear-gradient(to bottom, #e1c8ff, #c494ff);
     }
 
     .gallery-item:hover {
-        border: 1.5px solid #777;
+        border: 1.5px solid #555;
     }
 
-    .gallery-item .img {
+    .gallery-item img {
+        padding: 4.5%;
         width: 90%;
-        height: 250px;
-        height: auto;
+        height: 50%;
+        border: #a154ff solid 1.5px;
     }
 
-    .gallery-item .desc {
-        padding: 90px 10px 5px 10px;
+    .gallery-item .tag {
+        display: flex;
+        justify-content: space-between;
+        height: 45px;
+        overflow: hidden;
+        gap: 3px;
+    }
+
+    .gallery-item .tag1,
+    .gallery-item .tag2,
+    .gallery-item .tag3 {
+        display: inline-block;
+        padding: 5px 15px 5px 15px;
+        border: #000 solid 0.6px;
+        border-radius: 5%;
         font-family: 'Courier New', Courier, monospace;
-        text-align: center;
+        font-size: 12px;
+        text-align: left;
+        background-color: #ebc8ff;
+        color: #000000;
+    }
+
+    .gallery-item .name {
+        padding: 20px 10px 5px 10px;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: 600;
+        text-align: left;
+        height: 60px;
+        overflow: hidden;
+    }
+
+    .gallery-item .name a {
+        text-decoration: none;
+        color: #000000;
+    }
+
+    .gallery-item .name a:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .gallery-item .price_wishlist {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .gallery-item .price {
+        padding: 5px 10px 10px 10px;
+        font-family: 'Courier New', Courier, monospace;
+        text-align: left;
+    }
+
+    .gallery-item .price_wishlist button {
+        background-color: #be06ec;
+        color: #fff;
+        padding: 2px 13px;
+        width: 90px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 13px;
+        border: #000 solid 2px;
+        cursor: pointer;
+    }
+
+    .gallery-item .price_wishlist button:hover {
+        background-color: #d17de6;
     }
 
     @media only screen and (max-width: 768px) {
-        .gallery-item {
+
+        .gallery-item,
+        .gallery-item img {
             width: calc(50% - 20px);
+        }
+
+        .gallery-item img {
+            height: auto;
+        }
+
+        .gallery-item .tag1,
+        .gallery-item .tag2,
+        .gallery-item .tag3 {
+            padding: 5px 10px 5px 10px;
         }
     }
 
     @media only screen and (max-width: 480px) {
-        .gallery-item {
+
+        .gallery-item,
+        .gallery-item img {
             width: calc(100% - 20px);
+        }
+
+        .gallery-item img {
+            height: auto;
+        }
+    }
+
+    .contactus {
+        width: 100%;
+        padding: 40px;
+    }
+
+    .contactus h2 {
+        font-size: 32px;
+        margin-bottom: 30px;
+    }
+
+    /* Main wrapper, two columns */
+    .contact-wrapper {
+        display: flex;
+        gap: 40px;
+        height: 100vh;
+    }
+
+    /* Left address box */
+    .address-box {
+        flex: 1;
+        min-height: 450px;
+        padding: 20px;
+    }
+
+    /* Map box */
+    .map-box {
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* Right big box */
+    .right-box {
+        flex: 1.2;
+        /* border: 3px solid black; */
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        /* stack company details + buttons */
+        justify-content: flex-start;
+        overflow-y: auto;
+        background-color: #c6c0c8;
+    }
+
+    /* Company details (inside right box) */
+    .company-details {
+        padding: 15px;
+        text-align: center;
+    }
+
+    /* Bottom button area */
+    .button-row {
+        padding: 0;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .contact-buttons {
+        justify-content: center;
+        display: flex;
+        flex-direction: row;
+        gap: 35px;
+        flex-wrap: wrap;
+        /* wrap on small screens */
+    }
+
+    .contact-buttons .btn {
+        padding: 10px 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        text-align: center;
+        white-space: nowrap;
+        /* prevent text from breaking */
+    }
+
+    .contact-buttons .btn i {
+        margin-right: 8px;
+        vertical-align: middle;
+        font-size: 1em;
+        display: inline-block;
+    }
+
+
+    /* Optional button colors */
+    .btn.whatsapp {
+        background: #25D366;
+    }
+
+    .btn.email {
+        background: #6C63FF;
+    }
+
+    .btn.facebook {
+        background: #1877F2;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .contact-container {
+            flex-direction: column;
         }
     }

@@ -108,8 +108,6 @@ include '../_head.php';
             ->thumbnail(300, 300)
             ->toFile("photos/$productPhoto", 'image/jpeg');
 
-        $productPhoto = "photos/$productPhoto";
-
         $stm = $_db->prepare('
             INSERT INTO product (productID, productName, productPrice, productDesc, productQty, productCat1, productCat2, productCat3, productPhoto)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -200,4 +198,5 @@ include '../_head.php';
             </div>
         </form>
     </div>
+
 </div> 

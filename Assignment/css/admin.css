@@ -201,18 +201,6 @@ label #cancel {
     align-items: center;
     min-height: 400px;
 }
-.chpass-right {
-    flex: 2;
-    background-image: url('/images/The herta.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 400px;
-}
 
 /* Styling for the text overlay on the image */
 .image-text-overlay {
@@ -274,3 +262,24 @@ button:hover {
 .err {
     color: red;
 }
+
+/* Table ------------------------------------------------------------------- */
+
+.user-table {
+    border-collapse: collapse;
+}
+
+.user-table th, .user-table td {
+    border: 2px solid #000000;
+    padding: 5px;
+}
+
+.user-table th {
+    color: #fff;
+    background: #666;
+}
+
+.user-table tr:hover td {
+    background: #ccc;
+}
+

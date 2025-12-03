@@ -67,29 +67,50 @@ $(() => {
             $('.dropdown-content').removeClass('show');
         });
     });
+
+    // Attach a click event to the "Previous" button
+    document.getElementById('prevBtn').addEventListener('click', function() {
+        const input = document.getElementById('pageInput');
+        const current = parseInt(input.value) || 1;
+        if (current > 1) 
+            input.value = current - 1;
+    });
+
+    // Attach a click event to the "Next" button
+    document.getElementById('nextBtn').addEventListener('click', function() {
+        const input = document.getElementById('pageInput');
+        const current = parseInt(input.value) || 1;
+        input.value = current + 1;
+    });
+
+    // Attach a keypress event to the page input
+    document.getElementById('pageInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            // Trigger page load with the entered page number
+        console.log('Navigate to page:', this.value);
+        }
+    });
+
     window.closePopup = function () {
         const overlay = document.getElementById('popupOverlay');
         if (overlay) overlay.style.display = 'none';
     }
 
     // Photo preview
-        $('label.upload input[type=file]').on('change', e => {
-            const f = e.target.files[0];
-            const img = $(e.target).siblings('img')[0];
+    $('label.upload input[type=file]').on('change', e => {
+        const f = e.target.files[0];
+        const img = $(e.target).siblings('img')[0];
 
-            if (!img) return;
+        if (!img) return;
 
-            img.dataset.src ??= img.src;
+        img.dataset.src ??= img.src;
 
-            if (f?.type.startsWith('image/')) {
-                img.src = URL.createObjectURL(f);
-            }
-            else {
-                img.src = img.dataset.src;
-                e.target.value = '';
-            }
-        });
-
-
-
+        if (f?.type.startsWith('image/')) {
+            img.src = URL.createObjectURL(f);
+        }
+        else {
+            img.src = img.dataset.src;
+            e.target.value = '';
+        }
     });
+});
