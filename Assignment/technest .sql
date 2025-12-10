@@ -26,8 +26,6 @@ SET time_zone = "+00:00";
 --
 -- 表的结构 `admin`
 --
-CREATE DATABASE technest;
-USE technest;
 
 CREATE TABLE `admin` (
   `adminID` int(10) NOT NULL,

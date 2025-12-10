@@ -3,7 +3,7 @@ require '../_base.php';
 $_title = 'user List';
 include 'admin_head.php';
 ?>
-
+/* imput_type hidden to hide info */
 <main>
     <h1>User List</h1>
     <table class ="table">

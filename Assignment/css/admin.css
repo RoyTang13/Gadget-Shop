@@ -268,18 +268,24 @@ button:hover {
 .table {
     border-collapse: collapse;
 }
-
 .table th, .table td {
     border: 2px solid #000000;
     padding: 5px;
 }
-
 .table th {
     color: #fff;
     background: #666;
 }
-
+.table tr:nth-child(even) td {
+    background: #f2f2f2;
+}
+.table tr:nth-child(odd) td {
+    background: #ffffff;
+}
 .table tr:hover td {
+    margin: 0 5px;
+    text-decoration: none;
     background: #ccc;
+    color: #2e2eff7d;
 }
 
