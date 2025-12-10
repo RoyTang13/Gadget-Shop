@@ -541,143 +541,6 @@
         margin-top: 10px;
     }
 
-    /* =============================================================================
-    -------------------------------- Product Form ------------------------------- 
-    ============================================================================= */
-
-    .product_container {
-        max-width: 750px;
-        margin: 40px auto;
-        padding: 20px;
-    }
-
-    .product_form {
-        background-color: #af70ccc6;
-        padding: 30px 40px;
-        border: #000 2px solid;
-        border-radius: 12px;
-        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
-    }
-
-    .product_form_title {
-        text-align: center;
-        margin-bottom: 25px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 26px;
-        font-weight: 700;
-        color: #444;
-    }
-
-    .product_form_input,
-    .product_form_select {
-        display: flex;
-        align-items: center;
-        margin-bottom: 18px;
-    }
-
-    .product_form_input_long {
-        display: block;
-        align-items: center;
-        margin-bottom: 18px;
-    }
-
-    .product_form_input label,
-    .product_form_input_long label,
-    .product_form_select label {
-        width: 180px;
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: 600;
-        color: #850078;
-    }
-
-    .product_form_input input[type="text"],
-    .product_form_input input[type="number"],
-    .product_form_input input[type="file"] {
-        flex: 1;
-        padding: 8px 10px;
-        border: 2px solid #000000;
-        border-radius: 6px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 15px;
-    }
-
-    .product_form_input_long textarea {
-        width: 100%;
-        resize: vertical;
-        box-sizing: border-box;
-        line-height: 1.4;
-        flex: 1;
-        padding: 8px 10px;
-        border: 2px solid #000000;
-        border-radius: 6px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 15px;
-        height: 180px;
-    }
-
-    .product_form_input .upload img {
-        max-width: 250px;
-        max-height: 250px;
-    }
-
-    .product_form_select input[type="radio"] {
-        margin-right: 6px;
-    }
-
-    .product_form_select {
-        font-family: 'Courier New', Courier, monospace;
-        gap: 10px;
-    }
-
-    .product_form_select label {
-        font-weight: 600;
-        width: 180px;
-    }
-
-    .product_form_select input,
-    .product_form_select span {
-        display: flex;
-        align-items: center;
-    }
-
-    .product_form_button {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .product_form_button button {
-        padding: 10px 18px;
-        font-size: 15px;
-        border: #000 solid 2px;
-        border-radius: 6px;
-        cursor: pointer;
-        margin: 0 8px;
-        transition: 0.2s;
-    }
-
-    .product_form_button button[type="submit"] {
-        background: #be06ec;
-        color: white;
-    }
-
-    .product_form_button button[type="submit"]:hover {
-        background: #d17de6;
-    }
-
-    .product_form_button button[type="reset"] {
-        background: #be06ec;
-    }
-
-    .product_form_button button[type="reset"]:hover {
-        background: #d17de6;
-    }
-
-    .product_form::after {
-        content: "";
-        display: block;
-        clear: both;
-    }
-
     /* Flash Message ----------------------------------------------------------- */
 
     #info {
@@ -926,52 +789,24 @@
         font-size: 16px;
     }
 
-    /* Adjust dropdown position */
-    .sort_bar .sorting_left .dropdown {
-        position: relative;
-        z-index: 1;
-    }
-
     /* Style sorting buttons */
-    .sort_bar .sorting_left .dropbtn {
+    .sort_bar .sorting_left .sort-btn {
         background-color: #be06ec;
         color: #fff;
         padding: 4px 14px;
         width: 135px;
         font-family: 'Courier New', Courier, monospace;
         font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: none;
         border: #000 solid 2px;
+        border-radius: 5px;
         cursor: pointer;
-        z-index: 5px;
     }
 
-    .sort_bar .sorting_left .dropdown:hover .dropbtn {
+    .sort_bar .sorting_left .sort-btn:hover {
         background-color: #d17de6;
-    }
-
-    /* Dropdown content */
-    .sort_bar .sorting_left .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #fccdfb;
-        border: #341738 ridge 2px;
-        width: 205px;
-        font-family: 'Courier New', Courier, monospace;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Links inside dropdown content */
-    .sort_bar .sorting_left .dropdown-content label {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 30px 8px 10px;
-        cursor: pointer;
-    }
-
-    /* Show the dropdown content on hover */
-    .sort_bar .sorting_left .dropdown:hover .dropdown-content {
-        display: block;
     }
 
     /* Paging button */
@@ -987,7 +822,7 @@
         font-weight: bold;
     }
 
-    /*  After cursor hover the paging button */
+    /* After cursor hover the paging button */
     .sort_bar .sorting_right .pagination-btn:hover {
         background: #f4c9ff;
         border-color: #aa43ff;
@@ -1056,7 +891,7 @@
     }
 
     /* ---------------------------------------------- */
-    /* Part X - Product Display with name and price */
+    /* Part 7 - Product Display with name and price */
     .gallery {
         margin: 4% 10%;
         display: flex;
