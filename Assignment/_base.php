@@ -188,24 +188,22 @@ session_start();
 
         return null;
     }
-
-    // Global product object
-    $product = $_SESSION['product'] ?? null;
-
-    // Global user object
     $_user = $_SESSION['user'] ?? null;
 
-    // Login user
-    function login($user, $url = '/') {
-        $_SESSION['user'] = $user;
-        redirect($url);
-    }
+// Global user object
+$_user = $_SESSION['user'] ?? null;
 
-    // Logout user
-    function logout($url = '/') {
-        unset($_SESSION['user']);
-        redirect($url);
-    }
+// Login user
+function login($user, $url = '/') {
+    $_SESSION['user'] = $user;
+    redirect($url);
+}
+
+// Logout user
+function logout($url = '/') {
+    unset($_SESSION['user']);
+    redirect($url);
+}
 
     // Crop, resize and save photofunction save_photo($f, $folder, $width = 300, $height = 300) {
         function save_photo($f, $folder, $width = 300, $height = 300) {
