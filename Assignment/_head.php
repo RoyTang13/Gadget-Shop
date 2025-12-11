@@ -36,8 +36,7 @@
 
 <nav class="navbar">
     <a href="/">Home</a>
-    <a href="/page/product.php">Product</a>
-    <a href="/page/product_form.php">Test</a>
+    <a href="/product/page.php">Product</a>
     <a href="/page/contactus.php">Contact Us</a>
 </nav>
 
