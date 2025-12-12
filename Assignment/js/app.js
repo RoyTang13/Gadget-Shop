@@ -114,3 +114,8 @@ $(() => {
         }
     });
 });
+
+// Show the modal
+$('#myModal').modal('show');
+// Hide the modal
+$('#myModal').modal('hide');

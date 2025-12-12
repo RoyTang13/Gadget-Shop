@@ -22,7 +22,7 @@ footer {
     list-style: none;
     text-decoration: none;
 }
-
+/* Sidebar styling */
 .sidebar {
     position: fixed;
     left: -250px;
@@ -31,7 +31,7 @@ footer {
     background: #042331;
     transition: all .5s ease;
 }
-
+/* Sidebar header styling */
 .sidebar header {
     font-size: 32px;
     color: white;
@@ -39,7 +39,7 @@ footer {
     line-height: 70px;
     user-select: none;
 }
-
+/* Sidebar navigation links styling */
 .sidebar ul a {
     display: block;
     height: 100%;
@@ -53,19 +53,19 @@ footer {
     border-bottom: 1px solid back;
     transition: .4s;
 }
-
+/* Hover effect for sidebar links */
 ul li:hover a {
     padding-left: 50px;
 }
-
+/* Icon styling within sidebar links */
 .sidebar ul a i {
     margin-right: 16px;
 }
-
+/* Checkbox to toggle sidebar visibility */
 #check {
     display: none;
 }
-
+/* Label styling for sidebar toggle buttons */
 label #btn,
 label #cancel {
     position: absolute;
@@ -82,7 +82,7 @@ label #btn {
     padding: 6px 12px;
     transition: all .5s;
 }
-
+/* Cancel button styling */
 label #cancel {
     z-index: 1111;
     left: -195px;
@@ -92,24 +92,39 @@ label #cancel {
     padding: 4px 9px;
     transition: all .5s ease;
 }
-
+/* Show sidebar when checkbox is checked */
 #check:checked~.sidebar {
     left: 0;
 }
-
+/* Hide menu button when sidebar is visible */
 #check:checked~label #btn {
     left: 250px;
     opacity: 0;
     pointer-events: none;
 }
-
+/* Move cancel button into view when sidebar is visible */
 #check:checked~label #cancel {
-    left: 200px;
+    left: 20px;
 }
-
+/* Shift main section when sidebar is visible */
 #check:checked~section {
-    margin-left: 200px;
+    margin-left: 250px;
     transition: all .5s;
+}
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  font-size: 34px;
+  margin-left: 50px;
+  color: #0a5275;
+  cursor: pointer;
+}
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+ @media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
 }
 
 /* Make dashboard wrapper flexible */
@@ -119,7 +134,7 @@ label #cancel {
     align-items: flex-start;
     transition: all 0.5s ease;
 }
-
+/* Dashboard container styling */
 .dashboard-container {
     display: flex;
     justify-content: space-around;
@@ -133,7 +148,7 @@ label #cancel {
     margin: 20px auto;
     flex-wrap: wrap;
 }
-
+/* Individual card styling */
 .dashboard-container .card {
     background: #D2E5F6;
     padding: 25px 35px;
@@ -457,5 +472,30 @@ button:hover {
         gap: 25px;
         margin-left: 250px;
         margin-top: 80px;
+    }
+    /* Table ------------------------------------------------------------------- */
+
+    .table {
+        border-collapse: collapse;
+    }
+    .table th, .table td {
+        border: 2px solid #000000;
+        padding: 5px;
+    }
+    .table th {
+        color: #fff;
+        background: #666;
+    }
+    .table tr:nth-child(even) td {
+        background: #f2f2f2;
+    }
+    .table tr:nth-child(odd) td {
+        background: #ffffff;
+    }
+    .table tr:hover td {
+        margin: 0 5px;
+        text-decoration: none;
+        background: #ccc;
+        color: #2e2eff7d;
     }
 

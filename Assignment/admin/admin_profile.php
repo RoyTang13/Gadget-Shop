@@ -1,25 +1,25 @@
-    <?php
-    require '../_base.php';
-    check_admin_login();
-    $_title = 'edit Profile';
-    include 'admin_head.php';
-    // Fetch admin data
-    $stm = $_admin_db->prepare("SELECT * FROM admin WHERE adminID = ?");
-    $stm->execute([$_SESSION['adminID']]);
-    $admin = $stm->fetch(PDO::FETCH_ASSOC);
+<?php
+require '../_base.php';
+check_admin_login();
+$_title = 'edit Profile';
+include 'admin_head.php';
+// Fetch admin data
+$stm = $_admin_db->prepare("SELECT * FROM admin WHERE adminID = ?");
+$stm->execute([$_SESSION['adminID']]);
+$admin = $stm->fetch(PDO::FETCH_ASSOC);
+if (!$admin) redirect('/');
+$_err = [];
 
-    $_err = [];
 
-    // Load admin values
-    $fname   = $admin['fname'];
-    $lname   = $admin['lname'];
-    $email   = $admin['email'];
-    $phoneNo = $admin['phoneNo'];
-    //$adminPhoto   = $admin['adminPhoto'];   
-    $adminID = $admin['adminID'];
-    //$f = $_FILES['adminPhoto'] ?? null;
+ // Load admin values
+$fname   = $admin['fname'];
+$lname   = $admin['lname'];
+$_FILESemail   = $admin['email'];
+$phoneNo = $admin['phoneNo'];
+$admin   = $admin['adminPhoto'];   
 
-    if (!$admin) redirect('/admin/admin_dashboard.php');
+$f = get_file('adminPhoto'); // get uploaded file
+
     // -----------------------------------------
     // UPDATE PROFILE
     // -----------------------------------------
@@ -42,12 +42,12 @@
             $_err['phoneNo'] = 'Invalid format';
 
         // Validate photo only if uploaded
-        /*if ($f) {
+        if ($f) {
             if (!str_starts_with($f->type, 'image/'))
                 $_err['adminPhoto'] = 'Must be image';
             else if ($f->size > 1 * 1024 * 1024)
                 $_err['adminPhoto'] = 'Max 1MB';
-        }*/
+        }
 
         if (empty($_err)) {
 
@@ -62,18 +62,18 @@
             // ---- UPDATE DB ---- 
             $up = $_db->prepare("
                 UPDATE admin
-                SET fname=?, lname=?, email=?, phoneNo=?
+                SET fname=?, lname=?, email=?, phoneNo=?, adminPhoto=?
                 WHERE adminID=?
             ");
-            $up->execute([$fname, $lname, $email, $phoneNo, $adminID]);
+            $up->execute([$fname, $lname, $email, $phoneNo, $adminPhoto, $adminID]);
 
             // ---- UPDATE SESSION ----
             $_SESSION['fname'] = $fname;
             $_SESSION['email'] = $email;
-            //$_SESSION['adminPhoto'] = $adminPhoto; 
+            $_SESSION['adminPhoto'] = $adminPhoto; 
             set_popup("Profile updated successfully");
             redirect('/admin/admin_profile.php');
-      }
+        }
     }
 
 
