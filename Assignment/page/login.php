@@ -28,17 +28,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // ------------------------------
     // reCAPTCHA VALIDATION
     // ------------------------------
-    $recaptcha = $_POST['g-recaptcha-response'] ?? '';
-    $secretKey = "6Lfymx4sAAAAAAhjdZaclLmEl69dKnxzS8PRqwM7"; 
+    // $recaptcha = $_POST['g-recaptcha-response'] ?? '';
+    // $secretKey = "6Lfymx4sAAAAAAhjdZaclLmEl69dKnxzS8PRqwM7"; 
 
-    $response = file_get_contents(
-        "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptcha"
-    );
-    $responseKeys = json_decode($response, true);
+    // $response = file_get_contents(
+    //     "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptcha"
+    // );
+    // $responseKeys = json_decode($response, true);
 
-    if (empty($recaptcha) || !$responseKeys["success"]) {
-        $_err['recaptcha'] = "Please verify you're not a robot";
-    }
+    // if (empty($recaptcha) || !$responseKeys["success"]) {
+    //     $_err['recaptcha'] = "Please verify you're not a robot";
+    // }
 
     // If no errors, check database
     if (empty($_err)) {
@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['email'] = $user['email'];
             $_SESSION['userPhoto'] = $user['userPhoto'];
             $_SESSION['password'] = $user['password'];
+            echo 'User ID: ' . $_SESSION['userID'];
 
             // Redirect to homepage or dashboard
             redirect('/'); 
@@ -79,9 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="password">Password</label>
                 <?= html_password('password','maxlength="100"') ?>
                 <?= err('password') ?>
-
+<!-- 
                 <div class="g-recaptcha" data-sitekey="6Lfymx4sAAAAABMqtubtNWizFORYHqcABGmCZeOl"></div>
-                <?= err('recaptcha') ?>
+                <?= err('recaptcha') ?> -->
 
                 <section>
                      <button type="reset">Reset</button>

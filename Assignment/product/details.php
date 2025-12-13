@@ -25,7 +25,7 @@ include '../_head.php';
 <div class = "product-page">
     <div class = "product-left">
         <div class = "product-image-box">
-            <a href = "/product/page.php" class = "back-btn">← Back</a>
+            <a href = "/product/product.php" class = "back-btn">← Back</a>
 
             <img class = "product-photo"
             src = "/photos/<?= htmlspecialchars($product->productPhoto) ?>" 
@@ -59,8 +59,12 @@ include '../_head.php';
         </div>
 
         <div class = "action-buttons">
-            <button class = "wishlist-btn">Wishlist ♥</button>
-            <button class = "cart-btn">Add to Cart</button>
+        <form method="post" action="/product/add_to_cart.php">
+                <input type="hidden" name="productID" value="<?= htmlspecialchars($product->productID) ?>">
+                <input type="hidden" name="quantity" value="1" id="addQty">
+                <button type="submit" name="add_to_cart">Add to Cart</button>
+            </form>
+            <button class = "order-btn">Buy Now</button>
         </div>
     </div>
 </div>
@@ -228,7 +232,7 @@ include '../_head.php';
     margin-bottom: 20px;
 }
 
-.wishlist-btn, .cart-btn {
+.order-btn, .cart-btn {
     padding: 12px 25px;
     border: #000 solid 2px;
     border-radius: 8px;
@@ -268,4 +272,15 @@ document.getElementById("qtyPlus").addEventListener("click", () => {
     let qty = document.getElementById("qtyInput");
     qty.value++;
 });
+
+const qtyInput = document.getElementById("qtyInput");
+const addQty   = document.getElementById("addQty");
+    
+function syncQty() {
+    addQty.value = qtyInput.value;
+}
+
+document.getElementById("qtyMinus").addEventListener("click", syncQty);
+document.getElementById("qtyPlus").addEventListener("click", syncQty);
+qtyInput.addEventListener("change", syncQty);
 </script>

@@ -4,6 +4,7 @@ require '../_base.php';
 $_title = 'Product | TechNest';
 
 include '../_head.php';
+show_popup();
 
 $where = [];
 $params = [];
@@ -499,8 +500,11 @@ function buildQueryString(array $overrides = []): string {
                     <div class = "price">
                     RM <?= number_format($p->productPrice, 2) ?>
                     </div>
-
-                    <button class = "btn btn-add">Add to Cart</button>
+                    <form method="post" action="/product/add_to_cart.php">
+                    <input type="hidden" name="productID" value="<?= htmlspecialchars($p->productID) ?>">
+                    <input type="hidden" name="quantity" value="1" id="addQty">
+                    <button type="submit" name="add_to_cart">Add to Cart</button>
+                </form>
                 </div>
             </div>
         </div>

@@ -696,3 +696,152 @@
             padding-top: 130px;
         }
     }
+
+    /* Cart css */
+    .cart-title {
+        text-align: center;
+        margin: 30px 0;
+        font-family: 'Courier New', monospace;
+    }
+
+    /* Wrapper */
+    .cart-wrapper {
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Table */
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .cart-table thead {
+        background: linear-gradient(to right, #c494ff, #e1c8ff);
+    }
+
+    .cart-table th {
+        padding: 20px;
+        text-align: left;
+        font-size: 18px;
+    }
+
+    .cart-table td {
+        padding: 14px;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+    }
+
+
+    /* Product cell */
+    .product-cell {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .product-cell img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    .product-cell span {
+        font-weight: 600;
+    }
+
+    /* Price & total */
+    .price,
+    .total {
+        font-weight: 600;
+    }
+
+    /* Quantity */
+    .qty-input {
+        width: 70px;
+        padding: 6px;
+        text-align: center;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+
+    /* Remove button */
+    .btn-remove {
+        background: #ff6f61;
+        color: white;
+        border: none;
+        padding: 8px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .btn-remove:hover {
+        background: #e55b50;
+    }
+
+    /* Summary */
+    .cart-summary {
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .cart-total {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .cart-total span {
+        color: #ff6f61;
+    }
+
+    /* Buttons */
+    .cart-actions {
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn-update {
+        background: #be06ec;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-update:hover {
+        background: #9f05c5;
+    }
+
+    .btn-checkout {
+        text-decoration: none;
+        background: linear-gradient(to right, #ff9990, #ff6f61);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    .btn-checkout:hover {
+        opacity: 0.9;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+        .product-cell span {
+            font-size: 14px;
+        }
+
+        .cart-summary {
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-start;
+        }
+    }
