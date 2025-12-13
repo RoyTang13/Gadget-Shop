@@ -3,7 +3,7 @@
 require '../_base.php';
 $_title = 'Product | TechNest';
 
- include '../_head.php';
+include '../_head.php';
 
 $where = [];
 $params = [];
@@ -130,250 +130,450 @@ function buildQueryString(array $overrides = []): string {
 ?>
 
 <style>
+    /* Search Bar */
+    .search-box {
+        display: flex;
+        align-items: center;
+    }
 
-  /* Search Bar */
-  .search-box {
-    display: flex;
-    align-items: center;
-  }
+    .search-box input {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        outline: none;
+        width: 200px;
+    }
 
-  .search-box input {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px 0 0 4px;
-    outline: none;
-    width: 200px;
-  }
+    .search-box button {
+        padding: 8px 14px;
+        border: none;
+        background-color: #ff6f61;
+        color: #fff;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        z-index: 100;
+    }
 
-  .search-box button {
-    padding: 8px 14px;
-    border: none;
-    background-color: #ff6f61;
-    color: #fff;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    z-index: 100;
+    /* Hero Banner */
+    .banner {
+        background-image: url("/images/banner3.png");
+        background-size: cover;
+        background-position: center;
+        height: 500px;
+    }
 
-  }
+    /* Main Content */
+    .product-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding:0 20px;
+        flex: 1;
+    }
 
-  /* Hero Banner */
-  .banner {
-    background-image: url("/images/banner3.png");
-    background-size: cover;
-    background-position: center;
-    height: 500px;
-  }
+    /* Filters inline */
+    .filters-inline {
+        display: flex;
+        justify-content: space-between;  /* Sorting on left, paging on right */
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;  /* Wrap on small screens if needed */
+    }
 
-  /* Main Content */
-  .product-container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding:0 20px;
-    flex: 1;
-  }
+    /* Sorting */
+    .sorting {
+        width: 250px;
+        margin-left: 10px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
-  /* Filters & Sorting */
-  .filters {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+    .sorting select {
+        flex: 1;  /* Make select take remaining space */
+        padding: 6px 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: #fff;
+        font-size: 14px;
+        cursor: pointer;
+    }
 
-  }
+    .sorting select:focus {
+        outline: none;
+        border-color: #ff6f61;
+        box-shadow: 0 0 4px rgba(255, 111, 97, 0.3);
+    }
 
-  .filters .filter-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+    /* Ensure the product grid uses a flexible layout */
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(220px, 1fr));
+        gap: 30px; 
+        padding: 10px;
+        justify-content: center;
+    }
 
-/* Ensure the product grid uses a flexible layout */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 30px; 
-  padding: 10px;
+    .product-card {
+        display: flex;
+        flex-direction: column;
+        height: 500px; /* fixed height for consistency */
+        border: 1px solid #ff9990;
+        border-radius: 8px;
+        transition: box-shadow 0.3s, border-color 0.3s;
+        overflow: hidden; 
+        cursor: pointer;
+    }
 
-}
+    .product-card img {
+        padding: 2.5%;
+        width: 95%;
+        height: auto;
+        object-fit: contain;
+        max-height: 300px;
+    }
 
-.product-card {
-  display: flex;
-  flex-direction: column;
-  height: 400px; /* fixed height for consistency */
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  transition: box-shadow 0.3s, border-color 0.3s;
-  overflow: hidden; 
-  cursor: pointer;
-}
+    .product-card:hover {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* subtle shadow on hover */
+        border-color: #ff6f61; /* change border color on hover */
+    }
 
-.product-card img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  max-height: 300px;
-}
+    /* Make the card-body flexible so the button stays at the bottom */
+    .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* pushes content to top and bottom */
+        padding: 10px; /* optional for padding inside the card */
+    }
 
-.product-card:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* subtle shadow on hover */
-  border-color: #ff6f61; /* change border color on hover */
-}
+    /* Adjust product tag styling */
+    .tag {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        height: 45px;
+        overflow: hidden;
+        gap: 5px;
+    }
 
+    .tag1, .tag2, .tag3 {
+        display: inline-block;
+        padding: 5px 10px 5px 10px;
+        border: #000 solid 0.6px;
+        border-radius: 5%;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 12px;
+        text-align: left;
+    }
 
-/* Make the card-body flexible so the button stays at the bottom */
-.card-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* pushes content to top and bottom */
-  padding: 10px; /* optional for padding inside the card */
-}
+    /* Adjust product name styling */
+    .name {
+        margin-top: 10px;
+        font-weight: 600;
+        text-align: left;
+        height: 60px;
+        overflow: hidden;
+    }
 
-/* Adjust product name and price spacing */
-.product-name {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  line-height: 1.2; /* Better line spacing */
-  height: 40px; 
-  line-height: 20px; 
-}
+    .name a {
+        text-decoration: none;
+        color: #000000;
+    }
 
-.price {
-  color: #ff6f61;
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
+    .name a:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
 
-/* Actions button spacing and styling */
-.actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: auto; /* push it to the bottom of flex container */
-}
+    /* Adjust product price styling */
+    .price {
+        color: #ff6f61;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
 
-.btn {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.3s;
-}
+    /* Actions button spacing and styling */
+    .actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: auto; /* push it to the bottom of flex container */
+    }
 
-.btn-add {
-  background-color: #ff6f61;
-  color: #fff;
-}
+    .btn {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.3s;
+    }
 
-.btn-add:hover {
-  background-color: #e55b50;
-}
+    .btn-add {
+        background: linear-gradient(to bottom, #ff9990, #ff6f61);
+        color: #fff;
+    }
 
-.layout-container {
-  display: flex;
-  flex-direction: row;
-  gap: 20px; /* space between sidebar and products */
-}
+    .btn-add:hover {
+        background: linear-gradient(to bottom, #e7766e, #e55b50);
+    }
 
-.filter-sidebar {
-  flex: 0 0 250px; /* fixed width sidebar */
-  max-width: 250px;
-  padding: 20px;
-  background-color: #f5f5f5; /* optional background */
-  border-radius: 8px; /* optional rounded corners */
-}
+    .layout-container {
+        display: flex;
+        flex-direction: row;
+        gap: 20px; /* space between sidebar and products */
+    }
 
+    .filter-sidebar {
+        flex: 0 0 250px; /* fixed width sidebar */
+        max-width: 250px;
+        padding: 20px;
+        background-color: #f5f5f5; /* optional background */
+        border-radius: 8px; /* optional rounded corners */
+    }
+
+    /* Paging button */
+    .pagination-btn {
+        width: 53px;
+        height: 28px;
+        padding: 0px 0px 3px 0px;
+        border: 1.6px solid #000;
+        background: #fff;
+        color: #560065;
+        cursor: pointer;
+        font-size: 20.8px;
+        font-weight: bold;
+    }
+
+    /* After cursor hover the paging button */
+    .pagination-btn:hover {
+        border-color: #424242;
+    }
+
+    /* Paging input */
+    .page-input {
+        width: 158px;
+        height: 26px;
+        padding: 2px 0px 0px 0px;
+        border: 1.6px solid #000;
+        background: #fff;
+        color: #560065;
+        cursor: text;
+        text-align: center;
+    }
+
+    /* After hover the page input */
+    .page-input:focus {
+        outline: none;
+        border-color: #424242;
+        box-shadow: 0 0 4px rgba(199, 100, 224, 0.3);
+    }
+
+    /* Hide the spin-number-scroller from page input */
+    .page-input::-webkit-inner-spin-button,
+    .page-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 </style>
-<script>
 
-</script>
 <body>
 <main >
 <!-- Hero Banner -->
-<div class="banner">
-</div>
+<div class = "banner"></div>
 
 <!-- Main Content -->
- <div class="layout-container">
-<div id="filterSidebar" class="filter-sidebar">
-  <h3>Filters</h3>
-  <form id="filterForm" method="get" action="/product/page.php">
-    <!-- Type filters -->
-    <div>
-      <h4>🔌Connection</h4>
-      <label><input type="checkbox" name="connectivity[]" value = "wired"  <?= in_array('Type1', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wired</label><br>
-      <label><input type="checkbox" name="connectivity[]" value = "wireless"  <?= in_array('Type2', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wireless</label><br>
-    </div>
-      <!-- Fit Type -->
-      <div>
-      <h4>🎧Fit Type</h4>
-      <label><input type = "checkbox" name = "design[]" value = "in-ear"<?= in_array('in-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> In-ear</label><br>
-      <label><input type="checkbox" name="design[]" value="over-ear" <?= in_array('over-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> Over-ear</label><br>
-    </div>
-    <!-- Acoustic -->
-    <div>
-      <h4>🎶Acoustic</h4>
-      <label><input type="checkbox" name="acoustic[]" value="noise-canceled" <?= in_array('noise-canceled', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Noise-canceled</label><br>
-      <label><input type="checkbox" name="acoustic[]" value="balanced" <?= in_array('balanced', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Balanced</label><br>
-      <label><input type="checkbox" name="acoustic[]" value="clear vocals" <?= in_array('clear vocals', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Clear Vocals</label><br>
+<div class = "layout-container">
+    <div id = "filterSidebar" class = "filter-sidebar">
+    <h3>Filters</h3>
+    <form id = "filterForm" method = "get" action = "/product/product.php">
+
+        <!-- Type filters -->
+        <div>
+            <h4>🔌Connection</h4>
+            <label><input type = "checkbox" name = "connectivity[]" value = "wired"  <?= in_array('Type1', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wired</label><br>
+            <label><input type = "checkbox" name = "connectivity[]" value = "wireless"  <?= in_array('Type2', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wireless</label><br>
+        </div>
+
+        <!-- Fit Type -->
+        <div>
+        <h4>🎧Fit Type</h4>
+            <label><input type = "checkbox" name = "design[]" value = "in-ear"<?= in_array('in-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> In-ear</label><br>
+            <label><input type = "checkbox" name = "design[]" value = "over-ear" <?= in_array('over-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> Over-ear</label><br>
+        </div>
+
+        <!-- Acoustic -->
+        <div>
+            <h4>🎶Acoustic</h4>
+            <label><input type = "checkbox" name = "acoustic[]" value = "noise-canceled" <?= in_array('noise-canceled', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Noise-canceled</label><br>
+            <label><input type = "checkbox" name = "acoustic[]" value = "balanced" <?= in_array('balanced', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Balanced</label><br>
+            <label><input type = "checkbox" name = "acoustic[]" value = "clear vocals" <?= in_array('clear vocals', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Clear Vocals</label><br>
+        </div>
+
+        <!-- Price Range -->
+        <div style = "margin-top:15px;">
+            <h4>Price</h4>
+            <label><input type = "radio" name = "fixedPrice" value = "0.01-300.00">RM 0.01 - RM 300.00</label><br>
+            <label><input type = "radio" name = "fixedPrice" value = "300.01-600.00">RM 300.01 - RM 600.00</label><br>
+            <label><input type = "radio" name = "fixedPrice" value = "600.01-900.00">RM 600.01 - RM 900.00</label><br>
+            <label><input type = "radio" name = "fixedPrice" value = "900.01-1200.00">RM 900.01 - RM 1200.00</label><br><br>
+        <input type = "number" name = "priceMin" min = 0.01 max = 1199.99 step = 0.01 placeholder = "Min" value = "<?= $_GET['priceMin'] ?? '' ?>" style = "width: 100px;">
+        <input type = "number" name = "priceMax" min = 0.02 max = 1200.00 step = 0.02 placeholder = "Max" value = "<?= $_GET['priceMax'] ?? '' ?>" style = "width: 100px;">
+        </div>
+
+        <div style = "margin-top: 15px;">
+            <button type = "submit">Apply Filters</button>
+        </div>
+    </form>
     </div>
 
-    <!-- Price Range -->
-    <div style="margin-top:15px;">
-      <h4>Price</h4>
-      <label><input type = "radio" name = "fixedPrice" value = "0.01-300.00">RM 0.01 - RM 300.00</label><br>
-      <label><input type = "radio" name = "fixedPrice" value = "300.01-600.00">RM 300.01 - RM 600.00</label><br>
-      <label><input type = "radio" name = "fixedPrice" value = "600.01-900.00">RM 600.01 - RM 900.00</label><br>
-      <label><input type = "radio" name = "fixedPrice" value = "900.01-1200.00">RM 900.01 - RM 1200.00</label><br>
-      <input type="number" name="priceMin" placeholder="Min" value="<?= $_GET['priceMin'] ?? '' ?>" style="width:80px;">
-      <input type="number" name="priceMax" placeholder="Max" value="<?= $_GET['priceMax'] ?? '' ?>" style="width:80px;">
-    </div>
-    <div style="margin-top:15px;">
-      <button type="submit">Apply Filters</button>
-    </div>
-  </form>
-</div>
+    <div class = "product-container">
+    <div class = "filters-inline" style = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <!-- Sorting -->
+        <div class = "sorting">
+            <label for = "sort">Sort by: </label>
+            <select id ="sort">
+                <option value = "price-asc" <?= (isset($_GET['sort_price']) && $_GET['sort_price'] === 'asc') ? 'selected' : '' ?>>Price ↑</option>
+                <option value = "price-desc" <?= (isset($_GET['sort_price']) && $_GET['sort_price'] === 'desc') ? 'selected' : '' ?>>Price ↓</option>
+                <option value = "name-asc" <?= (isset($_GET['sort_name']) && $_GET['sort_name'] === 'asc') ? 'selected' : '' ?>>Name ↑</option>
+                <option value = "name-desc" <?= (isset($_GET['sort_name']) && $_GET['sort_name'] === 'desc') ? 'selected' : '' ?>>Name ↓</option>
+            </select>
+        </div>
 
-<div class="product-container">
-  <!-- Filters & Sorting -->
-  <div class="filters">
-    <div class="filter-group">
-      <label for="category">Category:</label>
-      <select id="category">
-        <option>All</option>
-        <option>Clothing</option>
-        <option>Electronics</option>
-        <option>Home</option>
-      </select>
+        <!-- Paging -->
+        <div class = "paging">
+            <div class = "pagination">
+                <button class = "pagination-btn" id = "prevBtn" type = "button">‹</button>
+                <input type = "number" id = "pageInput" class = "page-input" min = "1" value = "<?= $page ?>" placeholder="Page">
+                <button class = "pagination-btn" id = "nextBtn" type = "button">›</button>
+            </div>
+        </div>
     </div>
-    <div class="filter-group">
-      <label for="sort">Sort by:</label>
-      <select id="sort">
-        <option>Price: Low to High</option>
-        <option>Price: High to Low</option>
-        <option>Newest</option>
-      </select>
-    </div>
-  </div>
 
-  <!-- Product Grid -->
-<div class="product-grid">
-<?php foreach ($arr as $p): ?>
-  <div class="product-card">
-      <img src="/photos/<?= $p->productPhoto ?>" alt="<?= htmlspecialchars($p->productName) ?>">
-      <div class="card-body">
-          <div class="product-name"><?= htmlspecialchars($p->productName) ?></div>
-          <div class="price">RM <?= number_format($p->productPrice, 2) ?></div>
-          <div class="actions">
-          <button class="btn btn-add" data-product-id="<?= $p->productID ?>">Add to Cart</button>
-          </div>
-      </div>
-  </div>
-<?php endforeach; ?>
-</div>
+    <!-- Product Grid -->
+    <div class = "product-grid">
+        <?php foreach ($arr as $p): ?>
+        <div class = "product-card">
+            <img src = "/photos/<?= $p->productPhoto ?>" alt="<?= htmlspecialchars($p->productName) ?>">
+            <div class = "card-body">
+                <div class = "tag">
+                    <div class = "tag1">
+                        <span><?= htmlspecialchars($p->productCat1) ?></span>
+                    </div>
+
+                    <div class = "tag2">
+                        <span><?= htmlspecialchars($p->productCat2) ?></span>
+                    </div>
+
+                    <div class = "tag3">
+                        <span><?= htmlspecialchars($p->productCat3) ?></span>
+                    </div>
+                </div>
+
+                <div class = "name">
+                    <a href = "/product/details.php?name=<?= urlencode($p->productName) ?>">
+                        <?= htmlspecialchars($p->productName) ?>
+                    </a>
+                </div>
+
+                <div class = "price_wishlist">
+                    <div class = "price">
+                    RM <?= number_format($p->productPrice, 2) ?>
+                    </div>
+
+                    <button class = "btn btn-add">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            // Handle sorting dropdown change
+            const sortSelect = document.getElementById('sort');
+            if (sortSelect) {
+                sortSelect.addEventListener('change', function() {
+                    const value = this.value;
+                    let overrides = { page: 1 };  // Always reset to page 1 on sort change
+
+                    if (value === 'price-asc') {
+                        overrides.sort_price = 'asc';
+                        overrides.sort_name = null;  // Clear name sort
+                    } 
+                    else if (value === 'price-desc') {
+                        overrides.sort_price = 'desc';
+                        overrides.sort_name = null;
+                    } 
+                    else if (value === 'name-asc') {
+                        overrides.sort_name = 'asc';
+                        overrides.sort_price = null;  // Clear price sort
+                    }       
+                    else if (value === 'name-desc') {
+                        overrides.sort_name = 'desc';
+                        overrides.sort_price = null;
+                    }
+
+                    // Build new URL preserving filters/search using URLSearchParams
+                    const params = new URLSearchParams(window.location.search);
+                
+                    // Apply overrides
+                    for (const [key, val] of Object.entries(overrides)) {
+                        if (val === null) {
+                            params.delete(key);
+                        }  
+                        else if (Array.isArray(val)) {
+                            params.delete(key);
+                            val.forEach(v => params.append(key, v));
+                        }  
+                        else {
+                            params.set(key, val);
+                        }
+                    }
+
+                    const newUrl = window.location.pathname + '?' + params.toString();
+                    window.location.href = newUrl;
+                });
+            }
+
+            // Handle pagination: preserve all filters/sorts
+            function goToPage(n) {
+                const params = new URLSearchParams(window.location.search);
+                params.set('page', String(Math.max(1, parseInt(n) || 1)));
+                window.location.href = window.location.pathname + '?' + params.toString();
+            }
+
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageInput = document.getElementById('pageInput');
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function() {
+                    const current = parseInt(pageInput.value) || 1;
+                    if (current > 1) goToPage(current - 1);
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function() {
+                        const current = parseInt(pageInput.value) || 1;
+                    goToPage(current + 1);
+                });
+            }
+
+            if (pageInput) {
+                pageInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        goToPage(this.value);
+                    }
+                });
+            }
+        });
+    </script>
+
+    <?php endforeach; ?>
+    </div>
 </div>
 
 </main>
