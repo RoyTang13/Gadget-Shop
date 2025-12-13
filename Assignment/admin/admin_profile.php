@@ -1,8 +1,12 @@
 <?php
 require '../_base.php';
-check_admin_login();
 $_title = 'edit Profile';
 include 'admin_head.php';
+// make sure only logged-in admins can access this page
+if (!isset($_SESSION['adminID'])) {
+    header('Location: index.php');
+    exit;
+}
 // Fetch admin data
 $stm = $_admin_db->prepare("SELECT * FROM admin WHERE adminID = ?");
 $stm->execute([$_SESSION['adminID']]);
