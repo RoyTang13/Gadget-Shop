@@ -368,7 +368,7 @@ function buildQueryString(array $overrides = []): string {
           <div class="product-name"><?= htmlspecialchars($p->productName) ?></div>
           <div class="price">RM <?= number_format($p->productPrice, 2) ?></div>
           <div class="actions">
-              <button class="btn btn-add">Add to Cart</button>
+          <button class="btn btn-add" data-product-id="<?= $p->productID ?>">Add to Cart</button>
           </div>
       </div>
   </div>

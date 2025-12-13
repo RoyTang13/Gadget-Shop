@@ -7,7 +7,7 @@ include '_head.php';
 
 <body>
 <div class="banner-area">
-<button class="shopnow-btn" data-get="/page/product.php"> Shop Now </button>
+<button class="shopnow-btn" data-get="/product/product.php"> Shop Now </button>
     
 </div>
 

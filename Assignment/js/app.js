@@ -114,14 +114,7 @@ $(() => {
         }
     });
 
-    const filterBtn = document.getElementById('filterToggle');
-    const filterSidebar = document.getElementById('filterSidebar');
-    const productContainer = document.querySelector('.product-container');
-
-    filterBtn.addEventListener('click', () => {
-        filterSidebar.classList.toggle('active');
-        document.querySelector('.product_container').classList.toggle('shifted');
-    });
+    
 });
 
 // Show the modal
