@@ -306,7 +306,38 @@ function logout($url = '/') {
             unset($_SESSION['popup']);
         }
     }
-    
 
+// ============================================================================
+// Shopping Cart
+// ============================================================================
+// Assuming $_db is your database connection, and $_user contains logged-in user info
+function get_cart() {
+    return $_SESSION['cart'] ?? [];
+}
 
-        
+// Set shopping cart
+function set_cart($cart = []) {
+    $_SESSION['cart'] = $cart;
+}
+
+// Update shopping cart
+function update_cart($productID, $quantity) {
+    global $_db;
+
+    // Ensure userID exists
+    $userID = $_SESSION['userID'] ?? null;
+    if (!$userID) return;
+
+    if ($quantity >= 1 && $quantity <= 10) {
+        // Update quantity
+        $sql = "UPDATE cart SET quantity = ? WHERE productID = ? AND userID = ?";
+        $stmt = $_db->prepare($sql);
+        $stmt->execute([$quantity, $productID, $userID]);
+    } else {
+        // Remove item
+        $sql = "DELETE FROM cart WHERE productID = ? AND userID = ?";
+        $stmt = $_db->prepare($sql);
+        $stmt->execute([$productID, $userID]);
+    }
+}
+

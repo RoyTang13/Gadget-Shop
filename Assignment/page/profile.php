@@ -5,6 +5,7 @@
     include '../_head.php';
     show_popup();
 
+
     $userID = $_SESSION['userID'];
 
     $stm = $_db->prepare("SELECT * FROM user WHERE userID = ?");
