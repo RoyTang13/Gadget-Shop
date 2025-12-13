@@ -18,7 +18,7 @@
     </label>
     <div class="sidebar">
         <header>TechNest</header>
-        <p style= "color:white" >Hello, Admin</p>
+        <p style= "color:white" class="text-center">Hello, Admin</p>
         <ul>
             <li><a href="../admin/admin_dashboard.php"><i class='fas fa-qrcode'></i>Dashboards</a></li>
             <li><a href="../admin/product_list.php"><i class='fa fa-headphones'></i>Products</a></li>

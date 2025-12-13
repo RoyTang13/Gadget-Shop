@@ -2,10 +2,31 @@
 require '../_base.php';
 $_title = 'user List';
 include 'admin_head.php';
+// make sure only logged-in admins can access this page
+if (!isset($_SESSION['adminID'])) {
+    header('Location: index.php');
+    exit;
+}
+
+// Functionable Sorting
+$order = "userID ASC";
+// Default sorting by userID ascending
+if (!empty($_GET['sort_name'])) {
+    $order = "userName " . ($_GET['sort_name'] === 'desc' ? "DESC" : "ASC");
+}
+
+// Build the final query
+$sql = "SELECT userID, fname, lname, email, userPhoto, phoneNo FROM user";  
+$sql .= " ORDER BY $order";
+$stm = $_admin_db->query("
+    SELECT userID, fname, lname, email, userPhoto, phoneNo FROM user 
+    ORDER BY userID ASC
+");
 ?>
 <section>
 <main>
-    <h1>User List</h1>
+    <h1 class="text-center">User List</h1>
+    <p class="text-center"><?= $stm->rowCount() ?> user(s)</p>
     <table class ="table">
         <thead>
             <tr>

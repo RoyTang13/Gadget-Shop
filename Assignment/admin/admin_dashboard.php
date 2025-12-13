@@ -4,6 +4,12 @@ require '../_base.php';
 
 $_title = 'Admin Dashboard';
 include 'admin_head.php';
+
+// make sure only logged-in admins can access this page
+if (!isset($_SESSION['adminID'])) {
+    header('Location: index.php');
+    exit;
+}
 ?>
 
 <body>
@@ -12,6 +18,7 @@ include 'admin_head.php';
     <div class="dashboard-wrapper">
         <div class="dashboard-container">
         <div class="card">
+            <a href="../admin/user_list.php">
                 <h3>Total Users</h3>
                 <p>
                 <?php
@@ -20,8 +27,10 @@ include 'admin_head.php';
                     $count = $stm->fetchColumn();
                     echo $count ?: 0;
                 ?></p>
+            </a>
             </div>
             <div class="card">
+                <a href="../admin/product_list.php">
                 <h3>Total Products</h3>
                 <p>
                 <?php
@@ -31,6 +40,7 @@ include 'admin_head.php';
                     echo $count ?: 0;
                 ?>
                 </p>
+                </a>
             </div>
             <div class="card">
                 <h3>Revenue</h3>
