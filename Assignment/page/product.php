@@ -1,6 +1,9 @@
 
 <?php
 require '../_base.php';
+$_title = 'Product | TechNest';
+
+ include '../_head.php';
 
 $where = [];
 $params = [];
@@ -124,225 +127,251 @@ function buildQueryString(array $overrides = []): string {
 
     return $parts ? '?' . implode('&', $parts) : '';
 }
-
-$_title = 'Product | TechNest';
-
-include '../_head.php';
 ?>
-
-<div class = "browser">
-<form method = "get" action = "product.php">
-    <div class = "search">
-
-        <!-- Connection Filter -->
-        <div class = "dropdown">
-            <button class = "dropbtn">🔌Connection</button>
-            <div class = "dropdown-content">
-                <label><input type = "checkbox" name = "connectivity[]" value = "wired"> Wired</label>
-                <label><input type = "checkbox" name = "connectivity[]" value = "wireless"> Wireless</label>
-            </div>
-        </div>
-
-        <!-- Fit Type Filter -->
-        <div class = "dropdown">         
-            <button class = "dropbtn">🎧Fit Type</button>
-            <div class = "dropdown-content">
-                <label><input type = "checkbox" name = "design[]" value = "in-ear"> In-ear</label>
-                <label><input type = "checkbox" name = "design[]" value = "over-ear"> Over-ear</label>
-            </div>              
-        </div>
-
-        <!-- Acoustic Filter -->
-        <div class = "dropdown">            
-            <button class = "dropbtn">🎶Acoustic</button>
-            <div class = "dropdown-content">
-                <label><input type = "checkbox" name = "acoustic[]" value = "noise-canceled"> Noise-canceled</label>
-                <label><input type = "checkbox" name = "acoustic[]" value = "balanced"> Balanced</label>
-                <label><input type = "checkbox" name = "acoustic[]" value = "clear vocals"> Clear Vocals</label>
-            </div>
-        </div>
-
-        <!-- Price Range Filter -->
-        <div class = "dropdown">
-            <button class = "dropbtn">Price Range</button>
-            <div class = "dropdown-content">
-
-                <!-- Fixed Price Range -->
-                <div class = "dropdown-row">
-                    <span>Quick Select</span>
-                    <div class = "dropdown-subcontent">
-                        <label><input type = "radio" name = "fixedPrice" value = "0.01-300.00">RM 0.01 - RM 300.00</label>
-                        <label><input type = "radio" name = "fixedPrice" value = "300.01-600.00">RM 300.01 - RM 600.00</label>
-                        <label><input type = "radio" name = "fixedPrice" value = "600.01-900.00">RM 600.01 - RM 900.00</label>
-                        <label><input type = "radio" name = "fixedPrice" value = "900.01-1200.00">RM 900.01 - RM 1200.00</label>
-                    </div>
-                </div>
-
-                <!-- Custom Price Input -->
-                <div class = "dropdown-row"> 
-                    <span>Custom Range</span>
-                    <div class = "dropdown-subcontent" style = "padding: 10px 15px;">
-                        <label>Minimum (RM): <input type = "number" 
-                                                    id = "customMin" 
-                                                    name = "customMin"
-                                                    min = "0.01" 
-                                                    step = "0.01" 
-                                                    placeholder = "Start 0.01" 
-                                                    style = "width: 100px;">
-                        </label>
-                        <label style = "margin-top: 8px;">Maximum (RM): <input type = "number" 
-                                                                               id = "customMax" 
-                                                                               name = "customMax"
-                                                                               min = "0.01" 
-                                                                               step = "0.01" 
-                                                                               placeholder = "Start 0.02"
-                                                                               style = "width: 100px;">
-                        </label>
-                        <button id = "applyCustomPrice" style = "margin-top: 10px;">Apply</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class = "search_bar">
-                <input type = "search"
-                    name = "search" 
-                    placeholder = "Type the product name..." 
-                    value = "<?= ($_GET['search'] ?? '') ?>"
-                    class = "search_bar-font"
-                    >        
-            <button type = "Submit" class = "search_bar-button">Search</button>
-        </div>
-    </div>
-</div>
-
-<!-- Script for custom price function -->
-<script>
-    // When clicking fixed range, clear custom inputs
-    document.querySelectorAll("input[name = 'fixedPrice']").forEach(radio => {
-        radio.addEventListener("change", () => {
-            document.getElementById("customMin").value = "";
-            document.getElementById("customMax").value = "";
-        });
-    });
-
-    // When applying custom range, clear fixed selection
-    document.getElementById("applyCustomPrice").addEventListener("click", () => {
-        let min = document.getElementById("customMin").value;
-        let max = document.getElementById("customMax").value;
-
-        if (min === "" || max === "") {
-            // Warning for applied failure: Empty Input
-            alert("Please enter both minimum and maximum values.");
-        }
-        else if (parseFloat(min) >= parseFloat(max)) {
-            // Warning for applied failure: Minimum > Maximum
-            alert("Minimum price cannot be greater or equal to maximum price.");
-        }
-        else if (min <= 0.00 ||min >= 1000.00){
-            // Warning for applied failure: Minimum input wrongly
-            alert("Please input minimum price correctly.");
-        }
-        else if (max <= 0.01 ||max > 1000.00){
-            // Warning for applied failure: Maximum input wrongly
-            alert("Please input maximum price correctly.");
-        }
-        else{
-            // Clear fixed radios
-            document.querySelectorAll("input[name = 'fixedPrice']").forEach(r => r.checked = false);
-
-            // Notice for applied success
-            alert("Custom price applied: RM " + min + " - RM " + max);
-            return;
-        }
-    });
-</script>
-
-<!-- Sort Bar + Paging -->
-<div class = "sort_bar">
-    <div class = "sorting_left">
-        <?php
-            // Toggle for name sort
-            $currentName = $_GET['sort_name'] ?? null;
-            $nextName = ($currentName === 'asc') ? 'desc' : 'asc';
-
-            // Toggle for price sort
-            $currentPrice = $_GET['sort_price'] ?? null;
-            $nextPrice = ($currentPrice === 'asc') ? 'desc' : 'asc';
-        ?>
-        <h5>Sorting By: </h5>
-
-        <!-- Sort by Name button -->
-        <a href = "product.php<?= buildQueryString(['sort_name' => $nextName, 'sort_price' => null, 'page' => 1]) ?>" class = "sort-btn">
-            Name <?= $nextName === 'asc' ? '⇓' : '⇑' ?>
-        </a>
-        
-        <!-- Sort by Price button -->
-        <a href = "product.php<?= buildQueryString(['sort_price' => $nextPrice, 'sort_name' => null, 'page' => 1]) ?>" class = "sort-btn">
-            Price <?= $nextPrice === 'asc' ? '⇓' : '⇑' ?>
-        </a>
-    </div>
-
-    <div class = "sorting_right">
-        <!-- Paging with textable page number -->
-        <div class = "pagination">
-            <button class = "pagination-btn" id = "prevBtn" type="button">‹</button>
-            <input type = "number" 
-                   id = "pageInput" 
-                   class = "page-input" 
-                   min = "1" 
-                   value = "<?= $page ?>"
-                   placeholder = "Page">
-            <button class = "pagination-btn" id = "nextBtn" type="button">›</button>
-        </div>
-    </div>
-</div>
-</form>
-
-<!-- Product Photo with Name and Price-->
-<div class = "gallery">
-<?php foreach ($arr as $p): ?>
-    <div class = "gallery-item">
-        <div class = "content">
-            <img src = "/photos/<?= $p->productPhoto ?>
-            " alt = "<?= htmlspecialchars($p->productName) ?>">
-            <div class = "tag">
-                <div class = "tag1">
-                    <span><?= htmlspecialchars($p->productCat1) ?></span>
-                </div>
-
-                <div class = "tag2">
-                    <span><?= htmlspecialchars($p->productCat2) ?></span>
-                </div>
-
-                <div class = "tag3">
-                    <span><?= htmlspecialchars($p->productCat3) ?></span>
-                </div>
-            </div>
-
-            <div class = "name">
-                <a href = "/page/product_page.php?name=<?= urlencode($p->productName) ?>">
-                    <?= htmlspecialchars($p->productName) ?>
-                </a>
-            </div>
-
-            <div class = "price_wishlist">
-                <div class = "price">
-                    RM <?= number_format($p->productPrice, 2) ?>
-                </div>
-
-                <button class = "wishlist">Wishlist</button>
-            </div>
-        </div>
-    </div>
-<?php endforeach; ?>
-</div>
 
 <style>
 
+  /* Search Bar */
+  .search-box {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-box input {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+    width: 200px;
+  }
+
+  .search-box button {
+    padding: 8px 14px;
+    border: none;
+    background-color: #ff6f61;
+    color: #fff;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    z-index: 100;
+
+  }
+
+  /* Hero Banner */
+  .banner {
+    background-image: url("/images/banner3.png");
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+  }
+
+  /* Main Content */
+  .product-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding:0 20px;
+    flex: 1;
+  }
+
+  /* Filters & Sorting */
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+
+  }
+
+  .filters .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+/* Ensure the product grid uses a flexible layout */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px; 
+  padding: 10px;
+
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  height: 400px; /* fixed height for consistency */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: box-shadow 0.3s, border-color 0.3s;
+  overflow: hidden; 
+  cursor: pointer;
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  max-height: 300px;
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* subtle shadow on hover */
+  border-color: #ff6f61; /* change border color on hover */
+}
+
+
+/* Make the card-body flexible so the button stays at the bottom */
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* pushes content to top and bottom */
+  padding: 10px; /* optional for padding inside the card */
+}
+
+/* Adjust product name and price spacing */
+.product-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  line-height: 1.2; /* Better line spacing */
+  height: 40px; 
+  line-height: 20px; 
+}
+
+.price {
+  color: #ff6f61;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+/* Actions button spacing and styling */
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto; /* push it to the bottom of flex container */
+}
+
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.btn-add {
+  background-color: #ff6f61;
+  color: #fff;
+}
+
+.btn-add:hover {
+  background-color: #e55b50;
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px; /* space between sidebar and products */
+}
+
+.filter-sidebar {
+  flex: 0 0 250px; /* fixed width sidebar */
+  max-width: 250px;
+  padding: 20px;
+  background-color: #f5f5f5; /* optional background */
+  border-radius: 8px; /* optional rounded corners */
+}
+
 </style>
-
-
 <script>
 
 </script>
+<body>
+<main >
+<!-- Hero Banner -->
+<div class="banner">
+</div>
+
+<!-- Main Content -->
+ <div class="layout-container">
+<div id="filterSidebar" class="filter-sidebar">
+  <h3>Filters</h3>
+  <form id="filterForm" method="get" action="/product/page.php">
+    <!-- Type filters -->
+    <div>
+      <h4>🔌Connection</h4>
+      <label><input type="checkbox" name="connectivity[]" value = "wired"  <?= in_array('Type1', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wired</label><br>
+      <label><input type="checkbox" name="connectivity[]" value = "wireless"  <?= in_array('Type2', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wireless</label><br>
+    </div>
+      <!-- Fit Type -->
+      <div>
+      <h4>🎧Fit Type</h4>
+      <label><input type = "checkbox" name = "design[]" value = "in-ear"<?= in_array('in-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> In-ear</label><br>
+      <label><input type="checkbox" name="design[]" value="over-ear" <?= in_array('over-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> Over-ear</label><br>
+    </div>
+    <!-- Acoustic -->
+    <div>
+      <h4>🎶Acoustic</h4>
+      <label><input type="checkbox" name="acoustic[]" value="noise-canceled" <?= in_array('noise-canceled', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Noise-canceled</label><br>
+      <label><input type="checkbox" name="acoustic[]" value="balanced" <?= in_array('balanced', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Balanced</label><br>
+      <label><input type="checkbox" name="acoustic[]" value="clear vocals" <?= in_array('clear vocals', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Clear Vocals</label><br>
+    </div>
+
+    <!-- Price Range -->
+    <div style="margin-top:15px;">
+      <h4>Price</h4>
+      <input type="number" name="priceMin" placeholder="Min" value="<?= $_GET['priceMin'] ?? '' ?>" style="width:80px;">
+      <input type="number" name="priceMax" placeholder="Max" value="<?= $_GET['priceMax'] ?? '' ?>" style="width:80px;">
+    </div>
+    <div style="margin-top:15px;">
+      <button type="submit">Apply Filters</button>
+    </div>
+  </form>
+</div>
+
+<div class="product-container">
+  <!-- Filters & Sorting -->
+  <div class="filters">
+    <div class="filter-group">
+      <label for="category">Category:</label>
+      <select id="category">
+        <option>All</option>
+        <option>Clothing</option>
+        <option>Electronics</option>
+        <option>Home</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="sort">Sort by:</label>
+      <select id="sort">
+        <option>Price: Low to High</option>
+        <option>Price: High to Low</option>
+        <option>Newest</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Product Grid -->
+<div class="product-grid">
+<?php foreach ($arr as $p): ?>
+  <div class="product-card">
+      <img src="/photos/<?= $p->productPhoto ?>" alt="<?= htmlspecialchars($p->productName) ?>">
+      <div class="card-body">
+          <div class="product-name"><?= htmlspecialchars($p->productName) ?></div>
+          <div class="price">RM <?= number_format($p->productPrice, 2) ?></div>
+          <div class="actions">
+              <button class="btn btn-add">Add to Cart</button>
+          </div>
+      </div>
+  </div>
+<?php endforeach; ?>
+</div>
+</div>
+
+</main>
+</body>
+</html>
