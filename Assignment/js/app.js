@@ -123,3 +123,8 @@ $(() => {
         document.querySelector('.product_container').classList.toggle('shifted');
     });
 });
+
+// Show the modal
+$('#myModal').modal('show');
+// Hide the modal
+$('#myModal').modal('hide');

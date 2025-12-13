@@ -21,8 +21,7 @@ CREATE TABLE `product` (
   `productCat1` enum('Wired','Wireless') NOT NULL,
   `productCat2` enum('In-Ear','Over-Ear') NOT NULL,
   `productCat3` enum('Noise-Canceled','Balanced','Clear Vocals') NOT NULL,
-  `productPhoto` varchar(100) NOT NULL,
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `productPhoto` varchar(100) NOT NULL )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `product` (`productID`, `productName`, `productPrice`, `productDesc`, `productQty`, `productCat1`, `productCat2`, `productCat3`, `productPhoto`) VALUES
 ('1', 'Backwin Brand Wired Earbuds', '27.00', '- Wired earbuds with dynamic bass boost provide you with an immersive music experience. The high notes of music will not break, while the low notes are strong and powerful\r\n\r\n- 3.5mm in ear headphones with high-definition microphone on one side of the line\r\n\r\n- CNC metal processing shell and curved handle give design\r\n\r\n- Equipped with interchangeable large, medium, and small L/M/S earplugs.\r\n\r\n- Durable cables increase the lifespan of wired earphones', 150, 'Wired', 'In-Ear', 'Noise-Canceled', '692bb9e0d7537.jpg'),

@@ -132,6 +132,12 @@ session_start();
     function html_file($key, $accept = '', $attr = '') {
         echo "<input type='file' id='$key' name='$key' accept='$accept' $attr>";
     }
+    // Generate <input type='hidden'>
+    function html_hidden($key) {
+        $value = encode($GLOBALS[$key] ?? '');
+        echo "<input type='hidden' id='$key' name='$key' value='$value'>";
+    }
+
 
     // ============================================================================
     // Error Handlings
