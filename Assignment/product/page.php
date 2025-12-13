@@ -147,8 +147,8 @@ include '../_head.php';
         <div class = "dropdown">         
             <button class = "dropbtn">🎧Fit Type</button>
             <div class = "dropdown-content">
-                <label><input type = "checkbox" name = "design[]" value = "in-ear"> In-ear</label>
-                <label><input type = "checkbox" name = "design[]" value = "over-ear"> Over-ear</label>
+            <label><input type="checkbox" name="design[]" value="in-ear" <?= in_array('in-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> In-ear</label><br>
+            <label><input type="checkbox" name="design[]" value="over-ear" <?= in_array('over-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> Over-ear</label><br>
             </div>              
         </div>
 

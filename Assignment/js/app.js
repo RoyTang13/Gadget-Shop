@@ -61,7 +61,7 @@ $(() => {
             e.stopPropagation(); // Prevent closing immediately
             $(this).siblings('.dropdown-content').toggleClass('show');
         });
-        
+
         // Close dropdown if clicked outside
         $(document).click(function () {
             $('.dropdown-content').removeClass('show');
@@ -69,25 +69,25 @@ $(() => {
     });
 
     // Attach a click event to the "Previous" button
-    document.getElementById('prevBtn').addEventListener('click', function() {
+    document.getElementById('prevBtn').addEventListener('click', function () {
         const input = document.getElementById('pageInput');
         const current = parseInt(input.value) || 1;
-        if (current > 1) 
+        if (current > 1)
             input.value = current - 1;
     });
 
     // Attach a click event to the "Next" button
-    document.getElementById('nextBtn').addEventListener('click', function() {
+    document.getElementById('nextBtn').addEventListener('click', function () {
         const input = document.getElementById('pageInput');
         input.value = parseInt(input.value) + 1;
         document.querySelector('.pagination').closest('form').submit();
     });
 
     // Attach a keypress event to the page input
-    document.getElementById('pageInput').addEventListener('keypress', function(e) {
+    document.getElementById('pageInput').addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
             // Trigger page load with the entered page number
-        console.log('Navigate to page:', this.value);
+            console.log('Navigate to page:', this.value);
         }
     });
 
@@ -112,6 +112,15 @@ $(() => {
             img.src = img.dataset.src;
             e.target.value = '';
         }
+    });
+
+    const filterBtn = document.getElementById('filterToggle');
+    const filterSidebar = document.getElementById('filterSidebar');
+    const productContainer = document.querySelector('.product-container');
+
+    filterBtn.addEventListener('click', () => {
+        filterSidebar.classList.toggle('active');
+        document.querySelector('.product_container').classList.toggle('shifted');
     });
 });
 
