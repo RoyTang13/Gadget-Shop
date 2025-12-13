@@ -166,7 +166,7 @@ function buildQueryString(array $overrides = []): string {
     .product-container {
         max-width: 1200px;
         margin: 40px auto;
-        padding:0 20px;
+        padding: 0 20px;
         flex: 1;
     }
 
@@ -207,6 +207,7 @@ function buildQueryString(array $overrides = []): string {
 
     /* Ensure the product grid uses a flexible layout */
     .product-grid {
+        border: 3px solid #ffa69eff;
         display: grid;
         grid-template-columns: repeat(4, minmax(220px, 1fr));
         gap: 30px; 
@@ -234,8 +235,8 @@ function buildQueryString(array $overrides = []): string {
     }
 
     .product-card:hover {
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* subtle shadow on hover */
-        border-color: #ff6f61; /* change border color on hover */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); 
+        border-color: #ff6f61; 
     }
 
     /* Make the card-body flexible so the button stays at the bottom */
@@ -243,8 +244,8 @@ function buildQueryString(array $overrides = []): string {
         flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-between; /* pushes content to top and bottom */
-        padding: 10px; /* optional for padding inside the card */
+        justify-content: space-between;
+        padding: 10px; 
     }
 
     /* Adjust product tag styling */
@@ -299,7 +300,7 @@ function buildQueryString(array $overrides = []): string {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: auto; /* push it to the bottom of flex container */
+        margin-top: auto;
     }
 
     .btn {
@@ -323,15 +324,30 @@ function buildQueryString(array $overrides = []): string {
     .layout-container {
         display: flex;
         flex-direction: row;
-        gap: 20px; /* space between sidebar and products */
+        gap: 20px;
     }
 
     .filter-sidebar {
-        flex: 0 0 250px; /* fixed width sidebar */
+        flex: 0 0 250px;
         max-width: 250px;
         padding: 20px;
-        background-color: #f5f5f5; /* optional background */
-        border-radius: 8px; /* optional rounded corners */
+        background-color: #f5f5f5;
+        border: 2.6px solid #ff6f61;
+        border-radius: 8px;
+    }
+
+    .filter-sidebar h3 {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .filter-sidebar h4 {
+        text-decoration: underline;
+    }
+
+    .filter-sidebar h3, .filter-sidebar h4, 
+    .filter-sidebar input, .filter-sidebar label, .filter-sidebar button {
+        font-family: 'Courier New', Courier, monospace;
     }
 
     /* Paging button */
@@ -362,6 +378,7 @@ function buildQueryString(array $overrides = []): string {
         color: #560065;
         cursor: text;
         text-align: center;
+        font-family: 'Courier New', Courier, monospace;
     }
 
     /* After hover the page input */
@@ -387,37 +404,37 @@ function buildQueryString(array $overrides = []): string {
 <!-- Main Content -->
 <div class = "layout-container">
     <div id = "filterSidebar" class = "filter-sidebar">
-    <h3>Filters</h3>
-    <form id = "filterForm" method = "get" action = "/product/product.php">
+        <h3>Filters</h3>
+        <form id = "filterForm" method = "get" action = "/product/product.php">
 
         <!-- Type filters -->
         <div>
             <h4>🔌Connection</h4>
-            <label><input type = "checkbox" name = "connectivity[]" value = "wired"  <?= in_array('Type1', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wired</label><br>
-            <label><input type = "checkbox" name = "connectivity[]" value = "wireless"  <?= in_array('Type2', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wireless</label><br>
+            <label><input type = "checkbox" name = "connectivity[]" value = "wired"  <?= in_array('Type1', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wired</label><br><br>
+            <label><input type = "checkbox" name = "connectivity[]" value = "wireless"  <?= in_array('Type2', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wireless</label><br><br>
         </div>
 
         <!-- Fit Type -->
         <div>
         <h4>🎧Fit Type</h4>
-            <label><input type = "checkbox" name = "design[]" value = "in-ear"<?= in_array('in-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> In-ear</label><br>
-            <label><input type = "checkbox" name = "design[]" value = "over-ear" <?= in_array('over-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> Over-ear</label><br>
+            <label><input type = "checkbox" name = "design[]" value = "in-ear"<?= in_array('in-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> In-ear</label><br><br>
+            <label><input type = "checkbox" name = "design[]" value = "over-ear" <?= in_array('over-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> Over-ear</label><br><br>
         </div>
 
         <!-- Acoustic -->
         <div>
             <h4>🎶Acoustic</h4>
-            <label><input type = "checkbox" name = "acoustic[]" value = "noise-canceled" <?= in_array('noise-canceled', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Noise-canceled</label><br>
-            <label><input type = "checkbox" name = "acoustic[]" value = "balanced" <?= in_array('balanced', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Balanced</label><br>
-            <label><input type = "checkbox" name = "acoustic[]" value = "clear vocals" <?= in_array('clear vocals', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Clear Vocals</label><br>
+            <label><input type = "checkbox" name = "acoustic[]" value = "noise-canceled" <?= in_array('noise-canceled', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Noise-canceled</label><br><br>
+            <label><input type = "checkbox" name = "acoustic[]" value = "balanced" <?= in_array('balanced', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Balanced</label><br><br>
+            <label><input type = "checkbox" name = "acoustic[]" value = "clear vocals" <?= in_array('clear vocals', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Clear Vocals</label><br><br>
         </div>
 
         <!-- Price Range -->
         <div style = "margin-top:15px;">
             <h4>Price</h4>
-            <label><input type = "radio" name = "fixedPrice" value = "0.01-300.00">RM 0.01 - RM 300.00</label><br>
-            <label><input type = "radio" name = "fixedPrice" value = "300.01-600.00">RM 300.01 - RM 600.00</label><br>
-            <label><input type = "radio" name = "fixedPrice" value = "600.01-900.00">RM 600.01 - RM 900.00</label><br>
+            <label><input type = "radio" name = "fixedPrice" value = "0.01-300.00">RM 0.01 - RM 300.00</label><br><br>
+            <label><input type = "radio" name = "fixedPrice" value = "300.01-600.00">RM 300.01 - RM 600.00</label><br><br>
+            <label><input type = "radio" name = "fixedPrice" value = "600.01-900.00">RM 600.01 - RM 900.00</label><br><br>
             <label><input type = "radio" name = "fixedPrice" value = "900.01-1200.00">RM 900.01 - RM 1200.00</label><br><br>
         <input type = "number" name = "priceMin" min = 0.01 max = 1199.99 step = 0.01 placeholder = "Min" value = "<?= $_GET['priceMin'] ?? '' ?>" style = "width: 100px;">
         <input type = "number" name = "priceMax" min = 0.02 max = 1200.00 step = 0.02 placeholder = "Max" value = "<?= $_GET['priceMax'] ?? '' ?>" style = "width: 100px;">
@@ -487,94 +504,101 @@ function buildQueryString(array $overrides = []): string {
                 </div>
             </div>
         </div>
-
-    <script>
-        window.addEventListener('load', function() {
-            // Handle sorting dropdown change
-            const sortSelect = document.getElementById('sort');
-            if (sortSelect) {
-                sortSelect.addEventListener('change', function() {
-                    const value = this.value;
-                    let overrides = { page: 1 };  // Always reset to page 1 on sort change
-
-                    if (value === 'price-asc') {
-                        overrides.sort_price = 'asc';
-                        overrides.sort_name = null;  // Clear name sort
-                    } 
-                    else if (value === 'price-desc') {
-                        overrides.sort_price = 'desc';
-                        overrides.sort_name = null;
-                    } 
-                    else if (value === 'name-asc') {
-                        overrides.sort_name = 'asc';
-                        overrides.sort_price = null;  // Clear price sort
-                    }       
-                    else if (value === 'name-desc') {
-                        overrides.sort_name = 'desc';
-                        overrides.sort_price = null;
-                    }
-
-                    // Build new URL preserving filters/search using URLSearchParams
-                    const params = new URLSearchParams(window.location.search);
-                
-                    // Apply overrides
-                    for (const [key, val] of Object.entries(overrides)) {
-                        if (val === null) {
-                            params.delete(key);
-                        }  
-                        else if (Array.isArray(val)) {
-                            params.delete(key);
-                            val.forEach(v => params.append(key, v));
-                        }  
-                        else {
-                            params.set(key, val);
-                        }
-                    }
-
-                    const newUrl = window.location.pathname + '?' + params.toString();
-                    window.location.href = newUrl;
-                });
-            }
-
-            // Handle pagination: preserve all filters/sorts
-            function goToPage(n) {
-                const params = new URLSearchParams(window.location.search);
-                params.set('page', String(Math.max(1, parseInt(n) || 1)));
-                window.location.href = window.location.pathname + '?' + params.toString();
-            }
-
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const pageInput = document.getElementById('pageInput');
-
-            if (prevBtn) {
-                prevBtn.addEventListener('click', function() {
-                    const current = parseInt(pageInput.value) || 1;
-                    if (current > 1) goToPage(current - 1);
-                });
-            }
-
-            if (nextBtn) {
-                nextBtn.addEventListener('click', function() {
-                        const current = parseInt(pageInput.value) || 1;
-                    goToPage(current + 1);
-                });
-            }
-
-            if (pageInput) {
-                pageInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        goToPage(this.value);
-                    }
-                });
-            }
-        });
-    </script>
-
     <?php endforeach; ?>
     </div>
 </div>
+
+<script>
+    window.addEventListener('load', function() {
+        // Handle sorting dropdown change
+        const sortSelect = document.getElementById('sort');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function() {
+                const value = this.value;
+                let overrides = { page: 1 };  // Always reset to page 1 on sort change
+
+                if (value === 'price-asc') {
+                    overrides.sort_price = 'asc';
+                    overrides.sort_name = null;  // Clear name sort
+                } 
+                else if (value === 'price-desc') {
+                    overrides.sort_price = 'desc';
+                    overrides.sort_name = null;
+                } 
+                else if (value === 'name-asc') {
+                    overrides.sort_name = 'asc';
+                    overrides.sort_price = null;  // Clear price sort
+                }       
+                else if (value === 'name-desc') {
+                    overrides.sort_name = 'desc';
+                    overrides.sort_price = null;
+                }
+
+                // Build new URL preserving filters/search using URLSearchParams
+                const params = new URLSearchParams(window.location.search);
+                
+                // Apply overrides
+                for (const [key, val] of Object.entries(overrides)) {
+                    if (val === null) {
+                        params.delete(key);
+                    }  
+                    else if (Array.isArray(val)) {
+                        params.delete(key);
+                        val.forEach(v => params.append(key, v));
+                    }  
+                    else {
+                        params.set(key, val);
+                    }
+                }
+
+                const newUrl = window.location.pathname + '?' + params.toString();
+                window.location.href = newUrl;
+            });
+        }
+
+        // Handle pagination: preserve all filters/sorts
+        function goToPage(n) {
+            // Disable buttons to prevent multiple clicks
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageInput = document.getElementById('pageInput');
+            if (prevBtn) prevBtn.disabled = true;
+            if (nextBtn) nextBtn.disabled = true;
+            if (pageInput) pageInput.disabled = true;
+
+            const params = new URLSearchParams(window.location.search);
+            params.set('page', String(Math.max(1, parseInt(n) || 1)));
+            window.location.href = window.location.pathname + '?' + params.toString();
+        }
+
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageInput = document.getElementById('pageInput');
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                const current = parseInt(pageInput.value) || 1;
+                if (current > 1) goToPage(current - 1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                const current = parseInt(pageInput.value) || 1;
+                goToPage(current + 1);
+            });
+        }
+
+        if (pageInput) {
+            pageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    goToPage(this.value);
+                }
+            });
+        }
+    });
+</script>
 
 </main>
 </body>
