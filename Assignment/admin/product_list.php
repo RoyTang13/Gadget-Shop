@@ -308,11 +308,10 @@ function buildQueryString(array $overrides = []): string {
                 <th>ID</th>
                 <th>Photo</th>
                 <th>Name</th>
-                <th>Description</th>
                 <th>Categories</th>
                 <th>Price(RM)</th>
                 <th>Stock quantity </th>
-                <th class="text-center" colspan="2">Actions</th>
+                <th class="text-center" colspan="3">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -322,19 +321,6 @@ function buildQueryString(array $overrides = []): string {
               echo "<td>" . htmlspecialchars($product->productID) . "</td>";
               echo "<td><img src=\"/photos/" . htmlspecialchars($product->productPhoto) . "\" alt=\"Product Photo\" style=\"max-width:100px; max-height:100px;\"></td>";
               echo "<td>" . htmlspecialchars($product->productName) . "</td>";
-
-             $desc = $product->productDesc ?? '';
-              $short = mb_substr($desc, 0, 100); // Show first 100 characters
-              $needs_more = mb_strlen($desc) > 100; // Check if full description is longer
-              echo '<td>';
-              echo '<div class="desc" id="desc-' . htmlspecialchars($product->productID) . '">';
-              echo '<span class="desc-short">' . htmlspecialchars($short) . ($needs_more ? '...' : '') . '</span>';
-              if ($needs_more) {
-                echo '<span class="desc-full">' . htmlspecialchars($desc) . '</span> ';
-                echo '<button type="button" class="show-more" data-id="' . htmlspecialchars($product->productID) . '">Show more</button>';
-              }
-             echo '</div>';
-              echo '</td>';
 
               $cats = array_filter([$product->productCat1, $product->productCat2, $product->productCat3]);
               echo '<td><ul class="cats-list">';
@@ -352,31 +338,35 @@ function buildQueryString(array $overrides = []): string {
             ?>
         </tbody>
     </table>
-  <td> <button class ="button"><a href="../product/Create.php" class="button">Add Product</a></button></td>
+  <td> <button class ="button"><a href="../admin/product_add.php" class="button">Add Product</a></button></td>
 </main>
 </section>
-
-<!-- Script for Paging buttons -->
 <script>
-document.addEventListener('click', function(e){
-    if (!e.target.matches('.show-more')) return;
-    var btn = e.target;
-    var id = btn.getAttribute('data-id');
-    var container = document.getElementById('desc-' + id);
-    if (!container) return;
-    var shortEl = container.querySelector('.desc-short');
-    var fullEl = container.querySelector('.desc-full');
-    if (!fullEl) return;
-    if (fullEl.style.display === 'none' || fullEl.style.display === '') {
-        fullEl.style.display = 'inline';
-        shortEl.style.display = 'none';
-        btn.textContent = 'Show less';
-    } else {
-        fullEl.style.display = 'none';
-        shortEl.style.display = 'inline';
-        btn.textContent = 'Show more';
-    }
-});
+    // Paging Script
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageInput = document.getElementById('pageInput');
+
+    prevBtn.addEventListener('click', () => {
+        let currentPage = parseInt(pageInput.value);
+        if (currentPage > 1) {
+            currentPage--;
+            window.location.href = "/admin/product_list.php<?= buildQueryString(['page' => '']) ?>&page=" + currentPage;
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        let currentPage = parseInt(pageInput.value);
+        currentPage++;
+        window.location.href = "/admin/product_list.php<?= buildQueryString(['page' => '']) ?>&page=" + currentPage;
+    });
+
+    pageInput.addEventListener('change', () => {
+        let desiredPage = parseInt(pageInput.value);
+        if (desiredPage >= 1) {
+            window.location.href = "/admin/product_list.php<?= buildQueryString(['page' => '']) ?>&page=" + desiredPage;
+        }
+    });
 </script>
 </body>
 </html>
@@ -428,7 +418,7 @@ document.addEventListener('click', function(e){
     /* Adjust dropdown position */
     .browser .search .dropdown {
         position: relative;
-        z-index: 10;
+        z-index: 7;
     }
 
     /* Style the dropdown button */
@@ -573,7 +563,7 @@ document.addEventListener('click', function(e){
         background-color: #440552d5;
         background-position: top;
         top: 155px;
-        z-index: 8;
+        z-index: 5;
     }
 
     /* ---------------------------------------------- */
@@ -726,8 +716,5 @@ document.addEventListener('click', function(e){
       margin-bottom: 5px;
     }
     .table th, .table td { text-align: center; vertical-align: middle; }
-    .desc-short { display: inline; }
-    .desc-full { display: none; }
-    .show-more { background: none; border: none; color: #007bff; cursor: pointer; padding: 0; font-size: 0.95em; text-decoration: none; }
 </style>
 <?php include '../_foot.php'; ?>

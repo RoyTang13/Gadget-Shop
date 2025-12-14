@@ -25,7 +25,7 @@ $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$id || $id <= 0) {
     http_response_code(400);
     die('Invalid product ID');
-}
+} //
 
 // ================================
 // 3. FETCH PRODUCT SAFELY
