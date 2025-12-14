@@ -68,6 +68,37 @@ $(() => {
         });
     });
 
+    // Handle "Previous" button
+    document.getElementById('prevBtn').addEventListener('click', () => {
+        const input = document.getElementById('pageInput');
+        const currentPage = parseInt(input.value) || 1;
+        if (currentPage > 1) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('page', currentPage - 1);
+           window.location.href = url.toString();
+        }
+    });
+
+    // Handle "Next" button
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        const input = document.getElementById('pageInput');
+        const currentPage = parseInt(input.value) || 1;
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', currentPage + 1);
+        window.location.href = url.toString();
+    });
+
+    // Handle pressing Enter in the page input
+    document.getElementById('pageInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const page = parseInt(e.target.value);
+            const newPage = isNaN(page) || page < 1 ? 1 : page;
+            const url = new URL(window.location.href);
+            url.searchParams.set('page', newPage);
+            window.location.href = url.toString();
+        }
+    });
     window.closePopup = function () {
         const overlay = document.getElementById('popupOverlay');
         if (overlay) overlay.style.display = 'none';

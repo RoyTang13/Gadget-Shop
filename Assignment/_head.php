@@ -42,6 +42,12 @@
     <a href="/product/cart.php">Cart</a>
     <a href="/product/order_history.php">View History</a>
     <a href="/page/contactus.php">Contact Us</a>
+    <div class="search-box" style="margin-left:auto;">
+      <input type="text" placeholder="Search products..." />
+      <button>Search</button>
+</button>
+</button>
+    </div>
 </nav>
 
 <main>
