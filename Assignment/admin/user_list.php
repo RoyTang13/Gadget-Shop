@@ -8,6 +8,19 @@ if (!isset($_SESSION['adminID'])) {
     header('Location: index.php');
     exit;
 }
+// Functionable Sorting
+$order = "productID ASC";
+
+// Handle ID sorting
+if (!empty($currentIdSort)) {
+    $order = "userID " . ($currentIdSort === 'asc' ? "ASC" : "DESC");
+} elseif (!empty($currentFNameSort)) {
+    $order = "fname " . ($currentFNameSort === 'asc' ? "ASC" : "DESC");
+} elseif (!empty($currentLNameSort)) {
+    $order = "lname " . ($currentLNameSort === 'asc' ? "ASC" : "DESC");
+} else {
+    $order = "userID ASC"; // default
+}
 
 // Item per page
 $itemsPerPage = 10;
@@ -58,6 +71,41 @@ $stm->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stm->execute();
 
 $users = $stm->fetchAll(PDO::FETCH_ASSOC);
+function buildQueryString(array $overrides = []): string {
+    $keepKeys = [ 'sort_id', 'sort_fname', 'sort_lname', 'page'];
+    $parts = [];
+
+    foreach ($keepKeys as $key) {
+        // If override explicitly provided
+        if (array_key_exists($key, $overrides)) {
+            $val = $overrides[$key];
+            if ($val === null) {
+                continue; // remove this param
+            }
+            if (is_array($val)) {
+                foreach ($val as $v) {
+                    $parts[] = urlencode($key) . '[]=' . urlencode((string)$v);
+                }
+            } else {
+                $parts[] = urlencode($key) . '=' . urlencode((string)$val);
+            }
+            continue;
+        }
+
+        // Otherwise take from current GET if present
+        if (!isset($_GET[$key])) continue;
+        $val = $_GET[$key];
+        if (is_array($val)) {
+            foreach ($val as $v) {
+                $parts[] = urlencode($key) . '[]=' . urlencode((string)$v);
+            }
+        } else {
+            $parts[] = urlencode($key) . '=' . urlencode((string)$val);
+        }
+    }
+
+    return $parts ? '?' . implode('&', $parts) : '';
+}
 ?>
 
 <section>
@@ -70,6 +118,54 @@ $users = $stm->fetchAll(PDO::FETCH_ASSOC);
         <label for="search-input" class="visually-hidden">Search first name / last name / email:</label>
         <input id="search-input" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search first name / last name / email" type="text">
         <button type="submit">Search</button>
+        <!-- Sort Bar + Paging -->
+        <div class = "sort_bar">
+            <div class = "sorting_left">
+               <?php
+                 // Toggle for ID sort
+                  $currentIdSort = $_GET['sort_id'] ?? null;
+                 $nextIdSort = ($currentIdSort === 'asc') ? 'desc' : 'asc';
+
+                    // Toggle for first name sort
+                    $currentFNameSort = $_GET['sort_fname'] ?? null;
+                    $nextFNameSort = ($currentFNameSort === 'asc') ? 'desc' : 'asc';
+                    
+                    // Toggle for last name sort
+                    $currentLNameSort = $_GET['sort_lname'] ?? null;
+                    $nextLNameSort = ($currentLNameSort === 'asc') ? 'desc' : 'asc'
+                    ?>
+                <h5>Sorting By: </h5>
+
+                <!-- Sort by ID button -->
+                 <a href = "/admin/user_list.php<?= buildQueryString(['sort_id' => $nextIdSort, 'sort_fname' => null, 'sort_lname' => null, 'page' => 1]) ?>" class = "sort-btn">
+                    ID <?= $currentIdSort === 'asc' ? '⇓' : '⇑' ?>
+                </a>
+
+                <!-- Sort by First Name button -->
+                <a href = "/admin/user_list.php<?= buildQueryString(['sort_fname' => $nextFNameSort, 'sort_id' => null, 'sort_lname' => null,'page' => 1]) ?>" class = "sort-btn">
+                    First Name <?= $nextFNameSort === 'asc' ? '⇓' : '⇑' ?>
+                </a>
+
+                <!-- Sort by Last Name button -->
+                <a href = "/admin/user_list.php<?= buildQueryString(['sort_lname' => $nextLNameSort, 'sort_id' => null, 'sort_fname' => null,'page' => 1]) ?>" class = "sort-btn">
+                    Last Name <?= $nextLNameSort === 'asc' ? '⇓' : '⇑' ?>
+                </a>
+            </div>
+
+            <div class = "sorting_right">
+                   <!-- Paging with textable page number -->
+                <div class = "pagination">
+                 <button class = "pagination-btn" id = "prevBtn" type = "button">‹</button>
+                  <input type = "number" 
+                   id = "pageInput" 
+                   class = "page-input" 
+                   min = "1" 
+                   value = "<?= $page ?>"
+                   placeholder = "Page">
+                    <button class = "pagination-btn" id = "nextBtn" type = "button">›</button>
+               </div>
+            </div>
+        </div>
     </form>
 
     <!-- User Table -->
