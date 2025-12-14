@@ -47,8 +47,17 @@ if (!isset($_SESSION['adminID'])) {
                 <p>$3,200</p>
             </div>
             <div class="card">
-                <h3>New Orders</h3>
-                <p>18</p>
+                <a href="../admin/member_list.php">
+                <h3>Total Member</h3>
+                <p>
+                <?php
+                    global $_db;
+                    $stm = $_db->query("SELECT COUNT(*) FROM member");
+                    $count = $stm->fetchColumn();
+                    echo $count ?: 0;
+                ?>
+                </p>
+                </a>
             </div>
         </div>
 
@@ -58,3 +67,5 @@ if (!isset($_SESSION['adminID'])) {
 
 </body>
 </html>
+
+<?php include '../_foot.php'; ?>

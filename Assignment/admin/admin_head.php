@@ -23,9 +23,7 @@
             <li><a href="../admin/admin_dashboard.php"><i class='fas fa-qrcode'></i>Dashboards</a></li>
             <li><a href="../admin/product_list.php"><i class='fa fa-headphones'></i>Products</a></li>
             <li><a href="../admin/user_list.php"><i class='fa fa-address-book'></i>User List</a></li>
-            <li><a href="#"><i class='far fa-calendar-alt'>Events</i></a></li>
-            <li><a href="#"><i class='fas fa-question-circle'>About</i></a></li>
-            <li><a href="#"><i class='fas fa-sliders-h'></i>Services</a></li>
+            <li><a href="../admin/member_list.php"><i class='fa fa-user'></i>Member List</a></li>
             <li><a href="../admin/admin_profile.php"><i class='fa fa-address-card'></i>Edit profile</a></li>
             <li><a href="../admin/admin_logout.php"><i class='fas fa-right-from-bracket'></i>Logout</a></li>
         </ul>

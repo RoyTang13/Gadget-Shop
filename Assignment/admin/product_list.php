@@ -730,3 +730,4 @@ document.addEventListener('click', function(e){
     .desc-full { display: none; }
     .show-more { background: none; border: none; color: #007bff; cursor: pointer; padding: 0; font-size: 0.95em; text-decoration: none; }
 </style>
+<?php include '../_foot.php'; ?>

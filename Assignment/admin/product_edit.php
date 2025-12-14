@@ -7,6 +7,7 @@
 require '../_base.php';
 $_title = 'Product Edit';
 include 'admin_head.php';
+
 // ================================
 // 1. ADMIN-ONLY ACCESS CONTROL
 // ================================
@@ -116,3 +117,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 </html>
 </section>
+
+<?php include '../_foot.php'; ?>
