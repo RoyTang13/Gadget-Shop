@@ -312,10 +312,6 @@ function logout($url = '/') {
             unset($_SESSION['popup']);
         }
     }
-    
-
-
-        
 
 // ============================================================================
 // Shopping Cart
@@ -332,30 +328,22 @@ function set_cart($cart = []) {
 
 // Update shopping cart
 function update_cart($productID, $quantity) {
-    global $_db, $_SESSION;
+    global $_db;
 
-    $userID = $_SESSION['userID'];
+    // Ensure userID exists
+    $userID = $_SESSION['userID'] ?? null;
+    if (!$userID) return;
 
-    // Check if product already in cart
-    $stmt = $_db->prepare(
-        "SELECT id, quantity FROM cart WHERE userID = ? AND productID = ?"
-    );
-    $stmt->execute([$userID, $productID]);
-    $item = $stmt->fetch(PDO::FETCH_OBJ);
-
-    if ($item) {
-        $newQty = $item->quantity + $quantity;
-
-        $stmt = $_db->prepare(
-            "UPDATE cart SET quantity = ? WHERE id = ?"
-        );
-        $stmt->execute([$newQty, $item->id]);
+    if ($quantity >= 1 && $quantity <= 10) {
+        // Update quantity
+        $sql = "UPDATE cart SET quantity = ? WHERE productID = ? AND userID = ?";
+        $stmt = $_db->prepare($sql);
+        $stmt->execute([$quantity, $productID, $userID]);
     } else {
-        $stmt = $_db->prepare(
-            "INSERT INTO cart (userID, productID, quantity)
-             VALUES (?, ?, ?)"
-        );
-        $stmt->execute([$userID, $productID, $quantity]);
+        // Remove item
+        $sql = "DELETE FROM cart WHERE productID = ? AND userID = ?";
+        $stmt = $_db->prepare($sql);
+        $stmt->execute([$productID, $userID]);
     }
 }
 

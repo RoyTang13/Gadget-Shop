@@ -187,7 +187,11 @@ input[type="checkbox"] {
 </form>
 </main>
 
-
-<?php
-// include '../_footer.php';
-?>
+<script>
+document.getElementById('select-all').addEventListener('change', function () {
+    const isChecked = this.checked;
+    document.querySelectorAll('input[name="selected[]"]').forEach(cb => {
+        cb.checked = isChecked;
+    });
+});
+</script>
