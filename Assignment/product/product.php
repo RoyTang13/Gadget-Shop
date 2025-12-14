@@ -130,12 +130,22 @@ function buildQueryString(array $overrides = []): string {
 ?>
 
 <style>
+    /* Search Bar */
+    .search-box {
+        margin-left: 30px;
+        margin-right: 60px;
+        display: flex;
+        align-items: center;
+        width: 300px;
+    }
 
-  /* Search Bar */
-  .search-box {
-    display: flex;
-    align-items: center;
-  }
+    .search-box input {
+        padding: 8px 12px;
+        border: 1px solid #000;
+        border-radius: 6px;
+        outline: none;
+        font-family: 'Courier New', Courier, monospace;
+    }
 
   .search-box input {
     padding: 8px 12px;
@@ -293,7 +303,124 @@ function buildQueryString(array $overrides = []): string {
 <body>
 <main >
 <!-- Hero Banner -->
-<div class="banner">
+<div class = "banner"></div>
+
+<!-- Main Content -->
+<div class = "layout-container">
+    <div id = "filterSidebar" class = "filter-sidebar">
+        <h3>Filters</h3>
+        <form id = "filterForm" method = "get" action = "/product/product.php">
+
+        <!-- Type filters -->
+        <div>
+            <h4>🔌Connection</h4>
+            <label><input type = "checkbox" name = "connectivity[]" value = "wired"  <?= in_array('Type1', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wired</label><br><br>
+            <label><input type = "checkbox" name = "connectivity[]" value = "wireless"  <?= in_array('Type2', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wireless</label><br><br>
+        </div>
+
+        <!-- Fit Type -->
+        <div>
+        <h4>🎧Fit Type</h4>
+            <label><input type = "checkbox" name = "design[]" value = "in-ear"<?= in_array('in-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> In-ear</label><br><br>
+            <label><input type = "checkbox" name = "design[]" value = "over-ear" <?= in_array('over-ear', $_GET['design'] ?? []) ? 'checked' : '' ?>> Over-ear</label><br><br>
+        </div>
+
+        <!-- Acoustic -->
+        <div>
+            <h4>🎶Acoustic</h4>
+            <label><input type = "checkbox" name = "acoustic[]" value = "noise-canceled" <?= in_array('noise-canceled', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Noise-canceled</label><br><br>
+            <label><input type = "checkbox" name = "acoustic[]" value = "balanced" <?= in_array('balanced', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Balanced</label><br><br>
+            <label><input type = "checkbox" name = "acoustic[]" value = "clear vocals" <?= in_array('clear vocals', $_GET['acoustic'] ?? []) ? 'checked' : '' ?>> Clear Vocals</label><br><br>
+        </div>
+
+        <!-- Price Range -->
+        <div style = "margin-top:15px;">
+            <h4>Price</h4>
+            <label><input type = "radio" name = "fixedPrice" value = "0.01-300.00">RM 0.01 - RM 300.00</label><br><br>
+            <label><input type = "radio" name = "fixedPrice" value = "300.01-600.00">RM 300.01 - RM 600.00</label><br><br>
+            <label><input type = "radio" name = "fixedPrice" value = "600.01-900.00">RM 600.01 - RM 900.00</label><br><br>
+            <label><input type = "radio" name = "fixedPrice" value = "900.01-1200.00">RM 900.01 - RM 1200.00</label><br><br>
+        <input type = "number" name = "priceMin" min = 0.01 max = 1199.99 step = 0.01 placeholder = "Min" value = "<?= $_GET['priceMin'] ?? '' ?>" style = "width: 100px;">
+        <input type = "number" name = "priceMax" min = 0.02 max = 1200.00 step = 0.02 placeholder = "Max" value = "<?= $_GET['priceMax'] ?? '' ?>" style = "width: 100px;">
+        </div>
+
+        <div style = "margin-top: 15px;">
+            <button type = "submit">Apply Filters</button>
+        </div>
+    </form>
+    </div>
+
+    <div class = "product-container">
+    <div class = "filters-inline" style = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <!-- Sorting -->
+        <div class = "sorting">
+            <label for = "sort">Sort by: </label>
+            <select id ="sort">
+                <option value = "price-asc" <?= (isset($_GET['sort_price']) && $_GET['sort_price'] === 'asc') ? 'selected' : '' ?>>Price ↑</option>
+                <option value = "price-desc" <?= (isset($_GET['sort_price']) && $_GET['sort_price'] === 'desc') ? 'selected' : '' ?>>Price ↓</option>
+                <option value = "name-asc" <?= (isset($_GET['sort_name']) && $_GET['sort_name'] === 'asc') ? 'selected' : '' ?>>Name ↑</option>
+                <option value = "name-desc" <?= (isset($_GET['sort_name']) && $_GET['sort_name'] === 'desc') ? 'selected' : '' ?>>Name ↓</option>
+            </select>
+        </div>
+
+        <!-- Search Bar -->
+        <form id = "filterForm" method = "get" action = "/product/product.php">
+            <div class = "search-box">
+                <input type = "text" name = "search" placeholder = "Search products..." value = "<?= ($_GET['search'] ?? '') ?>" />
+                <button onclick="document.getElementById('filterForm').submit()">Search</button>
+            </div>
+        </form>
+
+        <!-- Paging -->
+        <div class = "paging">
+            <div class = "pagination">
+                <button class = "pagination-btn" id = "prevBtn" type = "button">‹</button>
+                <input type = "number" id = "pageInput" class = "page-input" min = "1" value = "<?= $page ?>" placeholder="Page">
+                <button class = "pagination-btn" id = "nextBtn" type = "button">›</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class = "product-grid">
+        <?php foreach ($arr as $p): ?>
+        <div class = "product-card">
+            <img src = "/photos/<?= $p->productPhoto ?>" alt="<?= htmlspecialchars($p->productName) ?>">
+            <div class = "card-body">
+                <div class = "tag">
+                    <div class = "tag1">
+                        <span><?= htmlspecialchars($p->productCat1) ?></span>
+                    </div>
+
+                    <div class = "tag2">
+                        <span><?= htmlspecialchars($p->productCat2) ?></span>
+                    </div>
+
+                    <div class = "tag3">
+                        <span><?= htmlspecialchars($p->productCat3) ?></span>
+                    </div>
+                </div>
+
+                <div class = "name">
+                    <a href = "/product/details.php?name=<?= urlencode($p->productName) ?>">
+                        <?= htmlspecialchars($p->productName) ?>
+                    </a>
+                </div>
+
+                <div class = "price_wishlist">
+                    <div class = "price">
+                    RM <?= number_format($p->productPrice, 2) ?>
+                    </div>
+                    <form method = "post" action = "/product/add_to_cart.php">
+                    <input type = "hidden" name = "productID" value ="<?= htmlspecialchars($p->productID) ?>">
+                    <input type = "hidden" name = "quantity" value = "1" id = "addQty">
+                    <button type = "submit" name = "add_to_cart">Add to Cart</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+    </div>
 </div>
 
 <!-- Main Content -->
