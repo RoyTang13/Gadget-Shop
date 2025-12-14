@@ -21,7 +21,7 @@
         <p style= "color:white" class="text-center">Hello, Admin</p>
         <ul>
             <li><a href="../admin/admin_dashboard.php"><i class='fas fa-qrcode'></i>Dashboards</a></li>
-            <li><a href="../admin/product_list.php"><i class='fa fa-headphones'></i>Products</a></li>
+            <li><a href="../product/list.php"><i class='fa fa-headphones'></i>Products</a></li>
             <li><a href="../admin/user_list.php"><i class='fa fa-address-book'></i>User List</a></li>
             <li><a href="../admin/member_list.php"><i class='fa fa-user'></i>Member List</a></li>
             <li><a href="../admin/admin_profile.php"><i class='fa fa-address-card'></i>Edit profile</a></li>

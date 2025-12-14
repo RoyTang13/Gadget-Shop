@@ -207,12 +207,12 @@ function buildQueryString(array $overrides = []): string {
         <h5>Sorting By: </h5>
 
         <!-- Sort by Name button -->
-        <a href = "product/list.php<?= buildQueryString(['sort_name' => $nextName, 'sort_price' => null, 'page' => 1]) ?>" class = "sort-btn">
+        <a href = "list.php<?= buildQueryString(['sort_name' => $nextName, 'sort_price' => null, 'page' => 1]) ?>" class = "sort-btn">
             Name <?= $nextName === 'asc' ? '⇓' : '⇑' ?>
         </a>
         
         <!-- Sort by Price button -->
-        <a href = "product/list.php<?= buildQueryString(['sort_price' => $nextPrice, 'sort_name' => null, 'page' => 1]) ?>" class = "sort-btn">
+        <a href = "list.php<?= buildQueryString(['sort_price' => $nextPrice, 'sort_name' => null, 'page' => 1]) ?>" class = "sort-btn">
             Price <?= $nextPrice === 'asc' ? '⇓' : '⇑' ?>
         </a>
     </div>

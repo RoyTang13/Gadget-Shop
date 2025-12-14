@@ -30,7 +30,7 @@ if (!isset($_SESSION['adminID'])) {
             </a>
             </div>
             <div class="card">
-                <a href="../admin/product_list.php">
+                <a href="../product/list.php">
                 <h3>Total Products</h3>
                 <p>
                 <?php

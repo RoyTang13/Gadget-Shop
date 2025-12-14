@@ -434,7 +434,7 @@ button:hover {
     }
 
 
-    /* Part 1 - Searching */
+    /*Searching */
     /* Search bar style */
     .search_bar-font {
         font-style: italic;
@@ -475,7 +475,7 @@ button:hover {
         margin-top: 15px;
       }
 
-  /* Part 2 - Filtering and Category*/
+  /* Filtering and Category*/
 
     /* Adjust dropdown position */
     .browser .search .dropdown {
@@ -534,7 +534,7 @@ button:hover {
     }
 
     /* ---------------------------------------------- */
-    /* Part 3 - Browser Frame */
+    /* Browser Frame */
     .browser {
         border: 15px solid #c764e0;
         border-radius: 15px;
@@ -547,7 +547,7 @@ button:hover {
     }
 
     /* ---------------------------------------------- */
-    /* Part 4 - Sorting Section */
+    /* Sorting Section */
 
     /* Style the sorting title */
     .sort_bar .sorting_left h5 {
@@ -628,7 +628,7 @@ button:hover {
     }
 
     /* ---------------------------------------------- */
-    /* Part 5 - Sorting Frame */
+    /* Sorting Frame */
 
     /* Sorting alignment left & right*/
     .sort_bar .sorting_left {
