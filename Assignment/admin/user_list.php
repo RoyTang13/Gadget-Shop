@@ -198,6 +198,23 @@ function buildQueryString(array $overrides = []): string {
 </section>
 
 <style>
+  .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 2px;
+    }
+
+  .button:hover {
+    background-color: #45a049;
+  }
 body {
     margin-bottom: 100px; /* to prevent overlap with footer */
 }

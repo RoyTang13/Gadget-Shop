@@ -15,12 +15,13 @@ if (!$admin) redirect('/');
 $_err = [];
 
 
- // Load admin values
-$fname   = $admin['fname'];
-$lname   = $admin['lname'];
-$_FILESemail   = $admin['email'];
-$phoneNo = $admin['phoneNo'];
-$admin   = $admin['adminPhoto'];   
+// Load admin values
+$fname      = $admin['fname'];
+$lname      = $admin['lname'];
+$email      = $admin['email'];
+$phoneNo    = $admin['phoneNo'];
+$adminPhoto = $admin['adminPhoto']; // Keep the original filename
+$adminID    = $_SESSION['adminID']; 
 
 $f = get_file('adminPhoto'); // get uploaded file
 

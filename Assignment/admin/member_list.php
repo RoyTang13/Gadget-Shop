@@ -167,9 +167,9 @@ function buildQueryString(array $overrides = []): string {
                 <td><?= $m->memberID ?></td>
                 <td><?= htmlspecialchars($m->name) ?></td>
                 <td><?= htmlspecialchars($m->email) ?></td>
-                <td><a href="../member/detail.php?id=<?= $m->memberID ?>">View</a></td>
-                <td><a href="member_edit.php?id=<?= $m->memberID ?>">Edit</a></td>
-                <td><a href="member_delete.php?id=<?= $m->memberID ?>" onclick="return confirm('Are you sure to delete this member?');">Delete</a></td>
+                <td><a href="../member/detail.php?id=<?= $m->memberID ?>"class = "button" >View</a></td>
+                <td><a href="member_edit.php?id=<?= $m->memberID ?>"class = "button" >Edit</a></td>
+                <td><a href="member_delete.php?id=<?= $m->memberID ?>" class = "button" onclick="return confirm('Are you sure to delete this member?');">Delete</a></td>
             </tr>
         <?php endforeach ?>
     </tbody>
@@ -188,5 +188,25 @@ function buildQueryString(array $overrides = []): string {
 <?php endif; ?>
 
 </section>
+
+<style> 
+  .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 2px;
+    }
+
+  .button:hover {
+    background-color: #45a049;
+  }
+</style>
 
 <?php include '../_foot.php'; ?>
