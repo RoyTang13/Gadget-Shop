@@ -91,7 +91,23 @@ $(() => {
         }
     });
 
-    
+    // Cart: Select All Checkbox
+    const selectAll = $('#select-all');
+    const itemCheckboxes = $('input[name="selected[]"]');
+
+    selectAll.on('change', () => {
+        itemCheckboxes.prop('checked', selectAll.prop('checked'));
+    });
+
+    itemCheckboxes.on('change', () => {
+        if (!$(this).prop('checked')) {
+            selectAll.prop('checked', false);
+        } else {
+            const allChecked = itemCheckboxes.length === itemCheckboxes.filter(':checked').length;
+            selectAll.prop('checked', allChecked);
+        }
+    });
+
 });
 
 // Show the modal

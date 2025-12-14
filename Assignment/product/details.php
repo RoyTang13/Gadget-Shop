@@ -52,21 +52,27 @@ include '../_head.php';
             RM <?= number_format($product->productPrice, 2) ?>
         </div>
 
-        <div class = "quantity-section">
-            <button class = "qty-btn" id = "qtyMinus">−</button>
-            <input type = "number" id = "qtyInput" value = "1" min = "1">
-            <button class = "qty-btn" id = "qtyPlus">+</button>
-        </div>
+        <div class="quantity-section">
+    <button type="button" class="qty-btn" id="qtyMinus">−</button>
+
+        <input
+            type="number"
+            id="qtyInput"
+            name="quantity"
+            value="1"
+            min="1">
+
+        <button type="button" class="qty-btn" id="qtyPlus">+</button>
+    </div>
 
         <div class = "action-buttons">
-        <form method="post" action="/product/add_to_cart.php">
-                <input type="hidden" name="productID" value="<?= htmlspecialchars($product->productID) ?>">
-                <input type="hidden" name="quantity" value="1" id="addQty">
+        <div class="action-buttons">
+            <form method="post" action="/product/add_to_cart.php">
+                <input type="hidden" name="productID" value="<?= $product->productID ?>">
                 <button type="submit" name="add_to_cart">Add to Cart</button>
             </form>
-            <button class = "order-btn">Buy Now</button>
         </div>
-    </div>
+    </div>  
 </div>
 
 <style>
@@ -263,24 +269,13 @@ body::before {
 </style>
 
 <script>
+const qtyInput = document.getElementById("qtyInput");
+
 document.getElementById("qtyMinus").addEventListener("click", () => {
-    let qty = document.getElementById("qtyInput");
-    if (qty.value > 1) qty.value--;
+    if (qtyInput.value > 1) qtyInput.value--;
 });
 
 document.getElementById("qtyPlus").addEventListener("click", () => {
-    let qty = document.getElementById("qtyInput");
-    qty.value++;
+    qtyInput.value++;
 });
-
-const qtyInput = document.getElementById("qtyInput");
-const addQty   = document.getElementById("addQty");
-    
-function syncQty() {
-    addQty.value = qtyInput.value;
-}
-
-document.getElementById("qtyMinus").addEventListener("click", syncQty);
-document.getElementById("qtyPlus").addEventListener("click", syncQty);
-qtyInput.addEventListener("change", syncQty);
 </script>

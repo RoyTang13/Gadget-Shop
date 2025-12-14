@@ -276,7 +276,13 @@ function logout($url = '/') {
         $hash = hash_password($password);
         $stm = $_admin_db->prepare("INSERT INTO admin (fname, lname, email, phoneNo, password) VALUES (?, ?, ?, ?, ?)");
         return $stm->execute([$fname, $lname, $email, $phoneNo, $hash]);
-}
+    }
+
+    // Helper: format card number as "1234 5678 9012 3456"
+    function format_card_number($number) {
+        $number = preg_replace('/\D/', '', $number); // remove non-digits
+        return trim(chunk_split($number, 4, ' '));  // insert space every 4 digits
+    }
 
 
 
@@ -318,22 +324,30 @@ function set_cart($cart = []) {
 
 // Update shopping cart
 function update_cart($productID, $quantity) {
-    global $_db;
+    global $_db, $_SESSION;
 
-    // Ensure userID exists
-    $userID = $_SESSION['userID'] ?? null;
-    if (!$userID) return;
+    $userID = $_SESSION['userID'];
 
-    if ($quantity >= 1 && $quantity <= 10) {
-        // Update quantity
-        $sql = "UPDATE cart SET quantity = ? WHERE productID = ? AND userID = ?";
-        $stmt = $_db->prepare($sql);
-        $stmt->execute([$quantity, $productID, $userID]);
+    // Check if product already in cart
+    $stmt = $_db->prepare(
+        "SELECT id, quantity FROM cart WHERE userID = ? AND productID = ?"
+    );
+    $stmt->execute([$userID, $productID]);
+    $item = $stmt->fetch(PDO::FETCH_OBJ);
+
+    if ($item) {
+        $newQty = $item->quantity + $quantity;
+
+        $stmt = $_db->prepare(
+            "UPDATE cart SET quantity = ? WHERE id = ?"
+        );
+        $stmt->execute([$newQty, $item->id]);
     } else {
-        // Remove item
-        $sql = "DELETE FROM cart WHERE productID = ? AND userID = ?";
-        $stmt = $_db->prepare($sql);
-        $stmt->execute([$productID, $userID]);
+        $stmt = $_db->prepare(
+            "INSERT INTO cart (userID, productID, quantity)
+             VALUES (?, ?, ?)"
+        );
+        $stmt->execute([$userID, $productID, $quantity]);
     }
 }
 

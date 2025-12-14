@@ -155,7 +155,7 @@ function buildQueryString(array $overrides = []): string {
         color: #fff;
         border-radius: 0 4px 4px 0;
         cursor: pointer;
-        z-index: 100;
+        z-index: 5;
     }
 
     /* Hero Banner */
