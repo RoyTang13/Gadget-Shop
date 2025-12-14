@@ -133,16 +133,19 @@ function buildQueryString(array $overrides = []): string {
 <style>
     /* Search Bar */
     .search-box {
+        margin-left: 30px;
+        margin-right: 60px;
         display: flex;
         align-items: center;
+        width: 300px;
     }
 
     .search-box input {
         padding: 8px 12px;
-        border: none;
-        border-radius: 4px 0 0 4px;
+        border: 1px solid #000;
+        border-radius: 6px;
         outline: none;
-        width: 200px;
+        font-family: 'Courier New', Courier, monospace;
     }
 
     .search-box button {
@@ -460,6 +463,14 @@ function buildQueryString(array $overrides = []): string {
             </select>
         </div>
 
+        <!-- Search Bar -->
+        <form id = "filterForm" method = "get" action = "/product/product.php">
+            <div class = "search-box">
+                <input type = "text" name = "search" placeholder = "Search products..." value = "<?= ($_GET['search'] ?? '') ?>" />
+                <button onclick="document.getElementById('filterForm').submit()">Search</button>
+            </div>
+        </form>
+
         <!-- Paging -->
         <div class = "paging">
             <div class = "pagination">
@@ -500,10 +511,10 @@ function buildQueryString(array $overrides = []): string {
                     <div class = "price">
                     RM <?= number_format($p->productPrice, 2) ?>
                     </div>
-                    <form method="post" action="/product/add_to_cart.php">
-                    <input type="hidden" name="productID" value="<?= htmlspecialchars($p->productID) ?>">
-                    <input type="hidden" name="quantity" value="1" id="addQty">
-                    <button type="submit" name="add_to_cart">Add to Cart</button>
+                    <form method = "post" action = "/product/add_to_cart.php">
+                    <input type = "hidden" name = "productID" value ="<?= htmlspecialchars($p->productID) ?>">
+                    <input type = "hidden" name = "quantity" value = "1" id = "addQty">
+                    <button type = "submit" name = "add_to_cart">Add to Cart</button>
                 </form>
                 </div>
             </div>
