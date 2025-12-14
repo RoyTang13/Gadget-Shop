@@ -9,35 +9,37 @@ if (!isset($_SESSION['adminID'])) {
     exit;
 }
 
-// Functionable Sorting
-$order = "productID ASC";
+// Initialize default order
+$order = "memberID ASC";
 
-// Handle ID sorting
-if (!empty($_GET['sort_id'])) {
-    $order = "memberID " . ($_GET['sort_id'] === 'desc' ? "DESC" : "ASC");
+// Handle sorting from GET params
+$currentId = $_GET['sort_id'] ?? null;
+$currentName = $_GET['sort_name'] ?? null;
+
+// Determine next toggle for ID
+$nextId = ($currentId === 'asc') ? 'desc' : 'asc';
+// Determine next toggle for Name
+$nextName = ($currentName === 'asc') ? 'desc' : 'asc';
+
+// Set order based on current sorting
+if ($currentId !== null) {
+    $order = "memberID " . ($currentId === 'asc' ? "ASC" : "DESC");
+} elseif ($currentName !== null) {
+    $order = "name " . ($currentName === 'asc' ? "ASC" : "DESC");
 }
 
-if (!empty($_GET['sort_name'])) {
-    $order = "name " . ($_GET['sort_name'] === 'desc' ? "DESC" : "ASC");
-}
-
-
-//Item per page
+// Pagination
 $itemsPerPage = 10;
-
 $page = isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0 ? (int) $_GET['page'] : 1;
 
-//search term
+// Search
 $search = trim($_GET['search'] ?? '');
 
-// Build base SQL
+// Build count query
 $sqlCount = "SELECT COUNT(*) FROM member WHERE 1";
-$sqlData = "SELECT * FROM member WHERE 1";
 $params = [];
-
 if ($search !== '') {
     $sqlCount .= " AND (name LIKE :s OR email LIKE :s)";
-    $sqlData .= " AND (name LIKE :s OR email LIKE :s)";
     $params[':s'] = "%$search%";
 }
 
@@ -45,60 +47,59 @@ if ($search !== '') {
 $stmCount = $_db->prepare($sqlCount);
 $stmCount->execute($params);
 $totalMembers = (int) $stmCount->fetchColumn();
-
 $totalPages = ceil($totalMembers / $itemsPerPage);
 $offset = ($page - 1) * $itemsPerPage;
 
-// Append LIMIT and OFFSET
-$sqlData .= " ORDER BY memberID DESC LIMIT :limit OFFSET :offset";
+// Build main query with dynamic order
+$sqlData = "SELECT * FROM member WHERE 1";
+
+if ($search !== '') {
+    $sqlData .= " AND (name LIKE :s OR email LIKE :s)";
+}
+
+$sqlData .= " ORDER BY $order LIMIT :limit OFFSET :offset";
 
 $stm = $_db->prepare($sqlData);
-$stm->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
-$stm->bindValue(':offset', $offset, PDO::PARAM_INT);
-
-
-// Bind search parameter if exists
 if ($search !== '') {
     $stm->bindValue(':s', "%$search%", PDO::PARAM_STR);
 }
+$stm->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
+$stm->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stm->execute();
-$members = $stm->fetchAll(PDO::FETCH_OBJ);
-function buildQueryString(array $overrides = []): string {
-    $keepKeys = ['sort_name', 'sort_id' , 'page'];
-    $parts = [];
 
+$members = $stm->fetchAll(PDO::FETCH_OBJ);
+
+// Build query string helper
+function buildQueryString(array $overrides = []): string {
+    $keepKeys = ['sort_name', 'sort_id', 'page', 'search'];
+    $parts = [];
     foreach ($keepKeys as $key) {
-        // If override explicitly provided
         if (array_key_exists($key, $overrides)) {
             $val = $overrides[$key];
-            if ($val === null) {
-                continue; // remove this param
-            }
+            if ($val === null) continue;
             if (is_array($val)) {
                 foreach ($val as $v) {
-                    $parts[] = urlencode($key) . '[]=' . urlencode((string)$v);
+                    $parts[] = urlencode($key) . '=' . urlencode((string)$v);
                 }
             } else {
                 $parts[] = urlencode($key) . '=' . urlencode((string)$val);
             }
             continue;
         }
-
-        // Otherwise take from current GET if present
         if (!isset($_GET[$key])) continue;
         $val = $_GET[$key];
         if (is_array($val)) {
             foreach ($val as $v) {
-                $parts[] = urlencode($key) . '[]=' . urlencode((string)$v);
+                $parts[] = urlencode($key) . '=' . urlencode((string)$v);
             }
         } else {
             $parts[] = urlencode($key) . '=' . urlencode((string)$val);
         }
     }
-
     return $parts ? '?' . implode('&', $parts) : '';
 }
 ?>
+
 
 <section>
 <h1 class="text-center">Member List</h1>
@@ -124,13 +125,13 @@ function buildQueryString(array $overrides = []): string {
                 <h5>Sorting By: </h5>
 
                 <!-- Sort by ID button -->
-                 <a href = "/admin/member_list.php<?= buildQueryString(['sort_id' => $nextId, 'sort_name' => null, 'sort_price' => null, 'page' => 1]) ?>" class = "sort-btn">
-                    ID <?= $nextId === 'asc' ? '⇓' : '⇑' ?>
+                 <a href="/admin/member_list.php<?= buildQueryString(['sort_id' => $nextId, 'sort_name' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
+                    ID <?= $currentId === 'asc' ? '⇓' : '⇑' ?>
                 </a>
 
                 <!-- Sort by Name button -->
-                <a href = "/admin/member_list.php<?= buildQueryString(['sort_name' => $nextName, 'sort_price' => null, 'page' => 1]) ?>" class = "sort-btn">
-                    Name <?= $nextName === 'asc' ? '⇓' : '⇑' ?>
+                 <a href="/admin/member_list.php<?= buildQueryString(['sort_name' => $nextName, 'sort_id' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
+                    Name <?= $currentName === 'asc' ? '⇓' : '⇑' ?>
                 </a>
             </div>
 

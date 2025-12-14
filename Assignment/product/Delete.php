@@ -19,4 +19,4 @@ if (is_post()) {
     temp('info', 'The product is deleted.');
 }
 
-redirect('/product/page.php');
+redirect('/product/list.php');

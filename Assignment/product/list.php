@@ -259,8 +259,8 @@ function buildQueryString(array $overrides = []): string {
 
               echo "<td>" . htmlspecialchars($product->productPrice) . "</td>";
               echo "<td>" . htmlspecialchars($product->productQty) . "</td>";
-              echo '<td> <a href="/product/Update.php?id=' . urlencode($product->productID) . '" class="button">Update</a>';
-              echo '<form action="/product/Delete.php" method="post" onsubmit="return confirm(\'Are you sure you want to delete this product?\')" style="display:inline;">';
+              echo '<td> <a href="../product/Update.php?id=' . urlencode($product->productID) . '" class="button">Update</a>';
+              echo '<form action="../product/Delete.php" method="post" onsubmit="return confirm(\'Are you sure you want to delete this product?\')" style="display:inline;">';
               echo '<input type="hidden" name="productID" value="' . htmlspecialchars($product->productID) . '">';
               echo '<button type="submit" class="button">Delete</button>';
               echo '</form>';
