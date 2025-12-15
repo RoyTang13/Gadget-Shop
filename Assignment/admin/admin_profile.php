@@ -15,19 +15,21 @@ if (!$admin) redirect('/');
 $_err = [];
 
 
+
 // Load admin values
 $fname      = $admin['fname'];
 $lname      = $admin['lname'];
 $email      = $admin['email'];
 $phoneNo    = $admin['phoneNo'];
 $adminPhoto = $admin['adminPhoto']; // Keep the original filename
-$adminID    = $_SESSION['adminID']; 
+$adminID    = $_SESSION['adminID'];  
 
 $f = get_file('adminPhoto'); // get uploaded file
 
     // -----------------------------------------
     // UPDATE PROFILE
     // -----------------------------------------
+
     if (isset($_POST['update_profile'])) {
 
         $fname   = $_POST['fname'] ?? '';
@@ -59,9 +61,9 @@ $f = get_file('adminPhoto'); // get uploaded file
             // ---- PHOTO SAVE ----
             if ($f) {
                 if ($adminPhoto) {
-                    @unlink("../adminPhoto/$adminPhoto");  // delete old
+                    @unlink("../adminPhoto/$adminPhoto");  // delete old photo
                 }
-                $adminPhoto = save_photo($f, "../Assignment/adminPhoto");  // save new
+                $adminPhoto = save_photo($f, "../adminPhoto");  // save new photo
             }
 
             // ---- UPDATE DB ---- 
@@ -69,15 +71,16 @@ $f = get_file('adminPhoto'); // get uploaded file
                 UPDATE admin
                 SET fname=?, lname=?, email=?, phoneNo=?, adminPhoto=?
                 WHERE adminID=?
-            ");
+         ");
             $up->execute([$fname, $lname, $email, $phoneNo, $adminPhoto, $adminID]);
 
-            // ---- UPDATE SESSION ----
-            $_SESSION['fname'] = $fname;
-            $_SESSION['email'] = $email;
-            $_SESSION['adminPhoto'] = $adminPhoto; 
-            set_popup("Profile updated successfully");
-            redirect('/admin/admin_profile.php');
+                // ---- UPDATE SESSION ----
+             $_SESSION['fname'] = $fname;
+             $_SESSION['email'] = $email;
+                $_SESSION['adminPhoto'] = $adminPhoto;
+
+                set_popup("Profile updated successfully");
+                redirect('/admin/admin_profile.php');
         }
     }
 
@@ -112,6 +115,7 @@ $f = get_file('adminPhoto'); // get uploaded file
     }
 
     ?>
+    <section>
     <!-- Profile Box -->
     <div class="profile-box">
         <h2 class="login-title">Your Profile</h2>
@@ -135,7 +139,7 @@ $f = get_file('adminPhoto'); // get uploaded file
             <label for="photo">Photo</label>
             <label class="upload" tabindex="0">
                 <?= html_file('adminPhoto', 'image/*', 'hidden') ?>
-                <img src="/adminPhoto/<?= htmlspecialchars($_SESSION['adminPhoto'])?>">
+                <img src="/adminPhoto/<?= htmlspecialchars($admin['adminPhoto']) ?>">
             </label>
             <?= err('adminPhoto') ?>
 
@@ -173,3 +177,4 @@ $f = get_file('adminPhoto'); // get uploaded file
 
         </form>
     </div>
+</section>

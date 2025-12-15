@@ -167,8 +167,8 @@ function buildQueryString(array $overrides = []): string {
                 <td><?= $m->memberID ?></td>
                 <td><?= htmlspecialchars($m->name) ?></td>
                 <td><?= htmlspecialchars($m->email) ?></td>
-                <td><a href="../member/detail.php?id=<?= $m->memberID ?>"class = "button" >View</a></td>
-                <td><a href="member_edit.php?id=<?= $m->memberID ?>"class = "button" >Edit</a></td>
+                <td><a href="../member/detail.php?id=<?= $m->memberID ?>"class = "button">View</a></td>
+                <td><a href="member_edit.php?id=<?= $m->memberID ?>"class = "button">Edit</a></td>
                 <td><a href="member_delete.php?id=<?= $m->memberID ?>" class = "button" onclick="return confirm('Are you sure to delete this member?');">Delete</a></td>
             </tr>
         <?php endforeach ?>

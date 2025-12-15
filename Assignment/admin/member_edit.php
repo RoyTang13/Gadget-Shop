@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
+<section>
 <h1>Edit Member</h1>
 
 <?php foreach ($errors as $e): ?>
@@ -69,13 +69,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <label>Phone</label><br>
 <input name="phone" value="<?= htmlspecialchars($m->phone) ?>"><br><br>
 
-<label>Profile Photo</label><br>
-<?php if ($m->photo): ?>
-<img src="/uploads/<?= htmlspecialchars($m->photo) ?>" width="80"><br>
-<?php endif ?>
-<input type="file" name="photo" accept="image/*"><br><br>
+<label for="photo">Profile Photo</label><br>
+<label class="upload" tabindex="0">
+    <?= html_file('photo', 'image/*', 'hidden') ?>
+     <img src="/userPhoto/<?= htmlspecialchars($photo['photo']) ?>">
+</label>
+<?= err('photo') ?>
 
 <button type="submit">Save</button>
 <a href="../admin/member_list.php?id=<?= $id ?>">Cancel</a>
 </form>
-<?php var_dump($m->photo); ?>
+</section>

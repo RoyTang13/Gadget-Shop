@@ -198,6 +198,7 @@ function buildQueryString(array $overrides = []): string {
 </section>
 
 <style>
+
   .button {
     background-color: #4CAF50; /* Green */
     border: none;
