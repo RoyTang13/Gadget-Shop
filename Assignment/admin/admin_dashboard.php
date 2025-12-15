@@ -43,8 +43,16 @@ if (!isset($_SESSION['adminID'])) {
                 </a>
             </div>
             <div class="card">
-                <h3>Revenue</h3>
-                <p>$3,200</p>
+                <a href="../admin/order_list.php">
+                <h3>Total order</h3>
+                <p>
+                    <?php
+                    global $_db;
+                    $stm = $_db->query("SELECT COUNT(*) FROM orders");
+                    $count = $stm->fetchColumn();
+                    echo $count ?: 0;
+                ?>
+                </p>
             </div>
             <div class="card">
                 <a href="../admin/member_list.php">
