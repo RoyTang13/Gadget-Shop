@@ -7,7 +7,7 @@ if (isset($_SESSION['userID'])) {
     $userID = $_SESSION['userID'];
 } else {
     // handle not logged in
-    header('Location: login.php');
+    header('Location:/page/login.php');
     exit;
 }
 

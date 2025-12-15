@@ -4,7 +4,7 @@ show_popup();
 
 // Make sure user is logged in
 if (!isset($_SESSION['userID'])) {
-    redirect('/login.php');
+    redirect('/page/login.php');
     exit;
 }
 
