@@ -232,7 +232,7 @@ function buildQueryString(array $overrides = []): string {
     </div>
 </div>
 </form>
-    <p class="total_products"><?= $totalProducts ?> product(s)</p>
+    <p class="total_products"><?= $totalProducts ?> total product(s)</p>
     <div class="table-wrapper">
     <table class ="table">
         <thead>
@@ -253,6 +253,7 @@ function buildQueryString(array $overrides = []): string {
               echo "<td>" . htmlspecialchars($product->productID) . "</td>";
               echo '<td><img src="/photos/' . htmlspecialchars($product->productPhoto) . '" style="max-width:80px;"></td>';
               echo "<td>" . htmlspecialchars($product->productName) . "</td>";
+              
               $cats = array_filter([$product->productCat1, $product->productCat2, $product->productCat3]);
               echo '<td><ul class="cats-list">';
              foreach ($cats as $cat) {
@@ -263,6 +264,7 @@ function buildQueryString(array $overrides = []): string {
               echo "<td>" . htmlspecialchars($product->productPrice) . "</td>";
               echo "<td>" . htmlspecialchars($product->productQty) . "</td>";
               echo '<td> <a href="../product/Update.php?id=' . urlencode($product->productID) . '" class="button">Update</a>';
+              
               echo '<form action="../product/Delete.php" method="post" onsubmit="return confirm(\'Are you sure you want to delete this product?\')" style="display:inline;">';
               echo '<input type="hidden" name="productID" value="' . htmlspecialchars($product->productID) . '">';
               echo '<button type="submit" class="button">Delete</button>';
@@ -396,16 +398,13 @@ document.addEventListener('click', function(e){
 
 <style>
  
-    /* ---------------------------------------------- */
-    /* Part 6 - Sorting Frame */
-
 /* ---------------------------------------------- */
 /* Part 7 - Table Style (Redesigned, Fit Layout) */
 /* ================================================= */
 /* Base Layout */
 
 body {
-    background: #f4f6fb;
+    background: linear-gradient(#e0e7ff, #e0e7ff);
     font-family: system-ui, -apple-system, Segoe UI, sans-serif;
 }
 
