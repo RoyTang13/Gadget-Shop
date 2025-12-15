@@ -114,12 +114,8 @@ $orders = $stmt->fetchAll(PDO::FETCH_OBJ);
 </html>
 
 <style>
-/* ===================== Root ===================== */
-
-/* ===== Base ===== */
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(#e0e7ff, #e0e7ff);
     min-height: 100vh;
     margin: 0;
 }
