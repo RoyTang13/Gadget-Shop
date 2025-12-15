@@ -137,13 +137,15 @@ function buildQueryString(array $overrides = []): string {
     align-items: center;
   }
 
-  .search-box input {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px 0 0 4px;
-    outline: none;
-    width: 200px;
-  }
+    .search-box button {
+        padding: 8px 14px;
+        border: none;
+        background-color: #ff6f61;
+        color: #fff;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        z-index: 5;
+    }
 
   .search-box button {
     padding: 8px 14px;
