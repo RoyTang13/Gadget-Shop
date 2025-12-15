@@ -4,7 +4,7 @@ require '../_base.php';
 $_title = 'Product List';
 
 include '../admin/admin_head.php';
-echo '<hello>';
+
 // make sure only logged-in admins can access this page
 if (!isset($_SESSION['adminID'])) {
     header('Location: index.php');
