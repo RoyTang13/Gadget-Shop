@@ -717,3 +717,108 @@ button:hover {
     background: #ccc;
     color: #2e2eff7d;
 }
+/* =============================================================================
+    ------------------------------- Admin Profile ------------------------------ 
+    ============================================================================= */
+.admin-profile-layout {
+    display: flex;
+    gap: 30px;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+/* LEFT CARD */
+.profile-card {
+    width: 280px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.profile-card .avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.profile-card h3 {
+    margin: 10px 0 5px;
+}
+
+.profile-card p {
+    color: #666;
+    font-size: 14px;
+}
+
+.logout-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 18px;
+    background: #d9534f;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* RIGHT SIDE */
+.profile-forms {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.form-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.form-box h2 {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+button {
+    margin-top: 18px;
+    padding: 12px;
+    background: #7b2ff7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #5a1fdc;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-profile-layout {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-card {
+        width: 100%;
+    }
+}

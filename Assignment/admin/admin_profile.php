@@ -115,66 +115,75 @@ $f = get_file('adminPhoto'); // get uploaded file
     }
 
     ?>
-    <section>
-    <!-- Profile Box -->
-    <div class="profile-box">
-        <h2 class="login-title">Your Profile</h2>
-        <form method="post" enctype="multipart/form-data">
-            <label>First Name</label>
-            <input type="text" name="fname" value="<?= htmlspecialchars($fname) ?>">
-            <?= err('fname') ?>
 
-            <label>Last Name</label>
-            <input type="text" name="lname" value="<?= htmlspecialchars($lname) ?>">
-            <?= err('lname') ?>
+<section class="admin-profile-layout">
 
-            <label>Email</label>
-            <input type="email" name="email" value="<?= htmlspecialchars($email) ?>">
-            <?= err('email') ?>
+    <!-- LEFT : PROFILE CARD -->
+    <div class="profile-card">
+        <img class="avatar"
+             src="/adminPhoto/<?= htmlspecialchars($adminPhoto ?: 'default.png') ?>"
+             alt="Admin Photo">
 
-            <label>Phone Number</label>
-            <input type="text" name="phoneNo" value="<?= htmlspecialchars($phoneNo) ?>">
-            <?= err('phoneNo') ?>
+        <h3><?= htmlspecialchars($fname . ' ' . $lname) ?></h3>
+        <p><?= htmlspecialchars($email) ?></p>
 
-            <label for="photo">Photo</label>
-            <label class="upload" tabindex="0">
-                <?= html_file('adminPhoto', 'image/*', 'hidden') ?>
-                <img src="/adminPhoto/<?= htmlspecialchars($admin['adminPhoto']) ?>">
-            </label>
-            <?= err('adminPhoto') ?>
-
-            <section>
-                <button type="submit" name="update_profile">Update Profile</button>
-            </section>
-        </form>
-        <div class="links">
-            <a href="/admin/admin_logout.php">Logout</a>
-        </div>
+        <a class="logout-btn" href="/admin/admin_logout.php">Logout</a>
     </div>
 
-    <!-- Password Box -->
-    <div class="password-profile">
-        <h2 class="login-title">Update Password</h2>
-        <form method="post" enctype="multipart/form-data">
-            <label>Current Password</label>
+    <!-- RIGHT : FORMS -->
+    <div class="profile-forms">
+
+        <!-- UPDATE PROFILE -->
+        <div class="form-box">
+            <h2>Edit Profile</h2>
+
+            <form method="post" enctype="multipart/form-data">
+                <label>First Name</label>
+                <input type="text" name="fname" value="<?= htmlspecialchars($fname) ?>">
+                <?= err('fname') ?>
+
+                <label>Last Name</label>
+                <input type="text" name="lname" value="<?= htmlspecialchars($lname) ?>">
+                <?= err('lname') ?>
+
+                <label>Email</label>
+                <input type="email" name="email" value="<?= htmlspecialchars($email) ?>">
+                <?= err('email') ?>
+
+                <label>Phone Number</label>
+                <input type="text" name="phoneNo" value="<?= htmlspecialchars($phoneNo) ?>">
+                <?= err('phoneNo') ?>
+
+                <label>Profile Photo</label>
+                <?= html_file('adminPhoto', 'image/*') ?>
+                <?= err('adminPhoto') ?>
+
+                <button type="submit" name="update_profile">Update Profile</button>
+            </form>
+        </div>
+
+        <!-- UPDATE PASSWORD -->
+        <div class="form-box">
+            <h2>Change Password</h2>
+
+            <form method="post">
+                <label>Current Password</label>
                 <input type="password" name="current_pass">
                 <?= err('current_pass') ?>
-                <br>
 
-            <label>New Password</label>
-            <input type="password" name="new_pass">
-            <?= err('new_pass') ?>
-            <br>
+                <label>New Password</label>
+                <input type="password" name="new_pass">
+                <?= err('new_pass') ?>
 
-            <label>Confirm New Password</label>
-            <input type="password" name="confirm_pass">
-            <?= err('confirm_pass') ?>
-            <br>
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_pass">
+                <?= err('confirm_pass') ?>
 
-            <section>
                 <button type="submit" name="update_password">Update Password</button>
-            </section>
+            </form>
+        </div>
 
-        </form>
     </div>
 </section>
+
+
