@@ -207,12 +207,12 @@ function buildQueryString(array $overrides = []): string {
         <h5>Sorting By: </h5>
 
         <!-- Sort by Name button -->
-        <a href = "product/list.php<?= buildQueryString(['sort_name' => $nextName, 'sort_price' => null, 'page' => 1]) ?>" class = "sort-btn">
+        <a href = "list.php<?= buildQueryString(['sort_name' => $nextName, 'sort_price' => null, 'page' => 1]) ?>" class = "sort-btn">
             Name <?= $nextName === 'asc' ? '⇓' : '⇑' ?>
         </a>
         
         <!-- Sort by Price button -->
-        <a href = "product/list.php<?= buildQueryString(['sort_price' => $nextPrice, 'sort_name' => null, 'page' => 1]) ?>" class = "sort-btn">
+        <a href = "list.php<?= buildQueryString(['sort_price' => $nextPrice, 'sort_name' => null, 'page' => 1]) ?>" class = "sort-btn">
             Price <?= $nextPrice === 'asc' ? '⇓' : '⇑' ?>
         </a>
     </div>
@@ -259,8 +259,8 @@ function buildQueryString(array $overrides = []): string {
 
               echo "<td>" . htmlspecialchars($product->productPrice) . "</td>";
               echo "<td>" . htmlspecialchars($product->productQty) . "</td>";
-              echo '<td> <a href="/product/Update.php?id=' . urlencode($product->productID) . '" class="button">Update</a>';
-              echo '<form action="/product/Delete.php" method="post" onsubmit="return confirm(\'Are you sure you want to delete this product?\')" style="display:inline;">';
+              echo '<td> <a href="../product/Update.php?id=' . urlencode($product->productID) . '" class="button">Update</a>';
+              echo '<form action="../product/Delete.php" method="post" onsubmit="return confirm(\'Are you sure you want to delete this product?\')" style="display:inline;">';
               echo '<input type="hidden" name="productID" value="' . htmlspecialchars($product->productID) . '">';
               echo '<button type="submit" class="button">Delete</button>';
               echo '</form>';

@@ -5,7 +5,7 @@ $_title = 'Product Form';
 
 include '../admin/admin_head.php';
 
-    // Auto-generate product ID
+    // Auto-generate productID
     $stmt = $_db->query('SELECT MAX(productID) as maxID FROM product');
     $row = $stmt->fetch(PDO::FETCH_OBJ);
     $nextNum = ($row->maxID ?? 0) + 1;
@@ -107,7 +107,7 @@ include '../admin/admin_head.php';
         $stm->execute([$productID, $productName, $productPrice, $productDesc, $productQty, $productCat1, $productCat2, $productCat3, $productPhoto]);
 
         temp('info', 'Record successfully inserted!');
-        redirect('/product/list.php');
+        redirect('/product/Read.php');
     }
 
 ?>
@@ -156,23 +156,23 @@ include '../admin/admin_head.php';
             <!-- Radio Type - Connectivity -->
             <div class = "product_insert_select">
                 <label for = "productCat1">Connectivity</label>
-                <input type = "radio" name = "productCat1" value = "wired">Wired
-                <input type = "radio" name = "productCat1" value = "wireless">Wireless
+                <input type = "radio" name = "productCat1" value = "Wired">Wired
+                <input type = "radio" name = "productCat1" value = "Wireless">Wireless
             </div>
 
             <!-- Radio Type - Fit Type -->
             <div class = "product_insert_select">
                 <label for = "productCat2">Fit Type</label>
-                <input type = "radio" name = "productCat2" value = "in-ear">In-ear
-                <input type = "radio" name = "productCat2" value = "over-ear">Over-ear
+                <input type = "radio" name = "productCat2" value = "In-ear">In-ear
+                <input type = "radio" name = "productCat2" value = "Over-ear">Over-ear
             </div>
 
             <!-- Radio Type - Acoustic -->
             <div class = "product_insert_select">
                 <label for = "productCat3">Acoustic</label>
-                <input type = "radio" name = "productCat3" value = "noise-canceled">Noise-canceled
-                <input type = "radio" name = "productCat3" value = "balanced">Balanced
-                <input type = "radio" name = "productCat3" value = "clear vocals">Clear vocals
+                <input type = "radio" name = "productCat3" value = "Noise-canceled">Noise-canceled
+                <input type = "radio" name = "productCat3" value = "Balanced">Balanced
+                <input type = "radio" name = "productCat3" value = "Clear vocals">Clear vocals
             </div>
 
             <!-- Input Product Photo -->
