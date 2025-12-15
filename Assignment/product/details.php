@@ -25,7 +25,7 @@ include '../_head.php';
 <div class = "product-page">
     <div class = "product-left">
         <div class = "product-image-box">
-            <a href = "/product/product.php" class = "back-btn">← Back</a>
+            <a href = "/product/page.php" class = "back-btn">← Back</a>
 
             <img class = "product-photo"
             src = "/photos/<?= htmlspecialchars($product->productPhoto) ?>" 
@@ -52,27 +52,17 @@ include '../_head.php';
             RM <?= number_format($product->productPrice, 2) ?>
         </div>
 
-        <div class="quantity-section">
-    <button type="button" class="qty-btn" id="qtyMinus">−</button>
-
-        <input
-            type="number"
-            id="qtyInput"
-            name="quantity"
-            value="1"
-            min="1">
-
-        <button type="button" class="qty-btn" id="qtyPlus">+</button>
-    </div>
+        <div class = "quantity-section">
+            <button class = "qty-btn" id = "qtyMinus">−</button>
+            <input type = "number" id = "qtyInput" value = "1" min = "1">
+            <button class = "qty-btn" id = "qtyPlus">+</button>
+        </div>
 
         <div class = "action-buttons">
-        <div class="action-buttons">
-            <form method="post" action="/product/add_to_cart.php">
-                <input type="hidden" name="productID" value="<?= $product->productID ?>">
-                <button type="submit" name="add_to_cart">Add to Cart</button>
-            </form>
+            <button class = "wishlist-btn">Wishlist ♥</button>
+            <button class = "cart-btn">Add to Cart</button>
         </div>
-    </div>  
+    </div>
 </div>
 
 <style>
@@ -238,7 +228,7 @@ include '../_head.php';
     margin-bottom: 20px;
 }
 
-.order-btn, .cart-btn {
+.wishlist-btn, .cart-btn {
     padding: 12px 25px;
     border: #000 solid 2px;
     border-radius: 8px;
@@ -269,13 +259,13 @@ body::before {
 </style>
 
 <script>
-const qtyInput = document.getElementById("qtyInput");
-
 document.getElementById("qtyMinus").addEventListener("click", () => {
-    if (qtyInput.value > 1) qtyInput.value--;
+    let qty = document.getElementById("qtyInput");
+    if (qty.value > 1) qty.value--;
 });
 
 document.getElementById("qtyPlus").addEventListener("click", () => {
-    qtyInput.value++;
+    let qty = document.getElementById("qtyInput");
+    qty.value++;
 });
 </script>

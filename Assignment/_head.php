@@ -27,8 +27,6 @@
                 </button>
                 <div class="dropdown-content">
                     <a href="/page/profile.php">Update Profile</a>
-                    <a href="/product/cart.php"><i class="fa fa-shopping-cart" style="font-size:24px"></i> Cart</a>
-                    <a href="/product/order_history.php">View History</a>
                     <a href="/page/logout.php">Logout</a>
                 </div>
             </div>
@@ -39,9 +37,10 @@
 <nav class="navbar">
     <a href="/">Home</a>
     <a href="/product/product.php">Product</a>
-    <a href="/product/cart.php">Cart</a>
-    <a href="/product/order_history.php">View History</a>
     <a href="/page/contactus.php">Contact Us</a>
+    <div class="search-box" style="margin-left:auto;">
+      <input type="text" placeholder="Search products..." />
+      <button>Search</button>
 </button>
 </button>
     </div>
@@ -49,12 +48,3 @@
 
 <main>
 </main>
-
-<script>
-function closePopup() {
-    const popup = document.getElementById('popupOverlay');
-    if (popup) {
-        popup.remove();
-    }
-}
-</script>
