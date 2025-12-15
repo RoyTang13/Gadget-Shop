@@ -280,13 +280,7 @@ function logout($url = '/') {
         $hash = hash_password($password);
         $stm = $_admin_db->prepare("INSERT INTO admin (fname, lname, email, phoneNo, password) VALUES (?, ?, ?, ?, ?)");
         return $stm->execute([$fname, $lname, $email, $phoneNo, $hash]);
-    }
-
-    // Helper: format card number as "1234 5678 9012 3456"
-    function format_card_number($number) {
-        $number = preg_replace('/\D/', '', $number); // remove non-digits
-        return trim(chunk_split($number, 4, ' '));  // insert space every 4 digits
-    }
+}
 
 
 
@@ -312,38 +306,7 @@ function logout($url = '/') {
             unset($_SESSION['popup']);
         }
     }
+    
 
-// ============================================================================
-// Shopping Cart
-// ============================================================================
-// Assuming $_db is your database connection, and $_user contains logged-in user info
-function get_cart() {
-    return $_SESSION['cart'] ?? [];
-}
 
-// Set shopping cart
-function set_cart($cart = []) {
-    $_SESSION['cart'] = $cart;
-}
-
-// Update shopping cart
-function update_cart($productID, $quantity) {
-    global $_db;
-
-    // Ensure userID exists
-    $userID = $_SESSION['userID'] ?? null;
-    if (!$userID) return;
-
-    if ($quantity >= 1 && $quantity <= 10) {
-        // Update quantity
-        $sql = "UPDATE cart SET quantity = ? WHERE productID = ? AND userID = ?";
-        $stmt = $_db->prepare($sql);
-        $stmt->execute([$quantity, $productID, $userID]);
-    } else {
-        // Remove item
-        $sql = "DELETE FROM cart WHERE productID = ? AND userID = ?";
-        $stmt = $_db->prepare($sql);
-        $stmt->execute([$productID, $userID]);
-    }
-}
-
+        

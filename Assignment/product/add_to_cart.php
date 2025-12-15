@@ -5,7 +5,7 @@ show_popup();
 $qty = max(1, intval($_POST['quantity']));
 
 if (!isset($_SESSION['userID'])) {
-    redirect('/page/login.php');
+    redirect('/login.php');
 }
 
 $userID = $_SESSION['userID'];

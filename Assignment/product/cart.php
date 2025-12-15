@@ -3,11 +3,12 @@
 require '../_base.php';
 show_popup();
 
+
 if (isset($_SESSION['userID'])) {
     $userID = $_SESSION['userID'];
 } else {
     // handle not logged in
-    header('Location:/page/login.php');
+    header('Location: login.php');
     exit;
 }
 
@@ -60,6 +61,7 @@ if (is_post()) {
         $stmt = $_db->prepare("UPDATE cart SET quantity = ? WHERE id = ? AND userID = ?");
         $stmt->execute([$newQty, $cartID, $userID]);
 
+        set_popup('Cart updated.');
         redirect('/product/cart.php'); // refresh page
         exit;
     }
@@ -83,7 +85,6 @@ if (isset($_POST['checkout'])) {
 
 $_title = "Your Cart | TechNest";
 include '../_head.php';
-
 ?>
 
 <style>
@@ -93,7 +94,6 @@ input[type="checkbox"] {
     margin: 5px;
 }
 </style>
-
 <main>
 <h1 class="cart-title">🛒 Shopping Cart 🛒</h1>
 
@@ -102,7 +102,7 @@ input[type="checkbox"] {
         <table class="cart-table">
             <thead>
                 <tr>
-                    <th> <input type="checkbox" id="select-all" /></th>
+                    <th>Select</th>
                     <th>Product</th>
                     <th>Price</th>
                     <th style="width:140px;">Quantity</th>
@@ -187,11 +187,7 @@ input[type="checkbox"] {
 </form>
 </main>
 
-<script>
-document.getElementById('select-all').addEventListener('change', function () {
-    const isChecked = this.checked;
-    document.querySelectorAll('input[name="selected[]"]').forEach(cb => {
-        cb.checked = isChecked;
-    });
-});
-</script>
+
+<?php
+// include '../_footer.php';
+?>
