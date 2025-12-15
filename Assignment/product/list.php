@@ -233,10 +233,12 @@ function buildQueryString(array $overrides = []): string {
 </div>
 </form>
     <p class="total_products"><?= $totalProducts ?> product(s)</p>
+    <div class="table-wrapper">
     <table class ="table">
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Photo</th>
                 <th>Name</th>
                 <th>Categories</th>
                 <th>Price(RM)</th>
@@ -249,6 +251,7 @@ function buildQueryString(array $overrides = []): string {
             foreach ($arr as $product) {
               echo "<tr>";
               echo "<td>" . htmlspecialchars($product->productID) . "</td>";
+              echo '<td><img src="/photos/' . htmlspecialchars($product->productPhoto) . '" style="max-width:80px;"></td>';
               echo "<td>" . htmlspecialchars($product->productName) . "</td>";
               $cats = array_filter([$product->productCat1, $product->productCat2, $product->productCat3]);
               echo '<td><ul class="cats-list">';
@@ -264,12 +267,12 @@ function buildQueryString(array $overrides = []): string {
               echo '<input type="hidden" name="productID" value="' . htmlspecialchars($product->productID) . '">';
               echo '<button type="submit" class="button">Delete</button>';
               echo '</form>';
-              echo '<img src="/photos/' . htmlspecialchars($product->productPhoto) . '" class="popup" style="max-width:80px; cursor:pointer;">';
               echo "</tr>";
             }
             ?>
         </tbody>
     </table>
+    </div>
   <td> <button class ="button"><a href="../product/Create.php" class="button">Add Product</a></button></td>
 </main>
 </section>
@@ -392,371 +395,260 @@ document.addEventListener('click', function(e){
 </html>
 
 <style>
-/* Search bar style */
-.search_bar-font {
-    font-style: italic;
-    font-size: 12px;
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: lighter;
-    width: 300px;
-    height: 30px;
-    padding: 3px 0px 2px 6px;
-    border: #000 solid 2px;
-}
-
-/* "Search" button style */
-.search_bar-button {
-    background: #be06ec;
-    color: #fff;
-    padding: 4px 17px;
-    width: 100px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 16px;
-    border: #000 solid 2px;
-    cursor: pointer;
-}
-
-    /* Change background color of "Search" button */
-    .search_bar-button:hover {
-        background: #d17de6;
-    }
-
-    /* Distance between buttons and search bar */
-    .search {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 25px;
-        margin-left: 40px;
-        margin-top: 15px;
-      }
-
-    /* Adjust dropdown position */
-    .browser .search .dropdown {
-        position: relative;
-        z-index: 10;
-    }
-
-    /* Style the dropdown button */
-    .browser .search .dropbtn {
-        background-color: #be06ec;
-        color: #fff;
-        padding: 4px 17px;
-        width: 185px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 16px;
-        border: #000 solid 2px;
-        cursor: pointer;
-        z-index: 1px;
-    }
-
-    /* Change background color of dropdown button on hover */
-    .browser .search .dropdown:hover .dropbtn {
-        background-color: #d17de6;
-    }
-
-    /* Dropdown content */
-    .browser .search .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #fccdfb;
-        border: #341738 ridge 2px;
-        width: 205px;
-        font-family: 'Courier New', Courier, monospace;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Links inside dropdown content */
-    .browser .search .dropdown-content label {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 30px 8px 10px;
-        cursor: pointer;
-    }
-
-    /* Change selection style from Dropdowns */
-    .browser .search .dropdown-content input[type="checkbox"] {
-        cursor: pointer;
-        width: 15px;
-        height: 15px;
-    }
-
-    /* Show the dropdown content on hover */
-    .browser .search .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-    /* ---------------------------------------------- */
-    /* Part 3 - Price Range */
-
-    /* Dropdown Row */
-    .browser .search .dropdown-row {
-        display: block;
-        color: #000;
-        white-space: nowrap;
-        position: relative;
-        padding: 12px 16px;
-        cursor: pointer;
-    }
-
-    /* Change color of dropdown row links on hover */
-    .browser .search .dropdown-row:hover span {
-        background-color: #fff
-    }
-
-    /* Links inside dropdown content */
-    .browser .search .dropdown-content .dropdown-row {
-        color: #000;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
-
-    /* Change color of dropdown links on hover */
-    .browser .search .dropdown-content .dropdown-row:hover {
-        background-color: #fff
-    }
-
-    /* Dropdown subcontent */
-    .browser .search .dropdown-subcontent {
-        display: none;
-        position: absolute;
-        left: 100%;
-        top: 0;
-        background-color: #fccdfb;
-        border: #341738 ridge 2px;
-        min-width: 10px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Show the dropdown subcontent on hover */
-    .browser .search .dropdown-row:hover .dropdown-subcontent {
-        display: block;
-    }
-
-    /* Links inside dropdown subcontent */
-    .browser .search .dropdown-subcontent label {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 30px 8px 10px;
-        cursor: pointer;
-    }
-
-    /* Change color of dropdown subcontent links on hover */
-    .browser .search .dropdown-subcontent:hover span {
-        background-color: #fff
-    }
-
-    /* Change style inside box from Custom Range */
-    .browser .search .dropdown-subcontent input[type="number"] {
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 12px;
-        padding: 4px;
-        border: 1px solid #888;
-        border-radius: 4px;
-    }
-
-    /* Change "Apply" button style inside Custom Range */
-    .browser .search .dropdown-subcontent button {
-        padding: 6px 15px;
-        background-color: #be06ec;
-        color: #fff;
-        border: #000 solid 2px;
-        cursor: pointer;
-        border-radius: 6px;
-        font-family: 'Courier New', Courier, monospace;
-    }
-
-    /* ---------------------------------------------- */
-    /* Part 4 - Browser Frame */
-    .browser {
-        border: 15px solid #c764e0;
-        border-radius: 15px;
-        padding: 10px 0px 15px 0%;
-        margin-top: 10px 150px;
-        background-color: #440552d5;
-        background-position: top;
-        top: 155px;
-        z-index: 8;
-    }
-
-    /* ---------------------------------------------- */
-    /* Part 5 - Sorting Section */
-
-    /* Style the sorting title */
-    .sort_bar .sorting_left h5 {
-        color: #fff;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 16px;
-        font-weight: 600;
-        margin: 0px;
-    }
-
-    /* Style sorting buttons */
-    .sort_bar .sorting_left .sort-btn {
-        background-color: #be06ec;
-        color: #fff;
-        padding: 4px 14px;
-        width: 135px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 16px;
-        font-weight: 600;
-        text-align: center;
-        text-decoration: none;
-        border: #000 solid 2px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .sort_bar .sorting_left .sort-btn:hover {
-        background-color: #d17de6;
-    }
-
-    /* Paging button */
-    .sort_bar .sorting_right .pagination-btn {
-        width: 33px;
-        height: 28px;
-        padding: 0px 0px 3px 0px;
-        border: 1.6px solid #b357ff;
-        background: #f1b9ff;
-        color: #560065;
-        cursor: pointer;
-        font-size: 20.8px;
-        font-weight: bold;
-    }
-
-    /* After cursor hover the paging button */
-    .sort_bar .sorting_right .pagination-btn:hover {
-        background: #f4c9ff;
-        border-color: #aa43ff;
-    }
-
-    /* Paging input */
-    .sort_bar .sorting_right .page-input {
-        width: 148px;
-        height: 26px;
-        padding: 2px 0px 0px 0px;
-        border: 1.6px solid #b357ff;
-        background: #f1b9ff;
-        color: #560065;
-        cursor: text;
-        font-family:'Courier New', Courier, monospace;
-        font-size: 14px;
-        font-weight: 600;
-        text-align: center;
-    }
-
-    /* After hover the page input */
-    .sort_bar .sorting_right .page-input:focus {
-        outline: none;
-        border-color: #c764e0;
-        box-shadow: 0 0 4px rgba(199, 100, 224, 0.3);
-    }
-
-    /* Hide the spin-number-scroller from page input */
-    .page-input::-webkit-inner-spin-button,
-    .page-input::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
+ 
     /* ---------------------------------------------- */
     /* Part 6 - Sorting Frame */
 
-    /* Sorting alignment left & right*/
-    .sort_bar .sorting_left {
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        gap: 5px 25px;
-        margin-top: 10px;
-        margin-left: 40px;
-    }
+/* ---------------------------------------------- */
+/* Part 7 - Table Style (Redesigned, Fit Layout) */
+/* ================================================= */
+/* Base Layout */
 
-    .sort_bar .sorting_right {
-        display: flex;
-        justify-content: right;
-        align-items: center;
-        margin-right: 20px;
-        margin-top: 15px;
-    }
+body {
+    background: #f4f6fb;
+    font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+}
 
-    /* Sorting bar style */
-    .sort_bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border: 4px solid #c764e0;
-        border-radius: 5px;
-        padding: 10px 20px;
-        margin: 10px 20px;
-        background: linear-gradient(to bottom, #68077dd5, #440552d5);
-    }
+main {
+    max-width: 1400px;
+    margin: auto;
+    padding: 20px;
+}
 
-    .total_products{
-        text-align: center;
-        color: #fff;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 16px;
-        font-weight: 600;
-        margin: 10px 20px;
-        flex:1;
-    }
+h1 {
+    margin-bottom: 15px;
+    font-weight: 600;
+}
 
-    /* ---------------------------------------------- */
-    /* Part 7 - Table Style */
+/* ================================================= */
+/* Filter / Search Bar */
 
-  .button {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 10px 12px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 2px 2px;
-    cursor: pointer;
-    border-radius: 2px;
-    }
+.browser {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 15px;
+}
 
-  .button:hover {
-    background-color: #45a049;
-  }
+.search {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+}
 
-  .cats-list {
-    list-style: none;
-    padding: 5px;
-    margin: 0;
-  }
-  
-  .cats-list li {
-      margin-bottom: 5px;
-  }
-
-  .table td:has(.popup) {
+.dropdown {
     position: relative;
 }
 
-.table .popup {
-    position: absolute;
-    top: 50%;
-    left: 100%;
-    translate: 5px -50%;
-    z-index: 1;
-    border: 1px solid #333;
-    display: none;
+.dropbtn {
+    background: #6c63ff;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
-.table tr:hover .popup {
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: #fff;
+    min-width: 180px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 10;
+}
+
+.dropdown:hover .dropdown-content {
     display: block;
 }
 
-  .table th, .table td { text-align: center; vertical-align: middle; }
-  .desc-short { display: inline; }
-  .desc-full { display: none; }
-  .show-more { background: none; border: none; color: #007bff; cursor: pointer; padding: 0; font-size: 0.95em; text-decoration: none; }
-</style>
+.dropdown-content label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.search_bar {
+    display: flex;
+    gap: 8px;
+}
+
+.search_bar-font {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.search_bar-button {
+    background: #6c63ff;
+    border: none;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* ================================================= */
+/* Sort + Paging */
+
+.sort_bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.sorting_left {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.sort-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #eee;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+
+.sort-btn:hover {
+    background: #ddd;
+}
+
+.pagination {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.pagination-btn {
+    border: none;
+    background: #6c63ff;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.page-input {
+    width: 60px;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+/* ================================================= */
+/* Table Wrapper */
+
+.table-wrapper {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 10px;
+    overflow-x: auto;
+}
+
+/* ================================================= */
+/* Table */
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.table thead {
+    background: #5a189a;
+    color: #fff;
+}
+
+.table th {
+    padding: 12px;
+    font-weight: 600;
+}
+
+.table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background: #f7e9ff;
+}
+
+.table img {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* ================================================= */
+/* Buttons */
+
+.button {
+    background: #6c63ff;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: #554ee0;
+}
+
+/* ================================================= */
+/* Categories */
+
+.cats-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cats-list li {
+    background: #f1c4ff;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 13px;
+}
+
+/* ================================================= */
+/* Description Toggle */
+
+.desc-short { display: inline; }
+.desc-full { display: none; }
+
+.show-more {
+    background: none;
+    border: none;
+    color: #6c63ff;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+/* ================================================= */
+/* Misc */
+
+.total_products {
+    margin: 10px 0;
+    opacity: 0.85;
+}

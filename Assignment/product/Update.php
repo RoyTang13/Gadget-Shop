@@ -71,11 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<section style = "display: flex; justify-content: center; align-items: center; min-height: 80vh; gap: 20px;">
+<section style = "display: flex; align-items: center; min-height: 80vh; gap: 20px;">
 <html>
 <head>
     <title>Update Product</title>
-    <meta charset="utf-8">
 </head>
 <body>
 
@@ -93,6 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label>Product Name</label><br>
     <input name = "productName" 
            value = "<?= htmlspecialchars($product->productName) ?>"><br><br>
+
+    <label>Product Image</label><br>
+    <img src="/photos/<?= htmlspecialchars($product->productPhoto) ?>" style="max-width:80px;"><br>
 
     <label>Price (RM)</label><br>
     <input type = "number" 
@@ -120,6 +122,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!-- TO MODIFY -->
 <style>
- 
-</style>
-
+/* ======================================================
+   Update Product – Embedded CSS
+====================================================== */
