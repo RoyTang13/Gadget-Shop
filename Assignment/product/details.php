@@ -15,7 +15,7 @@ $stmt->execute([':name' => $productName]);
 $product = $stmt->fetch(PDO::FETCH_OBJ);
 
 if (!$product) {
-    redirect('/product/page.php');
+    redirect('/product/product.php');
 }
 
 $_title = $product->productName . " | TechNest";
