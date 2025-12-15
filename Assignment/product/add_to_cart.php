@@ -2,15 +2,13 @@
 require '../_base.php';
 show_popup();
 
-$qty = max(1, intval($_POST['quantity']));
-
 if (!isset($_SESSION['userID'])) {
     redirect('/login.php');
 }
 
-$userID = $_SESSION['userID'];
+$userID    = $_SESSION['userID'];
 $productID = $_POST['productID'];
-$qty = 1;
+$qty       = max(1, (int)($_POST['quantity'] ?? 1));
 
 // check if product already in cart
 $check = $_db->prepare(
@@ -19,18 +17,18 @@ $check = $_db->prepare(
 $check->execute([$userID, $productID]);
 
 if ($row = $check->fetch()) {
-    // update quantity
+    // ADD selected quantity
     $upd = $_db->prepare(
-        "UPDATE cart SET quantity = quantity + 1 WHERE id=?"
+        "UPDATE cart SET quantity = quantity + ? WHERE id=?"
     );
-    $upd->execute([$row->id]);
+    $upd->execute([$qty, $row->id]);
 } else {
-    // insert new
+    // insert with selected quantity
     $ins = $_db->prepare(
         "INSERT INTO cart (userID, productID, quantity)
-         VALUES (?, ?, 1)"
+         VALUES (?, ?, ?)"
     );
-    $ins->execute([$userID, $productID]);
+    $ins->execute([$userID, $productID, $qty]);
 }
 
 set_popup('Product added to cart');

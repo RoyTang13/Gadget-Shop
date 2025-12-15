@@ -51,24 +51,22 @@ include '../_head.php';
         <div class = "product-price">
             RM <?= number_format($product->productPrice, 2) ?>
         </div>
-
-        <div class="quantity-section">
-    <button type="button" class="qty-btn" id="qtyMinus">−</button>
-
-        <input
-            type="number"
-            id="qtyInput"
-            name="quantity"
-            value="1"
-            min="1">
-
-        <button type="button" class="qty-btn" id="qtyPlus">+</button>
-    </div>
-
-        <div class = "action-buttons">
+        
         <div class="action-buttons">
             <form method="post" action="/product/add_to_cart.php">
                 <input type="hidden" name="productID" value="<?= $product->productID ?>">
+                <div class="quantity-section">
+                    <button type="button" class="qty-btn" id="qtyMinus">−</button>
+
+                        <input
+                            type="number"
+                            id="qtyInput"
+                            name="quantity"
+                            value="1"
+                            min="1">
+
+                        <button type="button" class="qty-btn" id="qtyPlus">+</button>
+                    </div>
                 <button type="submit" name="add_to_cart">Add to Cart</button>
             </form>
         </div>
