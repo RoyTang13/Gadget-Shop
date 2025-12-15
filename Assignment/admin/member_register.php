@@ -36,7 +36,6 @@ password_hash($password, PASSWORD_DEFAULT),
 $photo
 ]);
 
-
 redirect('login.php');
 exit;
 }

@@ -71,14 +71,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<section style = "display: flex; align-items: center; min-height: 80vh; gap: 20px;">
+<section class="container">
 <html>
 <head>
     <title>Update Product</title>
 </head>
 <body>
 
-<h1>Update Product (ID: <?= htmlspecialchars($product->productID) ?>)</h1> <!-- TO MODIFY -->
+<h1>Update Product (ID: <?= htmlspecialchars($product->productID) ?>)</h1> 
 
 <?php if ($errors): ?>
     <ul style="color:red">
@@ -88,40 +88,170 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </ul>
 <?php endif ?>
 
-<form method = "post">
-    <label>Product Name</label><br>
-    <input name = "productName" 
-           value = "<?= htmlspecialchars($product->productName) ?>"><br><br>
+<form method="post" class="edit-layout">
 
-    <label>Product Image</label><br>
-    <img src="/photos/<?= htmlspecialchars($product->productPhoto) ?>" style="max-width:80px;"><br>
+    <!-- LEFT SIDE -->
+    <div class="left-panel">
+        <h3>Product Preview</h3>
 
-    <label>Price (RM)</label><br>
-    <input type = "number" 
-           step = "0.01" 
-           name = "productPrice" 
-           value = "<?= htmlspecialchars($product->productPrice) ?>"><br><br>
+        <img src="/photos/<?= htmlspecialchars($product->productPhoto) ?>" 
+             alt="Product Image" 
+             class="product-image">
 
-    <label>Quantity</label><br>
-    <input type = "number" 
-           name = "productQty" 
-           value = "<?= htmlspecialchars($product->productQty) ?>"><br><br>
+        <p><strong>ID:</strong> <?= htmlspecialchars($product->productID) ?></p>
 
-    <label>Description</label><br>
-    <textarea name = "productDesc" 
-              rows = "4" 
-              cols = "50"><?= htmlspecialchars($product->productDesc) ?></textarea><br><br>
+        <p><strong>Current Price:</strong> RM <?= htmlspecialchars($product->productPrice) ?></p>
 
-    <button type = "submit" href = "product/list.php">Save Changes</button>
-    <a href = "list.php">Cancel</a>
+        <p><strong>Stock:</strong> <?= htmlspecialchars($product->productQty) ?></p>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right-panel">
+        <h3>Edit Details</h3>
+
+        <label>Product Name</label>
+        <input type="text" name="productName"
+               value="<?= htmlspecialchars($product->productName) ?>">
+
+        <label>Price (RM)</label>
+        <input type="number" step="0.01" name="productPrice"
+               value="<?= htmlspecialchars($product->productPrice) ?>">
+
+        <label>Quantity</label>
+        <input type="number" name="productQty"
+               value="<?= htmlspecialchars($product->productQty) ?>">
+
+        <label>Description</label>
+        <textarea name="productDesc" rows="5"><?= htmlspecialchars($product->productDesc) ?></textarea>
+
+        <div class="buttons">
+            <button type="submit">Save Changes</button>
+            <a class="cancel" href="list.php">Cancel</a>
+        </div>
+    </div>
+
 </form>
+
 
 </body>
 </html>
 </section>
 
-<!-- TO MODIFY -->
+
 <style>
-/* ======================================================
-   Update Product – Embedded CSS
-====================================================== */
+/* Page base */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(#e0e7ff, #e0e7ff);
+    padding: 20px;
+}
+
+.container {
+    width: 10000px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    border: 1px solid #000000ff;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+
+/* Layout */
+.edit-layout {
+    display: flex;
+    gap: 30px;
+}
+
+/* Left panel */
+.left-panel {
+    flex: 1;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.left-panel h3 {
+    margin-bottom: 15px;
+}
+
+.product-image {
+    max-width: 100%;
+    max-height: 220px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+/* Right panel */
+.right-panel {
+    flex: 2;
+}
+
+.right-panel h3 {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 17px;
+}
+
+/* Buttons */
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    background: #7b2ff7;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background: #5a1fdc;
+}
+
+.cancel {
+    background: #999;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.cancel:hover {
+    background: #555;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .edit-layout {
+        flex-direction: column;
+    }
+}
+</style>

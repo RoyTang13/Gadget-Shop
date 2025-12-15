@@ -404,7 +404,7 @@ document.addEventListener('click', function(e){
 /* Base Layout */
 
 body {
-    background: #f4f6fb;
+    background: linear-gradient(#e0e7ff, #e0e7ff);
     font-family: system-ui, -apple-system, Segoe UI, sans-serif;
 }
 
