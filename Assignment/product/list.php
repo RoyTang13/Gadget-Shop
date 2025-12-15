@@ -243,12 +243,19 @@ function buildQueryString(array $overrides = []): string {
                 <th>Categories</th>
                 <th>Price(RM)</th>
                 <th>Stock quantity </th>
+                <th>Status</th>
                 <th class="text-center" colspan="2">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php
             foreach ($arr as $product) {
+                $statusLabel = 'Hidden';
+                $statusClass = 'status-hidden';
+                    if ($product->productStatus === 1) {
+                        $statusLabel = 'Public';
+                        $statusClass = 'status-public';
+                    }
               echo "<tr>";
               echo "<td>" . htmlspecialchars($product->productID) . "</td>";
               echo '<td><img src="/photos/' . htmlspecialchars($product->productPhoto) . '" style="max-width:80px;"></td>';
@@ -263,12 +270,16 @@ function buildQueryString(array $overrides = []): string {
 
               echo "<td>" . htmlspecialchars($product->productPrice) . "</td>";
               echo "<td>" . htmlspecialchars($product->productQty) . "</td>";
+              echo "<td><span class='$statusClass'>$statusLabel</span></td>";
               echo '<td> <a href="../product/Update.php?id=' . urlencode($product->productID) . '" class="button">Update</a>';
               
-              echo '<form action="../product/Delete.php" method="post" onsubmit="return confirm(\'Are you sure you want to delete this product?\')" style="display:inline;">';
+              /*  TOGGLE STATUS BUTTON  */
+              echo '<form action="../product/ToggleStatus.php" method="post" style="display:inline;">';
               echo '<input type="hidden" name="productID" value="' . htmlspecialchars($product->productID) . '">';
-              echo '<button type="submit" class="button">Delete</button>';
-              echo '</form>';
+              echo '<button type="submit" class="button">';
+              echo ($product->productStatus === 1) ? 'Hide' : 'Publish';
+              echo '</button>';
+              echo '</form> ';
               echo "</tr>";
             }
             ?>
@@ -309,7 +320,7 @@ function buildQueryString(array $overrides = []): string {
                 // Build new URL preserving filters/search using URLSearchParams
                 const params = new URLSearchParams(window.location.search);
                 
-                // Apply overrides
+                // Apply overrides to params
                 for (const [key, val] of Object.entries(overrides)) {
                     if (val === null) {
                         params.delete(key);
@@ -398,9 +409,9 @@ document.addEventListener('click', function(e){
 
 <style>
  
-/* ---------------------------------------------- */
-/* Part 7 - Table Style (Redesigned, Fit Layout) */
-/* ================================================= */
+/* -------------------- */
+/* Part 7 - Table Style */
+/* ==================== */
 /* Base Layout */
 
 body {

@@ -822,3 +822,21 @@ button:hover {
         width: 100%;
     }
 }
+
+.status-public {
+    background: #c7f9cc;
+    color: #065f46;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status-hidden {
+    background: #fde2e4;
+    color: #9b2226;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+}

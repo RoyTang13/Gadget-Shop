@@ -8,6 +8,8 @@ show_popup();
 
 $where = [];
 $params = [];
+// PUBLIC ONLY: show published products
+$where[] = "COALESCE(productStatus, 0) = 1";
 
 // Functionable Searching
 if (!empty($_GET['search'])) {
