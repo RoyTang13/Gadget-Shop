@@ -148,9 +148,9 @@ function buildQueryString(array $overrides = []): string {
 
 <section>
 <main>
-<h1 class = "text-center">Product List</h1> <!-- TO MODIFY -->
+<h1 class = "text-center">Product List</h1> 
 <div class = "browser"> 
-<form method = "get" action = "product/list.php">
+<form method = "get">
       <div class = "search">
         <!-- Connection Filter -->
         <div class = "dropdown">
