@@ -26,10 +26,10 @@
                     <span>Hi, <?= htmlspecialchars($_SESSION['lname'] ?? $_SESSION['fname'] ?? 'User') ?> &#9662; </span>
                 </button>
                 <div class="dropdown-content">
-                    <a href="/page/profile.php">Update Profile</a>
-                    <a href="/product/cart.php"><i class="fa fa-shopping-cart" style="font-size:24px"></i> Cart</a>
-                    <a href="/product/order_history.php">View History</a>
-                    <a href="/page/logout.php">Logout</a>
+                    <a href="/page/profile.php"><i class="fas fa-address-book" style="font-size:24px"></i>  Update Profile</a>
+                    <a href="/product/cart.php"><i class="fa fa-shopping-cart" style="font-size:24px"></i>  Cart</a>
+                    <a href="/product/order_history.php"><i class="fas fa-history" style="font-size:24px"></i>  View History</a>
+                    <a href="/page/logout.php"><i class="fas fa-right-from-bracket" style="font-size:24px" ></i>  Logout</a>
                 </div>
             </div>
         <?php endif; ?>

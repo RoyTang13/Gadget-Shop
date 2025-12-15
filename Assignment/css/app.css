@@ -443,10 +443,10 @@
             position: absolute;
             right: 0;
             background: #de87ee;
-            min-width: 180px;
+            min-width: 200px;
             box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
             border-radius: 8px;
-            z-index: 1000;
+            z-index: 100;
             overflow: hidden;
             transition: opacity 0.3s ease, transform 0.3s ease;
             transform: translateY(-10px);
