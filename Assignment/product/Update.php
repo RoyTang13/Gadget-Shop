@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               cols = "50"><?= htmlspecialchars($product->productDesc) ?></textarea><br><br>
 
     <button type = "submit" href = "product/list.php">Save Changes</button>
-    <a href = "product/list.php">Cancel</a>
+    <a href = "list.php">Cancel</a>
 </form>
 
 </body>
@@ -122,3 +122,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <style>
  
 </style>
+

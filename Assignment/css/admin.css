@@ -434,14 +434,14 @@ button:hover {
     }
 
 
-    /* ---------------- Product Table ---------------- */
+    /*Searching */
     /* Search bar style */
     .search_bar-font {
         font-style: italic;
         font-size: 12px;
         font-family: 'Courier New', Courier, monospace;
         font-weight: lighter;
-        width: 400px;
+        width: 250px;
         height: 30px;
         padding: 3px 0px 2px 6px;
         border: #000 solid 2px;
@@ -467,11 +467,199 @@ button:hover {
     /* Distance between buttons and search bar */
     .search {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-left: 40px;
+        margin-top: 15px;
+      }
+
+  /* Filtering and Category*/
+
+    /* Adjust dropdown position */
+    .browser .search .dropdown {
+        position: relative;
+        z-index: 7;
+    }
+
+    /* Style the dropdown button */
+    .browser .search .dropbtn {
+        background-color: #be06ec;
+        color: #fff;
+        padding: 4px 17px;
+        width: 155px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 16px;
+        border: #000 solid 2px;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    /* Change background color of dropdown button on hover */
+    .browser .search .dropdown:hover .dropbtn {
+        background-color: #d17de6;
+    }
+
+    /* Dropdown content */
+    .browser .search .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fccdfb;
+        border: #341738 ridge 2px;
+        width: 205px;
+        font-family: 'Courier New', Courier, monospace;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Links inside dropdown content */
+    .browser .search .dropdown-content label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 30px 8px 10px;
+        cursor: pointer;
+    }
+
+    /* Change selection style from Dropdowns */
+    .browser .search .dropdown-content input[type="checkbox"] {
+        cursor: pointer;
+        width: 15px;
+        height: 15px;
+    }
+
+    /* Show the dropdown content on hover */
+    .browser .search .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* ---------------------------------------------- */
+    /* Browser Frame */
+    .browser {
+        border: 15px solid #c764e0;
+        border-radius: 15px;
+        padding: 10px 0px 15px 0%;
+        margin-top: 10px 150px;
+        background-color: #440552d5;
+        background-position: top;
+        top: 155px;
+        z-index: 5;
+    }
+
+    /* ---------------------------------------------- */
+    /* Sorting Section */
+
+    /* Style the sorting title */
+    .sort_bar .sorting_left h5 {
+        color: #fff;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    /* Style sorting buttons */
+    .sort_bar .sorting_left .sort-btn {
+        background-color: #be06ec;
+        color: #fff;
+        padding: 4px 14px;
+        width: 135px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: none;
+        border: #000 solid 2px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .sort_bar .sorting_left .sort-btn:hover {
+        background-color: #d17de6;
+    }
+
+    /* Paging button */
+    .sort_bar .sorting_right .pagination-btn {
+        width: 33px;
+        height: 28px;
+        padding: 0px 0px 3px 0px;
+        border: 1.6px solid #b357ff;
+        background: #f1b9ff;
+        color: #560065;
+        cursor: pointer;
+        font-size: 20.8px;
+        font-weight: bold;
+    }
+
+    /* After cursor hover the paging button */
+    .sort_bar .sorting_right .pagination-btn:hover {
+        background: #f4c9ff;
+        border-color: #aa43ff;
+    }
+
+    /* Paging input */
+    .sort_bar .sorting_right .page-input {
+        width: 148px;
+        height: 26px;
+        padding: 2px 0px 0px 0px;
+        border: 1.6px solid #b357ff;
+        background: #f1b9ff;
+        color: #560065;
+        cursor: text;
+        font-family:'Courier New', Courier, monospace;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    /* After hover the page input */
+    .sort_bar .sorting_right .page-input:focus {
+        outline: none;
+        border-color: #c764e0;
+        box-shadow: 0 0 4px rgba(199, 100, 224, 0.3);
+    }
+
+    /* Hide the spin-number-scroller from page input */
+    .page-input::-webkit-inner-spin-button,
+    .page-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* ---------------------------------------------- */
+    /* Sorting Frame */
+
+    /* Sorting alignment left & right*/
+    .sort_bar .sorting_left {
+        display: flex;
         justify-content: left;
         align-items: center;
-        gap: 25px;
-        margin-left: 250px;
-        margin-top: 80px;
+        gap: 5px 25px;
+        margin-top: 10px;
+        margin-left: 40px;
+        z-index: 1;
+    }
+
+    .sort_bar .sorting_right {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        margin-right: 20px;
+        margin-top: 15px;
+    }
+
+    /* Sorting bar style */
+    .sort_bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 4px solid #c764e0;
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin: 10px 20px;
+        z-index: 5;
+        background: linear-gradient(to bottom, #68077dd5, #440552d5);
     }
     /* Table ------------------------------------------------------------------- */
 
@@ -484,7 +672,7 @@ button:hover {
     }
     .table th {
         color: #fff;
-        background: #666;
+        background: #07435f;
     }
     .table tr:nth-child(even) td {
         background: #f2f2f2;
