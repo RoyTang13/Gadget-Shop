@@ -58,7 +58,7 @@ if (!empty($_GET['fixedPrice'])) {
 }
 
     // 4b. Custom Price
-if (!empty($_GET['customMin']) && !empty($_GET['customMax'])) {
+else if (!empty($_GET['customMin']) && !empty($_GET['customMax'])) {
     $where[] = "productPrice BETWEEN :cmin AND :cmax";
     $params[':cmin'] = $_GET['customMin'];
     $params[':cmax'] = $_GET['customMax'];
@@ -414,8 +414,8 @@ function buildQueryString(array $overrides = []): string {
         <!-- Type filters -->
         <div>
             <h4>🔌Connection</h4>
-            <label><input type = "checkbox" name = "connectivity[]" value = "wired"  <?= in_array('Type1', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wired</label><br><br>
-            <label><input type = "checkbox" name = "connectivity[]" value = "wireless"  <?= in_array('Type2', $_GET['type'] ?? []) ? 'checked' : '' ?>> Wireless</label><br><br>
+            <label><input type = "checkbox" name = "connectivity[]" value = "wired"  <?= in_array('wired', $_GET['connectivity'] ?? []) ? 'checked' : '' ?>> Wired</label><br><br>
+            <label><input type = "checkbox" name = "connectivity[]" value = "wireless"  <?= in_array('wireless', $_GET['connectivity'] ?? []) ? 'checked' : '' ?>> Wireless</label><br><br>
         </div>
 
         <!-- Fit Type -->
@@ -440,8 +440,8 @@ function buildQueryString(array $overrides = []): string {
             <label><input type = "radio" name = "fixedPrice" value = "300.01-600.00">RM 300.01 - RM 600.00</label><br><br>
             <label><input type = "radio" name = "fixedPrice" value = "600.01-900.00">RM 600.01 - RM 900.00</label><br><br>
             <label><input type = "radio" name = "fixedPrice" value = "900.01-1200.00">RM 900.01 - RM 1200.00</label><br><br>
-        <input type = "number" name = "priceMin" min = 0.01 max = 1199.99 step = 0.01 placeholder = "Min" value = "<?= $_GET['priceMin'] ?? '' ?>" style = "width: 100px;">
-        <input type = "number" name = "priceMax" min = 0.02 max = 1200.00 step = 0.02 placeholder = "Max" value = "<?= $_GET['priceMax'] ?? '' ?>" style = "width: 100px;">
+        <input type = "number" name = "customMin" min = "0.01" max = "1199.99" step = "0.01" placeholder = "Min" value = "<?= $_GET['customMin'] ?? '' ?>" style = "width:100px;">
+        <input type = "number" name = "customMax" min = "0.02" max = "1200.00" step = "0.01" placeholder = "Max" value = "<?= $_GET['customMax'] ?? '' ?>" style = "width:100px;">
         </div>
 
         <div style = "margin-top: 15px;">
@@ -613,6 +613,31 @@ function buildQueryString(array $overrides = []): string {
             });
         }
     });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const fixedRadios = document.querySelectorAll('input[name="fixedPrice"]');
+    const customMin = document.querySelector('input[name="customMin"]');
+    const customMax = document.querySelector('input[name="customMax"]');
+
+    // Clear custom inputs when select fixed radio
+    fixedRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            customMin.value = '';
+            customMax.value = '';
+        });
+    });
+
+    // Clear fixed radios when input custom prices
+    function clearFixed() {
+        fixedRadios.forEach(r => r.checked = false);
+    }
+
+    customMin.addEventListener('input', clearFixed);
+    customMax.addEventListener('input', clearFixed);
+});
 </script>
 
 </main>
