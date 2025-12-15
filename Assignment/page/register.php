@@ -122,20 +122,20 @@
         // ----------------------------------
     // reCAPTCHA VALIDATION
     // ----------------------------------
-    // $recaptcha = $_POST['g-recaptcha-response'] ?? '';
-    // $secretKey = "6Lfymx4sAAAAAAhjdZaclLmEl69dKnxzS8PRqwM7"; 
+    $recaptcha = $_POST['g-recaptcha-response'] ?? '';
+    $secretKey = "6Lfymx4sAAAAAAhjdZaclLmEl69dKnxzS8PRqwM7"; 
 
-    // $response = file_get_contents(
-    //     "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptcha"
-    // );
-    // $responseKeys = json_decode($response, true);
+    $response = file_get_contents(
+        "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptcha"
+    );
+    $responseKeys = json_decode($response, true);
 
-    // if (empty($recaptcha) || !$responseKeys["success"]) {
-    //     $_err['recaptcha'] = "Please verify you're not a robot";
-    // }   
+    if (empty($recaptcha) || !$responseKeys["success"]) {
+        $_err['recaptcha'] = "Please verify you're not a robot";
+    }   
 
-    // }
     }
+
 
 
     include '../_head.php';
@@ -177,7 +177,7 @@
                     <?= html_password('cpassword','maxlength="100" placeholder="Must include upper, lower, number, and special character" ') ?>
                     <?= err('cpassword') ?>
 
-                    <!-- <div class="g-recaptcha" data-sitekey="6Lfymx4sAAAAABMqtubtNWizFORYHqcABGmCZeOl"></div> -->
+                    <div class="g-recaptcha" data-sitekey="6Lfymx4sAAAAABMqtubtNWizFORYHqcABGmCZeOl"></div>
                     <?= err('recaptcha') ?>
 
                     <section>
