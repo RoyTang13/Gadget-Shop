@@ -58,9 +58,9 @@
             // ---- PHOTO SAVE ----
             if ($f) {
                 if ($userPhoto) {
-                    @unlink("../userPhoto/$userPhoto");  // delete old
+                    @unlink("../userPhoto/$userPhoto");  
                 }
-                $userPhoto = save_photo($f, "../Assignment/userPhoto");  // save new
+                $userPhoto = save_photo($f, "../userPhoto"); 
             }
 
             // ---- UPDATE DB ---- 
@@ -77,6 +77,7 @@
             $_SESSION['userPhoto'] = $userPhoto; 
             set_popup("Profile updated successfully");
             redirect('/page/profile.php');
+
         }
     }
 
@@ -133,10 +134,12 @@
 
             <label for="photo">Photo</label>
             <label class="upload" tabindex="0">
-                <?= html_file('userPhoto', 'image/*', 'hidden') ?>
-                <img src="/userPhoto/<?= htmlspecialchars($_SESSION['userPhoto'])?>">
+                <input type="file" name="userPhoto" id="photoInput" accept="image/*" style="display:none;">
+                <img id="photoPreview" src="/userPhoto/<?= htmlspecialchars($userPhoto) ?>?t=<?= time() ?>" 
+                    alt="Profile Photo" 
+                    style="width:180px;height:180px;object-fit:cover;border-radius:10px;cursor:pointer;">
             </label>
-            <?= err('userPhoto') ?>
+
 
             <section>
                 <button type="submit" name="update_profile">Update Profile</button>
@@ -172,3 +175,19 @@
 
         </form>
     </div>
+
+    <script>
+document.getElementById('photoInput').addEventListener('change', function(e){
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Only image files
+    if (!file.type.startsWith('image/')) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('photoPreview').src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+});
+</script>
