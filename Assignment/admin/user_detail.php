@@ -50,7 +50,7 @@ $orders = $stm->fetchAll(PDO::FETCH_OBJ);
         <!-- Profile Photo -->
         <div class="user-photo">
             <?php if ($m->userPhoto): ?>
-                <img src="/uploads/<?= htmlspecialchars($m->userPhoto) ?>" alt="User Photo">
+                <img src="/userPhoto/<?= htmlspecialchars($m->userPhoto) ?>" alt="User Photo">
             <?php else: ?>
                 <div class="photo-placeholder">No Photo</div>
             <?php endif ?>
