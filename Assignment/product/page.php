@@ -349,7 +349,7 @@ include '../_head.php';
         background-image: url(/images/purple\ wave\ background.jpg);
         background-size: cover;
         background-attachment: fixed;
-        opacity: 0.5;
+        opacity: 0.6;
         z-index: -1;
         pointer-events: none;
     }
