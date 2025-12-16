@@ -11,6 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 
+
 // ============================================================================
 // General Page Functions
 // ============================================================================
@@ -202,6 +203,21 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Global user object
 $_user = $_SESSION['user'] ?? null;
+
+// ===============================
+// GLOBAL BAN CHECK
+// ===============================
+if (!empty($_SESSION['userID'])) {
+    $stm = $_db->prepare("SELECT status FROM user WHERE userID = ?");
+    $stm->execute([$_SESSION['userID']]);
+    $status = $stm->fetchColumn();
+
+    if ($status === 'banned') {
+        set_popup('Your account has been banned.');
+        session_unset(); // clear login session
+        redirect('../page/login.php');
+    }
+}
 
 // Login user
 function login($user, $url = '/') {

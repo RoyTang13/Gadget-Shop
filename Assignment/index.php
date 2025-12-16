@@ -3,6 +3,7 @@ require '_base.php';
 
 $_title = 'TechNest';
 include '_head.php';
+
 ?>
 
 <body>

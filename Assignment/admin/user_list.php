@@ -119,38 +119,37 @@ function buildQueryString(array $overrides = []): string {
     <p class="text-center"><?= $totalUsers ?> total users</p>
 
     <!-- Search Form -->
-    <form class="text-center" method="get" role="search">
+    <form class="search-box" method="get" role="search">
         <label for="search-input" class="visually-hidden">Search first name / last name / email:</label>
         <input id="search-input" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search first name / last name / email" type="text">
         <button type="submit">Search</button>
         <!-- Sort Bar + Paging -->
-        <div class="sort_bar">
-            <div class="sorting_left">
-                <h5>Sorting By: </h5>
-                <!-- Sort by ID button -->
-                <a href="/admin/user_list.php<?= buildQueryString(['sort_id' => $nextIdSort, 'sort_fname' => null, 'sort_lname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
-                    ID <?= $currentIdSort === 'asc' ? '⇓' : '⇑' ?>
-                </a>
-                <!-- Sort by First Name button -->
-                <a href="/admin/user_list.php<?= buildQueryString(['sort_fname' => $nextFNameSort, 'sort_id' => null, 'sort_lname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
-                    First Name <?= $currentFNameSort === 'asc' ? '⇓' : '⇑' ?>
-                </a>
-                <!-- Sort by Last Name button -->
-                <a href="/admin/user_list.php<?= buildQueryString(['sort_lname' => $nextLNameSort, 'sort_id' => null, 'sort_fname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
-                    Last Name <?= $currentLNameSort === 'asc' ? '⇓' : '⇑' ?>
-                </a>
-            </div>
-
-            <div class="sorting_right">
-                <!-- Paging with textable page number -->
-                <div class="pagination">
-                    <button class="pagination-btn" id="prevBtn" type="button">‹</button>
-                    <input type="number" id="pageInput" class="page-input" min="1" value="<?= $page ?>" placeholder="Page">
-                    <button class="pagination-btn" id="nextBtn" type="button">›</button>
-                </div>
+    </form>
+    <div class="sort_bar">
+        <div class="sorting_left">
+            <h5>Sorting By: </h5>
+            <!-- Sort by ID button -->
+            <a href="/admin/user_list.php<?= buildQueryString(['sort_id' => $nextIdSort, 'sort_fname' => null, 'sort_lname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
+                ID <?= $currentIdSort === 'asc' ? '⇓' : '⇑' ?>
+            </a>
+            <!-- Sort by First Name button -->
+            <a href="/admin/user_list.php<?= buildQueryString(['sort_fname' => $nextFNameSort, 'sort_id' => null, 'sort_lname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
+                First Name <?= $currentFNameSort === 'asc' ? '⇓' : '⇑' ?>
+            </a>
+            <!-- Sort by Last Name button -->
+            <a href="/admin/user_list.php<?= buildQueryString(['sort_lname' => $nextLNameSort, 'sort_id' => null, 'sort_fname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
+                Last Name <?= $currentLNameSort === 'asc' ? '⇓' : '⇑' ?>
+            </a>
+        </div>
+        <div class="sorting_right">
+            <!-- Paging with textable page number -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" type="button">‹</button>
+                <input type="number" id="pageInput" class="page-input" min="1" value="<?= $page ?>" placeholder="Page">
+                <button class="pagination-btn" id="nextBtn" type="button">›</button>
             </div>
         </div>
-    </form>
+    </div>
 
     <!-- User Table -->
     <table class="table" border="1" cellpadding="5" cellspacing="0" style="margin: 20px auto; border-collapse: collapse;">
@@ -161,6 +160,8 @@ function buildQueryString(array $overrides = []): string {
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Phone Number</th>
+                <th>Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -172,6 +173,24 @@ function buildQueryString(array $overrides = []): string {
                         <td><?= htmlspecialchars($user['lname']) ?></td>
                         <td><?= htmlspecialchars($user['email']) ?></td>
                         <td><?= htmlspecialchars($user['phoneNo']) ?></td>
+                        <td>
+                            <span class="<?= $user['status']=='banned' ? 'status-banned' : 'status-active' ?>">
+                                <?= ucfirst($user['status']) ?>
+                            </span>
+                        </td>
+                        <td>
+                            <!-- VIEW DETAILS -->
+                             <a href="user_view.php?id=<?= $user['userID'] ?>" class="button">
+                                View
+                            </a>
+                            <!-- BAN / UNBAN -->
+                             <form action="user_status.php" method="post" style="display:inline;">
+                                <input type="hidden" name="userID" value="<?= $user['userID'] ?>">
+                                <button class="button">
+                                    <?= $user['status'] === 'banned' ? 'Unban' : 'Ban' ?>
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -198,6 +217,36 @@ function buildQueryString(array $overrides = []): string {
 </section>
 
 <style>
+    /* user status(ban/active)*/
+    .status-active { color: green; font-weight: bold; }
+.status-banned { color: red; font-weight: bold; }
+    /* ===== Search ===== */
+.search-box {
+    display: flex;
+    gap: 10px;
+    position: center;
+    margin-bottom: 15px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid #c7d2fe;
+}
+
+.search-box button {
+    padding: 9px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #be06ec;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search-box button:hover {
+    background: #d17de6;
+}
     .table {
     width: 1100px;
     border-collapse: collapse;
@@ -206,7 +255,7 @@ function buildQueryString(array $overrides = []): string {
     vertical-align: middle;
 }
   .button {
-    background-color: #4CAF50; /* Green */
+    background-color: #be06ec; 
     border: none;
     color: white;
     padding: 10px 12px;
@@ -220,7 +269,7 @@ function buildQueryString(array $overrides = []): string {
     }
 
   .button:hover {
-    background-color: #45a049;
+    background-color: #d17de6;
   }
 body {
     margin-bottom: 100px; /* to prevent overlap with footer */

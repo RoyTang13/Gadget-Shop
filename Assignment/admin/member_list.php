@@ -105,7 +105,7 @@ function buildQueryString(array $overrides = []): string {
 <h1 class="text-center">Member List</h1>
 <p class="text-center"><?= $totalMembers ?> member(s)</p>
 
-    <form class="text-center" method="get" role="search" style="margin-bottom: 20px;">
+    <form class= "search-box" class="text-center" method="get" role="search" style="margin-bottom: 20px;">
         <label for = "search-input" class="visually-hidden">Search name / email: </label>
         <input id ="serch-input" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search name / email" type = "text">
         <button type="sumbit">Search</button>
@@ -190,8 +190,42 @@ function buildQueryString(array $overrides = []): string {
 </section>
 
 <style> 
+    /* ===== Search ===== */
+.search-box {
+    display: flex;
+    gap: 10px;
+    position: center;
+    margin-bottom: 15px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid #c7d2fe;
+}
+
+.search-box button {
+    padding: 9px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #be06ec;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search-box button:hover {
+    background: #d17de6;
+}
+    .table {
+    width: 1100px;
+    border-collapse: collapse;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+}
   .button {
-    background-color: #4CAF50; /* Green */
+    background-color: #be06ec; 
     border: none;
     color: white;
     padding: 10px 12px;
@@ -205,7 +239,7 @@ function buildQueryString(array $overrides = []): string {
     }
 
   .button:hover {
-    background-color: #45a049;
+    background-color: #d17de6;
   }
 </style>
 

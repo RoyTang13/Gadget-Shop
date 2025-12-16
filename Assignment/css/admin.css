@@ -671,6 +671,7 @@ button:hover {
     align-items: center;
     margin-right: 20px;
     margin-top: 15px;
+    z-index: 1;
 }
 
 /* Sorting bar style */

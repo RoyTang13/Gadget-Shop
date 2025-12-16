@@ -5,6 +5,7 @@ $_title = 'Page | Demo 2';
 include '../_head.php';
 
 $_err = [];
+show_popup();
 
 $email = '';
 $password = '';
@@ -48,6 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (!$user) {
             $_err['email'] = 'Email not found';
+        } else if ($user['status'] === 'banned') {
+            set_popup('Your account has been banned.');
+            redirect('login.php');
         } else if (!password_verify($password, $user['password'])) { // hashed check
             $_err['password'] = 'Incorrect password';
         } else {
@@ -63,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
+
 ?>
 
 
@@ -105,4 +110,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <?php
 include '../_foot.php';
-?>
