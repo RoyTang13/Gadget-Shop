@@ -107,7 +107,13 @@ include '../admin/admin_head.php';
         $stm->execute([$productID, $productName, $productPrice, $productDesc, $productQty, $productCat1, $productCat2, $productCat3, $productPhoto]);
 
         temp('info', 'Record successfully inserted!');
-        redirect('/product/Read.php');
+        redirect('/product/list.php');
+    }
+
+    $displayPhoto = '../images/photo.jpg'; // default placeholder
+
+    if (is_post() && isset($productPhoto) && $productPhoto != '') {
+        $displayPhoto = 'photos/' . $productPhoto; // path to the uploaded photo
     }
 
 ?>
@@ -154,34 +160,59 @@ include '../admin/admin_head.php';
             </div>
 
             <!-- Radio Type - Connectivity -->
-            <div class = "product_insert_select">
-                <label for = "productCat1">Connectivity</label>
-                <input type = "radio" name = "productCat1" value = "Wired">Wired
-                <input type = "radio" name = "productCat1" value = "Wireless">Wireless
+            <div class="product_insert_select">
+                <span class="radio-title">Connectivity</span>
+
+                <div class="radio-group">
+                    <input type="radio" id="wired" name="productCat1" value="Wired">
+                    <label for="wired">Wired</label>
+
+                    <input type="radio" id="wireless" name="productCat1" value="Wireless">
+                    <label for="wireless">Wireless</label>
+                </div>
             </div>
 
             <!-- Radio Type - Fit Type -->
-            <div class = "product_insert_select">
-                <label for = "productCat2">Fit Type</label>
-                <input type = "radio" name = "productCat2" value = "In-ear">In-ear
-                <input type = "radio" name = "productCat2" value = "Over-ear">Over-ear
+            <div class="product_insert_select">
+                <span class="radio-title">Fit Type</span>
+
+                <div class="radio-group">
+                    <input type="radio" id="in-ear" name="productCat2" value="In-ear">
+                    <label for="in-ear">In-ear</label>
+
+                    <input type="radio" id="over-ear" name="productCat2" value="Over-ear">
+                    <label for="over-ear">Over-ear</label>
+                </div>
             </div>
 
+
             <!-- Radio Type - Acoustic -->
-            <div class = "product_insert_select">
-                <label for = "productCat3">Acoustic</label>
-                <input type = "radio" name = "productCat3" value = "Noise-canceled">Noise-canceled
-                <input type = "radio" name = "productCat3" value = "Balanced">Balanced
-                <input type = "radio" name = "productCat3" value = "Clear vocals">Clear vocals
+            <div class="product_insert_select">
+                <span class="radio-title">Acoustic</span>
+
+                <div class="radio-group">
+                    <input type="radio" id="noise" name="productCat3" value="Noise-canceled">
+                    <label for="noise">Noise-canceled</label>
+
+                    <input type="radio" id="balanced" name="productCat3" value="Balanced">
+                    <label for="balanced">Balanced</label>
+
+                    <input type="radio" id="clear" name="productCat3" value="Clear vocals">
+                    <label for="clear">Clear vocals</label>
+                </div>
             </div>
+
 
             <!-- Input Product Photo -->
             <div class = "product_insert_input">
                 <label for = "productPhoto">Product Photo</label>
                 <label class = "upload" tabindex = "0">
+                <label class="upload" tabindex="0">
                     <?= html_file('productPhoto', 'image/*', 'hidden') ?>
-                    <img src = "../images/photo.jpg">
-                <?= err('productPhoto') ?>
+                    <img id="previewImg" src="<?= htmlspecialchars($displayPhoto) ?>" alt="Product Photo">
+                    <?= err('productPhoto') ?>
+                </label>
+
             </div>
 
             <!-- Submit Button -->
@@ -201,3 +232,64 @@ include '../admin/admin_head.php';
         </div>
     </div>
 </div> 
+<style>.product_insert_select {
+    margin-bottom: 25px;
+}
+
+/* Title spacing */
+.radio-title {
+    display: block;
+    font-weight: 600;
+    color: #333;
+}
+
+/* make radio to one row */
+.radio-group {
+    margin-left: 10px;
+    display: flex;
+    gap: 12px;             
+    flex-wrap: nowrap;    /* make one row */
+    align-items: center;
+}
+
+/* hide default radio */
+.radio-group input[type="radio"] {
+    display: none;
+}
+
+/* button style */
+.radio-group label {
+    padding: 10px 18px;
+    border-radius: 20px;
+    border: 2px solid #d1d5db;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    white-space: nowrap;  /* ⬅ prevent text wrapping */
+}
+
+/* hover */
+.radio-group label:hover {
+    border-color: #6366f1;
+    color: #6366f1;
+}
+
+/* selected */
+.radio-group input[type="radio"]:checked + label {
+    background: #6366f1;
+    border-color: #6366f1;
+    color: #fff;
+}
+
+</style>
+
+<script>
+document.querySelector('input[name="productPhoto"]').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const img = document.getElementById('previewImg');
+    img.src = URL.createObjectURL(file);
+});
+</script>

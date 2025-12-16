@@ -232,17 +232,15 @@ function logout($url = '/') {
 }
 
     // Crop, resize and save photofunction save_photo($f, $folder, $width = 300, $height = 300) {
-        function save_photo($f, $folder, $width = 300, $height = 300) {
-            $photo = uniqid() . '.jpg';
-            
-            require_once 'lib/SimpleImage.php';
-            $img = new SimpleImage();
-            $img->fromFile($f->tmp_name)
-                ->thumbnail($width, $height)
-                ->toFile("$folder/$photo", 'image/jpeg');
-        
-            return $photo;
+        function save_photo($file, $folder) {
+            $filename = uniqid() . '_' . $file->name;
+            $target = $folder . '/' . $filename;
+            if (move_uploaded_file($file->tmp_name, $target)) {
+                return $filename;
+            }
+            return null;  // file not saved
         }
+        
     // ============================================================================
     // Admin-Specific Functions
     // ============================================================================

@@ -67,7 +67,7 @@ if (!empty($_GET['sort_price'])) {
 
 // Functionable Paging
 $page = max(1, intval($_GET['page'] ?? 1));  // Default to page 1 if not set or invalid
-$limit = 12;  // number of products per page
+$limit = 10;  // number of products per page
 
 // Get total products first (to calculate totalPages)
 $countSql = "SELECT COUNT(*) FROM product";
@@ -232,9 +232,13 @@ function buildQueryString(array $overrides = []): string {
     </div>
 </div>
 </form>
-    <p class="total_products"><?= $totalProducts ?> total product(s)</p>
+    <div class="total-add-wrapper">
+        <p class="total_products"><?= $totalProducts ?> total product(s)</p>
+        <a href="../product/Create.php" class="button">Add Product</a>
+    </div>
+
     <div class="table-wrapper">
-    <table class ="table">
+    <table class ="table"> 
         <thead>
             <tr>
                 <th>ID</th>
@@ -434,8 +438,7 @@ h1 {
 /* Filter / Search Bar */
 
 .browser {
-    background: #fff;
-    padding: 15px;
+    padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     margin-bottom: 15px;
@@ -443,7 +446,7 @@ h1 {
 
 .search {
     display: flex;
-    gap: 15px;
+    gap: 6px;
     flex-wrap: wrap;
     align-items: center;
 }
@@ -456,9 +459,11 @@ h1 {
     background: #6c63ff;
     color: #fff;
     border: none;
-    padding: 8px 14px;
+    padding: 10px 14px;
     border-radius: 6px;
     cursor: pointer;
+    white-space: nowrap;   /*Make it stay in one line*/
+    min-width: max-content; 
 }
 
 .dropdown-content {
@@ -469,7 +474,7 @@ h1 {
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     border-radius: 8px;
     padding: 10px;
-    z-index: 10;
+    z-index: 5;
 }
 
 .dropdown:hover .dropdown-content {
@@ -484,7 +489,8 @@ h1 {
 
 .search_bar {
     display: flex;
-    gap: 8px;
+    gap: 4px;
+    max-width: 300px;
 }
 
 .search_bar-font {
@@ -501,6 +507,8 @@ h1 {
     border-radius: 6px;
     cursor: pointer;
 }
+
+
 
 /* ================================================= */
 /* Sort + Paging */
@@ -533,29 +541,38 @@ h1 {
 
 .pagination {
     display: flex;
-    gap: 6px;
     align-items: center;
+    gap: 6px;
 }
 
 .pagination-btn {
-    border: none;
-    background: #6c63ff;
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+    height: 34px;
+    min-width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}   
 
 .page-input {
-    width: 60px;
-    padding: 6px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    width: 50px;
+    height: 34px;
     text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
 }
 
 /* ================================================= */
 /* Table Wrapper */
+.total-add-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
 
 .table-wrapper {
     background: #fff;
@@ -572,6 +589,7 @@ h1 {
     width: 100%;
     border-collapse: collapse;
     font-size: 15px;
+    border: 2px solid #ddd;
 }
 
 .table thead {
@@ -603,6 +621,11 @@ h1 {
     border: 1px solid #ddd;
 }
 
+.table tbody tr:last-child td {
+    border-bottom: 2px solid #000;
+}
+
+
 /* ================================================= */
 /* Buttons */
 
@@ -618,6 +641,9 @@ h1 {
 
 .button:hover {
     background: #554ee0;
+    color: #fff;
+    text-decoration: none;
+
 }
 
 /* ================================================= */

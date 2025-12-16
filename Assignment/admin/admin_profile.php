@@ -21,7 +21,7 @@ $fname      = $admin['fname'];
 $lname      = $admin['lname'];
 $email      = $admin['email'];
 $phoneNo    = $admin['phoneNo'];
-$adminPhoto = $admin['adminPhoto']; // Keep the original filename
+$adminPhoto = $admin['adminPhoto'] ?? null;
 $adminID    = $_SESSION['adminID'];  
 
 $f = get_file('adminPhoto'); // get uploaded file
@@ -48,7 +48,7 @@ $f = get_file('adminPhoto'); // get uploaded file
         else if (!preg_match('/^01[0-9]-[0-9]{7}$/', $phoneNo))
             $_err['phoneNo'] = 'Invalid format';
 
-        // Validate photo only if uploaded
+        // Validate photo only if uploaded  
         if ($f) {
             if (!str_starts_with($f->type, 'image/'))
                 $_err['adminPhoto'] = 'Must be image';
@@ -120,9 +120,8 @@ $f = get_file('adminPhoto'); // get uploaded file
 
     <!-- LEFT : PROFILE CARD -->
     <div class="profile-card">
-        <img class="avatar"
-             src="/adminPhoto/<?= htmlspecialchars($adminPhoto ?: 'default.png') ?>"
-             alt="Admin Photo">
+    <img class="avatar" src="../adminPhoto/<?= htmlspecialchars($adminPhoto ?: 'default.png') ?>" alt="Admin Photo">
+
 
         <h3><?= htmlspecialchars($fname . ' ' . $lname) ?></h3>
         <p><?= htmlspecialchars($email) ?></p>

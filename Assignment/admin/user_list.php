@@ -123,8 +123,9 @@ function buildQueryString(array $overrides = []): string {
         <label for="search-input" class="visually-hidden">Search first name / last name / email:</label>
         <input id="search-input" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search first name / last name / email" type="text">
         <button type="submit">Search</button>
-        <!-- Sort Bar + Paging -->
     </form>
+
+    <!-- Sort Bar + Paging -->
     <div class="sort_bar">
         <div class="sorting_left">
             <h5>Sorting By: </h5>

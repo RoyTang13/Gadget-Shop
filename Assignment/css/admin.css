@@ -27,11 +27,13 @@ footer {
 /* Sidebar styling */
 .sidebar {
     position: fixed;
+    top: 0;
     left: -250px;
     width: 250px;
-    height: 100%;
+    height: 100vh;
     background: #042331;
     transition: all .5s ease;
+    z-index: 1000;
 }
 
 /* Sidebar header styling */
@@ -76,10 +78,12 @@ ul li:hover a {
 /* Label styling for sidebar toggle buttons */
 label #btn,
 label #cancel {
-    position: absolute;
+    position: fixed;
+    top: 20px;
     cursor: pointer;
     background: #042331;
     border-radius: 3px;
+    z-index: 200;
 }
 
 label #btn {
@@ -549,6 +553,7 @@ button:hover {
     cursor: pointer;
     width: 15px;
     height: 15px;
+
 }
 
 /* Show the dropdown content on hover */
@@ -559,10 +564,9 @@ button:hover {
 /* ---------------------------------------------- */
 /* Browser Frame */
 .browser {
-    border: 15px solid #c764e0;
+    border: 5px solid #c764e0;
     border-radius: 15px;
     padding: 10px 0px 15px 0%;
-    margin-top: 10px 150px;
     background-color: #440552d5;
     background-position: top;
     top: 155px;
@@ -718,6 +722,7 @@ button:hover {
     background: #ccc;
     color: #2e2eff7d;
 }
+
 /* =============================================================================
     ------------------------------- Admin Profile ------------------------------ 
     ============================================================================= */
@@ -734,13 +739,14 @@ button:hover {
     background: #fff;
     padding: 25px;
     border-radius: 10px;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 .profile-card .avatar {
     width: 140px;
-    height: 140px;
+    padding-top: 10px;
+    height: 180px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 15px;
@@ -777,7 +783,7 @@ button:hover {
     background: #fff;
     padding: 25px;
     border-radius: 10px;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
 }
 
 .form-box h2 {

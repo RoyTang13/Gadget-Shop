@@ -44,30 +44,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($qty === false || $qty < 0) 
         $errors[] = 'Invalid quantity';
 
+    // Handle photo upload
+    $photoSQL = '';
+    $photoParams = [];
+        if (!empty($_FILES['productPhoto']['tmp_name'])) {
+           $upload = $_FILES['productPhoto'];
+           if (str_starts_with($upload['type'], 'image/')) {
+               $newPhoto = uniqid() . '.jpg';
+               move_uploaded_file($upload['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/photos/' . $newPhoto);
+               $photoSQL = ", productPhoto = :photo";
+               $photoParams[':photo'] = $newPhoto;
+           }
+       }   
+
     if (!$errors) {
-        $stm = $_db->prepare('
+         $sql = "
             UPDATE product 
             SET
                 productName = :name,
                 productPrice = :price,
                 productQty = :qty,
                 productDesc = :desc
+                $photoSQL
             WHERE productID = :id
-        ');
+        ";
 
-        $stm->execute([
+        $params = array_merge([
             ':name'  => $name,
             ':price' => $price,
             ':qty'   => $qty,
             ':desc'  => $desc,
             ':id'    => $id
-        ]);
+        ], $photoParams);
+
+        $stm = $_db->prepare($sql);
+        $stm->execute($params);
+
 
         temp('info', 'Product updated successfully!');
         header('Location: /product/list.php');
         exit;
     }
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -88,15 +108,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </ul>
 <?php endif ?>
 
-<form method="post" class="edit-layout">
+<form method="post" class="edit-layout" enctype="multipart/form-data">  
 
     <!-- LEFT SIDE -->
     <div class="left-panel">
         <h3>Product Preview</h3>
 
-        <img src="/photos/<?= htmlspecialchars($product->productPhoto) ?>" 
-             alt="Product Image" 
-             class="product-image">
+        <!-- Insert Photo -->
+        <?php
+        $img = $product->productPhoto && file_exists($_SERVER['DOCUMENT_ROOT'] . '/photos/' . $product->productPhoto)
+            ? '/photos/' . $product->productPhoto
+            : '/photos/no-image.png';
+        ?>
+
+        <img id="previewImg"
+            src="<?= $img ?>"
+            alt="Product Image"
+            class="product-image">
+
 
         <p><strong>ID:</strong> <?= htmlspecialchars($product->productID) ?></p>
 
@@ -124,6 +153,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label>Description</label>
         <textarea name="productDesc" rows="5"><?= htmlspecialchars($product->productDesc) ?></textarea>
 
+        <label>Product Photo</label>
+        <input type="file" name="productPhoto" accept="image/*">
+
         <div class="buttons">
             <button type="submit">Save Changes</button>
             <a class="cancel" href="list.php">Cancel</a>
@@ -137,7 +169,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </html>
 </section>
 
+<script>
+document.querySelector('input[name="productPhoto"]').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
 
+    const img = document.getElementById('previewImg');
+    img.src = URL.createObjectURL(file);
+});
+</script>
 <style>
 /* Page base */
 body {
