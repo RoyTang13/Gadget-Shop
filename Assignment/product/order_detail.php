@@ -57,30 +57,37 @@ include '../_head.php';
     <span class="status <?= strtolower($order['status']) ?>">
         <?= htmlspecialchars($order['status']) ?>
     </span></p>
-    <p><strong>Total:</strong> RM <?= number_format($order['totalAmount'], 2) ?></p>
 
     <h2>Items</h2>
     <?php if ($items): ?>
-    <table class="order-table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Qty</th>
-                <th>Price (RM)</th>
-                <th>Subtotal (RM)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($items as $item): ?>
+        <table class="order-table">
+            <thead>
                 <tr>
-                    <td><?= htmlspecialchars($item['productName']) ?></td>
-                    <td><?= $item['quantity'] ?></td>
-                    <td><?= number_format($item['price'], 2) ?></td>
-                    <td><?= number_format($item['price'] * $item['quantity'], 2) ?></td>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price (RM)</th>
+                    <th>Subtotal (RM)</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+                <?php foreach ($items as $item): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($item['productName']) ?></td>
+                        <td><?= $item['quantity'] ?></td>
+                        <td><?= number_format($item['price'], 2) ?></td>
+                        <td><?= number_format($item['price'] * $item['quantity'], 2) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="3" style="text-align:right;"><strong>Total Price: </strong></td>
+                    <td><strong> <?= number_format($order['totalAmount'], 2) ?></strong></td>
+                </tr>
+            </tfoot>
+        </table>
     <?php else: ?>
         <p>No items found for this order.</p>
     <?php endif; ?>
@@ -147,6 +154,16 @@ include '../_head.php';
 
 .order-table tr:nth-child(even) {
     background-color: #f9f7fd;
+}
+
+.order-table tfoot td {
+    background-color: #ede9fe;
+    font-size: 16px;
+    border-top: 1px solid #7c3aed;
+}
+
+.total-row td {
+    font-weight: bold;
 }
 
 .back-btn {
