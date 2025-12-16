@@ -9,7 +9,7 @@
   /* Reset some default styles */
   * {
     box-sizing: border-box;
-    margin: 1;
+    margin: 0.2;
     padding: 0;
   }
 
