@@ -9,7 +9,7 @@
   /* Reset some default styles */
   * {
     box-sizing: border-box;
-    margin: 0;
+    margin: 1;
     padding: 0;
   }
 
@@ -316,4 +316,5 @@
 </footer>
 
 </body>
+
 </html>
