@@ -3,7 +3,7 @@ require '../_base.php';
 show_popup();
 
 if (!isset($_SESSION['userID'])) {
-    redirect('/login.php');
+    redirect('../page/login.php');
 }
 
 $userID    = $_SESSION['userID'];

@@ -3,7 +3,7 @@ require '../_base.php';
 
 if (empty($_GET['name'])) {
     echo "Product not found";
-    redirect('/product/page.php');
+    redirect('/product/product.php');
 }
 
 $productName = $_GET['name'];
