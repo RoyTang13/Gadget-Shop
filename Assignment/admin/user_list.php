@@ -180,7 +180,7 @@ function buildQueryString(array $overrides = []): string {
                         </td>
                         <td>
                             <!-- VIEW DETAILS -->
-                             <a href="user_view.php?id=<?= $user['userID'] ?>" class="button">
+                             <a href="user_detail.php?id=<?= $user['userID'] ?>" class="button">
                                 View
                             </a>
                             <!-- BAN / UNBAN -->

@@ -61,6 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['email'] = $user['email'];
             $_SESSION['userPhoto'] = $user['userPhoto'];
             $_SESSION['password'] = $user['password'];
+            // UPDATE LAST LOGIN
+            $_db->prepare("UPDATE user SET lastLogin = NOW() WHERE userID = ?")
+            ->execute([$user['userID']]);
 
             // Redirect to homepage or dashboard
             redirect('/'); 
