@@ -19,15 +19,16 @@ $offset = ($page - 1) * $limit;
 $where  = [];
 $params = [];
 
-//search button
+/* Search */
 if ($search) {
-    $where = "WHERE o.orderID LIKE ? 
-              OR u.fname LIKE ? 
-              OR u.lname LIKE ? 
-              OR u.email LIKE ?";
-    $params = array_fill(0, 4, "%$search%");
+    $where[] = "(o.orderID LIKE ? 
+                 OR u.fname LIKE ? 
+                 OR u.lname LIKE ? 
+                 OR u.email LIKE ?)";
+    $params = array_merge($params, array_fill(0, 4, "%$search%"));
 }
-/* Status filter */
+
+/* Status */
 if ($status) {
     $where[] = "o.status = ?";
     $params[] = $status;
@@ -123,9 +124,6 @@ $orders = $stmt->fetchAll(PDO::FETCH_OBJ);
         <p>RM <?= number_format($summary->totalRevenue ?? 0, 2) ?></p>
     </div>
 </div>
-    <input type="text" name="search" placeholder="Search order / customer / email" value="<?= htmlspecialchars($search) ?>">
-    <button>Search</button>
-
 
 <table class="order-table">
 <thead>
@@ -163,9 +161,10 @@ $orders = $stmt->fetchAll(PDO::FETCH_OBJ);
 
             <div class="pagination">
             <?php for ($i=1; $i<=$totalPages; $i++): ?>
-                <a class="<?= $i==$page ? 'active':'' ?>" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>">
-                    <?= $i ?>
-                </a>
+                <a class="<?= $i==$page ? 'active':'' ?>"
+                href="?page=<?= $i ?>&search=<?= urlencode($search) ?>&status=<?= $status ?>&from=<?= $from ?>&to=<?= $to ?>">
+                <?= $i ?>
+            </a>
             <?php endfor; ?>
             </div>
 </div>
