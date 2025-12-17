@@ -6,14 +6,20 @@ if (!isset($_SESSION['adminID'])) redirect('/admin/login.php');
 
 /* Search + Pagination */
 
+/* ===== Filters ===== */
 $search = $_GET['search'] ?? '';
+$status = $_GET['status'] ?? '';
+$from   = $_GET['from'] ?? '';
+$to     = $_GET['to'] ?? '';
+
 $page   = max(1, intval($_GET['page'] ?? 1));
 $limit  = 10;
 $offset = ($page - 1) * $limit;
 
-$where = '';
+$where  = [];
 $params = [];
 
+//search button
 if ($search) {
     $where = "WHERE o.orderID LIKE ? 
               OR u.fname LIKE ? 
@@ -21,13 +27,41 @@ if ($search) {
               OR u.email LIKE ?";
     $params = array_fill(0, 4, "%$search%");
 }
+/* Status filter */
+if ($status) {
+    $where[] = "o.status = ?";
+    $params[] = $status;
+}
+
+/* Date range */
+if ($from && $to) {
+    $where[] = "DATE(o.orderDate) BETWEEN ? AND ?";
+    $params[] = $from;
+    $params[] = $to;
+}
+
+$whereSQL = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+/* ===== Summary ===== */
+$summarySQL = "
+SELECT COUNT(*) totalOrders,
+       SUM(totalAmount) totalRevenue
+FROM orders o
+JOIN user u ON o.userID = u.userID
+$whereSQL
+";
+$stmt = $_db->prepare($summarySQL);
+$stmt->execute($params);
+$summary = $stmt->fetch(PDO::FETCH_OBJ);
 
 /* Total rows */
 $countSQL = "
-SELECT COUNT(*) FROM orders o
+SELECT COUNT(*)
+FROM orders o
 JOIN user u ON o.userID = u.userID
-$where
+$whereSQL
 ";
+
 $stmt = $_db->prepare($countSQL);
 $stmt->execute($params);
 $totalRows = $stmt->fetchColumn();
@@ -39,7 +73,7 @@ SELECT o.orderID, o.orderDate, o.totalAmount, o.status,
        u.fname, u.lname, u.email
 FROM orders o
 JOIN user u ON o.userID = u.userID
-$where
+$whereSQL
 ORDER BY o.orderDate DESC
 LIMIT $limit OFFSET $offset
 ";
@@ -61,10 +95,37 @@ $orders = $stmt->fetchAll(PDO::FETCH_OBJ);
 <div class="order-card">
 <h2>Customer Orders</h2>
 
-<form class="search-box" method="get">
+<!-- ===== Filters ===== -->
+<form class="filter-box" method="get">
+    <input type="text" name="search" placeholder="Order / Customer / Email" value="<?= htmlspecialchars($search) ?>">
+
+    <select name="status">
+        <option value="">All Status</option>
+        <option value="Pending" <?= $status=='Pending'?'selected':'' ?>>Pending</option>
+        <option value="Complete" <?= $status=='Complete'?'selected':'' ?>>Complete</option>
+        <option value="Cancelled" <?= $status=='Cancelled'?'selected':'' ?>>Cancelled</option>
+    </select>
+
+    <input type="date" name="from" value="<?= $from ?>">
+    <input type="date" name="to" value="<?= $to ?>">
+
+    <button>Apply</button>
+</form>
+
+<!-- ===== Summary ===== -->
+<div class="summary">
+    <div>
+        <h4>Total Orders</h4>
+        <p><?= $summary->totalOrders ?? 0 ?></p>
+    </div>
+    <div>
+        <h4>Total Revenue</h4>
+        <p>RM <?= number_format($summary->totalRevenue ?? 0, 2) ?></p>
+    </div>
+</div>
     <input type="text" name="search" placeholder="Search order / customer / email" value="<?= htmlspecialchars($search) ?>">
     <button>Search</button>
-</form>
+
 
 <table class="order-table">
 <thead>
@@ -138,6 +199,36 @@ body {
 h2 {
     margin-bottom: 15px;
     color: #4338ca;
+}
+
+.filter-box{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px
+}
+.filter-box input,.filter-box select{
+    padding:8px;
+    border-radius:8px;
+    border:1px solid #c7d2fe
+}
+.filter-box button{
+    background:#6366f1;
+    color:#fff;
+    border:none;
+    padding:8px 14px;
+    border-radius:8px
+}
+.summary{
+    display:flex;
+    gap:20px;
+    margin-bottom:20px
+}
+.summary div{
+    flex:1;
+    background:#eef2ff;
+    padding:15px;
+    border-radius:12px;
+    text-align:center
 }
 
 /* ===== Search ===== */
