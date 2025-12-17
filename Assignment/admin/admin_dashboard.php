@@ -10,6 +10,17 @@ if (!isset($_SESSION['adminID'])) {
     header('Location: index.php');
     exit;
 }
+/* ===== Order Summary ===== */
+
+// Overall summary
+$stm = $_db->query("
+    SELECT 
+        COUNT(*) AS totalOrders,
+        COALESCE(SUM(totalAmount), 0) AS totalRevenue
+    FROM orders
+");
+$orderSummary = $stm->fetch(PDO::FETCH_OBJ);
+
 ?>
 
 <body>
@@ -54,21 +65,14 @@ if (!isset($_SESSION['adminID'])) {
                 ?>
                 </p>
             </div>
+            <!-- ===== Order Summary ===== -->
             <div class="card">
-                <a href="../admin/member_list.php">
-                <h3>Total Member</h3>
-                <p>
-                <?php
-                    global $_db;
-                    $stm = $_db->query("SELECT COUNT(*) FROM member");
-                    $count = $stm->fetchColumn();
-                    echo $count ?: 0;
-                ?>
-                </p>
+                <a href="../admin/report.php">
+                    <h3>Total Revenue</h3>
+                    <p>RM <?= number_format($orderSummary->totalRevenue, 2) ?></p>
                 </a>
             </div>
         </div>
-
     </div>
 </section>
 
