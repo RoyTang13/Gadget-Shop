@@ -43,18 +43,6 @@ if ($from && $to) {
 
 $whereSQL = $where ? 'WHERE ' . implode(' AND ', $where) : '';
 
-/* ===== Summary ===== */
-$summarySQL = "
-SELECT COUNT(*) totalOrders,
-       SUM(totalAmount) totalRevenue
-FROM orders o
-JOIN user u ON o.userID = u.userID
-$whereSQL
-";
-$stmt = $_db->prepare($summarySQL);
-$stmt->execute($params);
-$summary = $stmt->fetch(PDO::FETCH_OBJ);
-
 /* Total rows */
 $countSQL = "
 SELECT COUNT(*)
@@ -112,18 +100,6 @@ $orders = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     <button>Apply</button>
 </form>
-
-<!-- ===== Summary ===== -->
-<div class="summary">
-    <div>
-        <h4>Total Orders</h4>
-        <p><?= $summary->totalOrders ?? 0 ?></p>
-    </div>
-    <div>
-        <h4>Total Revenue</h4>
-        <p>RM <?= number_format($summary->totalRevenue ?? 0, 2) ?></p>
-    </div>
-</div>
 
 <table class="order-table">
 <thead>
@@ -199,7 +175,7 @@ h2 {
     margin-bottom: 15px;
     color: #4338ca;
 }
-
+/* ===== Filter ===== */
 .filter-box{
     display:flex;
     gap:10px;
@@ -216,18 +192,6 @@ h2 {
     border:none;
     padding:8px 14px;
     border-radius:8px
-}
-.summary{
-    display:flex;
-    gap:20px;
-    margin-bottom:20px
-}
-.summary div{
-    flex:1;
-    background:#eef2ff;
-    padding:15px;
-    border-radius:12px;
-    text-align:center
 }
 
 /* ===== Search ===== */
