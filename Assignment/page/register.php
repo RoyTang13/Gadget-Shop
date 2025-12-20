@@ -81,7 +81,6 @@
             $_err['photo'] = 'Maximum 1MB';
         }
 
-
         //valid password
         if ($password == '') {
             $_err['password'] = 'Required';
@@ -107,41 +106,57 @@
         }
 
         // reCAPTCHA VALIDATION
-        $recaptcha = $_POST['g-recaptcha-response'] ?? '';
-        $secretKey = "6Lfymx4sAAAAAAhjdZaclLmEl69dKnxzS8PRqwM7"; 
+        // $recaptcha = $_POST['g-recaptcha-response'] ?? '';
+        // $secretKey = "6Lfymx4sAAAAAAhjdZaclLmEl69dKnxzS8PRqwM7"; 
 
-        $response = file_get_contents(
-            "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptcha"
-        );
-        $responseKeys = json_decode($response, true);
+        // $response = file_get_contents(
+        //     "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptcha"
+        // );
+        // $responseKeys = json_decode($response, true);
 
-        if (empty($recaptcha) || !$responseKeys["success"]) {
-            $_err['recaptcha'] = "Please verify you're not a robot";
-        }   
+        // if (empty($recaptcha) || !$responseKeys["success"]) {
+        //     $_err['recaptcha'] = "Please verify you're not a robot";
+        // }   
 
         // Output
         if (!$_err) {
-            $userPhoto = save_photo($f, "userPhoto");;
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $stm = $_db->prepare('INSERT INTO user
-                (fname, lname, email, phoneNo,userPhoto, password)
-                VALUES (?, ?, ?, ?, ?, ?)');
-            $stm->execute([$fname, $lname, $email, $phoneNo, $userPhoto,$hashed_password]);
-            
-            temp('info', 'Record inserted');
-            redirect('/page/login.php');
+            $photoFolder = '../userPhoto';
+        
+            // Create folder if not exists
+            if (!is_dir($photoFolder)) {
+                mkdir($photoFolder, 0777, true);
+            }
+        
+            // Save photo
+            $userPhoto = save_photo($f, $photoFolder);
+        
+            // Extra safety
+            if (!$userPhoto) {
+                $_err['photo'] = 'Photo upload failed';
+            } else {
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        
+                $stm = $_db->prepare('INSERT INTO user
+                    (fname, lname, email, phoneNo, userPhoto, password)
+                    VALUES (?, ?, ?, ?, ?, ?)');
+                $stm->execute([
+                    $fname,
+                    $lname,
+                    $email,
+                    $phoneNo,
+                    $userPhoto,
+                    $hashed_password
+                ]);
+        
+                temp('info', 'Record inserted');
+                redirect('/page/login.php');
+            }
         }
-
-
-
     }
-
-
 
     include '../_head.php';
     $preview = '/images/photo.jpg';
     ?>
-
 
     <div class="container">
         <div class="box form-box">
@@ -179,8 +194,8 @@
                     <?= html_password('cpassword','maxlength="100" placeholder="Must include upper, lower, number, and special character" ') ?>
                     <?= err('cpassword') ?>
 
-                    <div class="g-recaptcha" data-sitekey="6Lfymx4sAAAAABMqtubtNWizFORYHqcABGmCZeOl"></div>
-                    <?= err('recaptcha') ?>
+                    <!-- <div class="g-recaptcha" data-sitekey="6Lfymx4sAAAAABMqtubtNWizFORYHqcABGmCZeOl"></div>
+                    <?= err('recaptcha') ?> -->
 
                     <section>
                         <button>Submit</button>
