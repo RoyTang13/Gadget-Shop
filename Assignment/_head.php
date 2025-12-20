@@ -33,6 +33,9 @@
                 </div>
             </div>
         <?php endif; ?>
+        <button id="themeToggle" class="theme-btn" title="Toggle Theme">
+             <i class="fas fa-moon"></i>
+        </button>
     </div>
 </header>
 
@@ -57,4 +60,20 @@ function closePopup() {
         popup.remove();
     }
 }
+
+const themeToggle = document.getElementById('themeToggle');
+
+// Load saved theme from localStorage
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-theme');
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+}
+
+// Toggle theme on click
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme');
+    const isDark = document.body.classList.contains('dark-theme');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+});
 </script>
