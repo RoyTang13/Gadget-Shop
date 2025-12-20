@@ -142,14 +142,6 @@ function buildQueryString(array $overrides = []): string {
                 Last Name <?= $currentLNameSort === 'asc' ? '⇓' : '⇑' ?>
             </a>
         </div>
-        <div class="sorting_right">
-            <!-- Paging with textable page number -->
-            <div class="pagination">
-                <button class="pagination-btn" id="prevBtn" type="button">‹</button>
-                <input type="number" id="pageInput" class="page-input" min="1" value="<?= $page ?>" placeholder="Page">
-                <button class="pagination-btn" id="nextBtn" type="button">›</button>
-            </div>
-        </div>
     </div>
 
     <!-- User Table -->
@@ -220,16 +212,20 @@ function buildQueryString(array $overrides = []): string {
 <style>
     /* user status(ban/active)*/
     .status-active { color: green; font-weight: bold; }
-.status-banned { color: red; font-weight: bold; }
+    .status-banned { color: red; font-weight: bold; }
     /* ===== Search ===== */
 .search-box {
+    justify-content: center;
+    max-width: 1100px;
     display: flex;
     gap: 10px;
     position: center;
-    margin-bottom: 15px;
+    margin: 0 auto 15px auto;
+    text-align: center;
 }
 
 .search-box input {
+    max-width: 1100px;
     flex: 1;
     padding: 9px 12px;
     border-radius: 8px;
@@ -248,8 +244,12 @@ function buildQueryString(array $overrides = []): string {
 .search-box button:hover {
     background: #d17de6;
 }
+
+.sort_bar{
+    max-width:1100px;
+}
     .table {
-    width: 1100px;
+    max-width: 1100px;
     border-collapse: collapse;
     font-size: 20px;
     text-align: center;

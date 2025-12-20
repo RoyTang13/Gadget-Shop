@@ -60,7 +60,6 @@ try {
             <li><a href="../admin/admin_dashboard.php"><i class='fas fa-qrcode'></i> Dashboards</a></li>
             <li><a href="../product/list.php"><i class='fa fa-headphones'></i> Products</a></li>
             <li><a href="../admin/user_list.php"><i class='fa fa-address-book'></i> User List</a></li>
-            <li><a href="../admin/member_list.php"><i class='fa fa-user'></i> Member List</a></li>
             <li><a href="../admin/order_list.php"><i class='fas fa-clipboard-list'></i> Order List</a></li>
             <li><a href="../admin/report.php"><i class='fa fa-line-chart'></i> Report</a></li>
             <li><a href="../admin/admin_profile.php"><i class='fa fa-address-card'></i> Edit Profile</a></li>
