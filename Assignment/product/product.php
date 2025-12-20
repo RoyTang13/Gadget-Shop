@@ -494,9 +494,6 @@ function buildQueryString(array $overrides = []): string {
             <!-- Badges -->
         <div class="badges">
             <?php
-            if (isset($p->created_at) && strtotime($p->created_at) >= strtotime('-14 days')) {
-                echo '<span class="badge badge-new">NEW</span>';
-            }
             if ($p->total_sold >= 10) {
                 echo '<span class="badge badge-popular">POPULAR</span>';
             }
