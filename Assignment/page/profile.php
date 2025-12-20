@@ -24,9 +24,7 @@
 
     $f = get_file('userPhoto'); // get uploaded file
 
-    // -----------------------------------------
     // UPDATE PROFILE
-    // -----------------------------------------
     if (isset($_POST['update_profile'])) {
 
         $fname   = $_POST['fname'] ?? '';
@@ -191,3 +189,8 @@ document.getElementById('photoInput').addEventListener('change', function(e){
     reader.readAsDataURL(file);
 });
 </script>
+<style>
+    .err{
+        color:red;
+    }
+</style>

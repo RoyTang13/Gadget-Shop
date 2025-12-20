@@ -359,5 +359,7 @@ function update_cart($productID, $quantity) {
         $stmt = $_db->prepare($sql);
         $stmt->execute([$productID, $userID]);
     }
+    
 }
+
 

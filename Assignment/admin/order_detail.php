@@ -155,9 +155,8 @@ button:hover{
 <body>
 
 <div class="container">
-
-<h2>Order #<?= $orderID ?></h2>
-
+<div id="receipt" class="receipt-container">
+    <h2>Order #<?= $orderID ?></h2>
 <!-- Customer Info -->
 <div class="section">
     <h3>Customer Information</h3>
@@ -237,13 +236,19 @@ button:hover{
                 <?= htmlspecialchars($payment->postcode) ?> <?= htmlspecialchars($payment->city) ?>, <?= htmlspecialchars($payment->state) ?>
             </div>
         </div>
+    </div> 
     <?php else: ?>
         <p>No payment record.</p>
     <?php endif; ?>
 </div>
+
+
 
 <a href="order_list.php" class="back-link">← Back to order list</a>
 
 </div>
 </body>
 </html>
+<script>
+
+</script>

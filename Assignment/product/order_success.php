@@ -40,13 +40,17 @@
         $stmt->execute([$orderID]);
         $orderLineItems = $stmt->fetchAll(PDO::FETCH_OBJ);  
 
+        // --- MARK ORDER AS COMPLETE ---
+        $stmt = $_db->prepare("UPDATE orders SET status = 'Complete' WHERE orderID = ? AND userID = ?");
+        $stmt->execute([$orderID, $userID]);
+
+
         unset($_SESSION['checkout_items']);
 
 
         $_title = "Order Successful | TechNest";
         include '../_head.php';
 
-        unset($_SESSION['checkout_items']);
         ?>
 
         <main class="order-success">
