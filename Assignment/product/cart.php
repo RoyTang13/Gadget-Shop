@@ -50,7 +50,7 @@ if (is_post()) {
         exit;
     }
 }
-//Edit Quantity (+ /-)
+//Edit Quantity (+ / -)
 if (is_post()) {
     if (isset($_POST['increase']) || isset($_POST['decrease'])) {
         $cartID = intval($_POST['cartID']);
