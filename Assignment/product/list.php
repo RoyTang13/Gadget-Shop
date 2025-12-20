@@ -267,13 +267,27 @@ function buildQueryString(array $overrides = []): string {
               
               $cats = array_filter([$product->productCat1, $product->productCat2, $product->productCat3]);
               echo '<td><ul class="cats-list">';
-             foreach ($cats as $cat) {
+              foreach ($cats as $cat) {
                 echo '<li>' . htmlspecialchars($cat) . '</li>';
               }
               echo '</ul></td>';
 
               echo "<td>" . htmlspecialchars($product->productPrice) . "</td>";
-              echo "<td>" . htmlspecialchars($product->productQty) . "</td>";
+
+              $qty = (int)$product->productQty;
+
+              if ($qty == 0) {
+                echo "<td class='out-of-stock'>";
+                echo htmlspecialchars($qty) . "<br>⚠ Out of Stock ⚠";
+                echo "</td>";
+              } else if ($qty <= 20) {
+                echo "<td class='low-stock'>";
+                echo htmlspecialchars($qty) . "<br>⚠ Low Stock Warning ⚠";
+                echo "</td>";
+              } else {
+                echo "<td>" . htmlspecialchars($qty) . "</td>";
+              }
+
               echo "<td><span class='$statusClass'>$statusLabel</span></td>";
               echo '<td> <a href="../product/Update.php?id=' . urlencode($product->productID) . '" class="button">Update</a>';
               
@@ -687,4 +701,14 @@ h1 {
 .total_products {
     margin: 10px 0;
     opacity: 0.85;
+}
+
+.low-stock {
+    color: #ff8e31;
+    font-weight: 600;
+}
+
+.out-of-stock {
+    color: #c1121f;
+    font-weight: 600;
 }

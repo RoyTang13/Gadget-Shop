@@ -229,8 +229,9 @@ function buildQueryString(array $overrides = []): string {
 
     .product-card {
         display: flex;
+        position: relative;
         flex-direction: column;
-        height: 500px; /* fixed height for consistency */
+        height: 500px; 
         border: 1px solid #ff9990;
         border-radius: 8px;
         transition: box-shadow 0.3s, border-color 0.3s;
@@ -333,6 +334,12 @@ function buildQueryString(array $overrides = []): string {
         background: linear-gradient(to bottom, #e7766e, #e55b50);
     }
 
+    .btn-disabled {
+        background: #ccc;
+        color: #666;
+        cursor: not-allowed;
+    }
+
     .layout-container {
         display: flex;
         flex-direction: row;
@@ -403,6 +410,46 @@ function buildQueryString(array $overrides = []): string {
     .page-input::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+
+    /* Product Badges */
+    .badges {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        z-index: 5;
+    }
+
+    .badge {
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 4px;
+        color: #fff;
+        width: fit-content;
+    }
+
+    .badge-new {
+        background: #3b82f6;
+    }
+
+    .badge-popular {
+        background: #f59e0b;
+    }
+
+    .badge-stock {
+        background: #22c55e;
+    }
+
+    .badge-out {
+        background: #ef4444;
+    }
+
+    .badge-low {
+        background: #ff16a2ff;
     }
 </style>
 
@@ -492,18 +539,24 @@ function buildQueryString(array $overrides = []): string {
         <?php foreach ($arr as $p): ?>
         <div class = "product-card">
             <!-- Badges -->
-        <div class="badges">
-            <?php
-            if ($p->total_sold >= 10) {
-                echo '<span class="badge badge-popular">POPULAR</span>';
-            }
-            if ($p->productQty > 0) {
-                echo '<span class="badge badge-stock">IN STOCK</span>';
-            } else {
-                echo '<span class="badge badge-out">OUT OF STOCK</span>';
-            }
-            ?>
-        </div>
+            <div class = "badges">
+                <?php
+                if ($p->total_sold >= 10) {
+                    echo '<span class = "badge badge-popular">POPULAR</span>';
+                }
+
+                if ($p->productQty > 0) {
+                    if ($p->productQty < 20) {
+                        echo '<span class = "badge badge-low">⚠ ONLY ' . $p->productQty . ' LEFT ⚠</span>';
+                    } else {
+                        echo '<span class = "badge badge-stock">IN STOCK</span>';
+                    }
+                } else {
+                    echo '<span class = "badge badge-out">OUT OF STOCK</span>';
+                }
+                ?>
+            </div>
+
             <img src = "/photos/<?= $p->productPhoto ?>" alt="<?= htmlspecialchars($p->productName) ?>">
             <div class = "card-body">
                 <div class = "tag">
@@ -530,10 +583,16 @@ function buildQueryString(array $overrides = []): string {
                     <div class = "price">
                     RM <?= number_format($p->productPrice, 2) ?>
                     </div>
-                    <form method = "post" action = "/product/add_to_cart.php">
-                    <input type = "hidden" name = "productID" value ="<?= htmlspecialchars($p->productID) ?>">
-                    <input type = "hidden" name = "quantity" value = "1" id = "addQty">
-                    <button type = "submit" name = "add_to_cart">Add to Cart</button>
+
+                    <?php if ($p->productQty > 0): ?>
+                        <form method="post" action="/product/add_to_cart.php">
+                            <input type="hidden" name="productID" value="<?= htmlspecialchars($p->productID) ?>">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="btn btn-add">Add to Cart</button>
+                        </form>
+                    <?php else: ?>
+                        <button class="btn btn-disabled" disabled>Add to Cart</button>
+                    <?php endif; ?>
                 </form>
                 </div>
             </div>

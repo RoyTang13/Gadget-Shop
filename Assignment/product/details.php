@@ -51,24 +51,35 @@ include '../_head.php';
         <div class = "product-price">
             RM <?= number_format($product->productPrice, 2) ?>
         </div>
+
+        <?php if ($product->productQty > 0 && $product->productQty < 20): ?>
+            <p class = "low-stock-text">
+                ⚠ Only <strong><?= $product->productQty ?></strong> left in stock! ⚠
+            </p>
+        <?php endif; ?>
         
-        <div class="action-buttons">
-            <form method="post" action="/product/add_to_cart.php">
-                <input type="hidden" name="productID" value="<?= $product->productID ?>">
-                <div class="quantity-section">
-                    <button type="button" class="qty-btn" id="qtyMinus">−</button>
-
-                        <input
-                            type="number"
-                            id="qtyInput"
-                            name="quantity"
-                            value="1"
-                            min="1">
-
-                        <button type="button" class="qty-btn" id="qtyPlus">+</button>
-                    </div>
-                <button type="submit" name="add_to_cart">Add to Cart</button>
+        <div class = "action-buttons">
+            <?php if ($product->productQty > 0): ?>
+            <form method = "post" action = "/product/add_to_cart.php">
+                <input type = "hidden" name = "productID" value = "<?= $product->productID ?>">
+                <div class = "quantity-section">
+                <button type = "button" class = "qty-btn" id = "qtyMinus">−</button>
+                    <input type = "number"
+                           id = "qtyInput"
+                           name = "quantity"
+                           value = "1"
+                           min = "1"
+                           max = "<?= $product->productQty ?>">
+                <button type = "button" class = "qty-btn" id = "qtyPlus">+</button>
+                </div>
+                <button type = "submit" class = "cart-btn">Add to Cart</button>
             </form>
+
+            <?php else: ?>
+            <!-- Out of stock state -->
+            <button class = "cart-btn" disabled style = "background: #ccc; cursor: not-allowed;">Out of Stock</button>
+            
+            <?php endif; ?>
         </div>
     </div>  
 </div>
@@ -250,6 +261,15 @@ include '../_head.php';
     cursor: pointer;
 }
 
+/* Low Stock Alert Message */
+.low-stock-text {
+    text-align: center;
+    color: #b00020;
+    font-weight: bold;
+    margin: 10px 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+
 body::before {
         content: '';
         position: fixed;
@@ -268,12 +288,17 @@ body::before {
 
 <script>
 const qtyInput = document.getElementById("qtyInput");
+const maxQty = <?= (int)$product->productQty ?>;
 
-document.getElementById("qtyMinus").addEventListener("click", () => {
-    if (qtyInput.value > 1) qtyInput.value--;
-});
+if (qtyInput) {
+    document.getElementById("qtyMinus").addEventListener("click", () => {
+        if (qtyInput.value > 1) qtyInput.value--;
+    });
 
-document.getElementById("qtyPlus").addEventListener("click", () => {
-    qtyInput.value++;
-});
+    document.getElementById("qtyPlus").addEventListener("click", () => {
+        if (parseInt(qtyInput.value) < maxQty) {
+            qtyInput.value++;
+        }
+    });
+}
 </script>
