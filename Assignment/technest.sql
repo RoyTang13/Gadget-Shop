@@ -73,29 +73,6 @@ INSERT INTO `cart` (`id`, `userID`, `productID`, `quantity`, `added_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `member`
---
-
-CREATE TABLE `member` (
-  `memberID` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `phone` varchar(30) DEFAULT NULL,
-  `photo` varchar(255) DEFAULT NULL,
-  `createdAt` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `member`
---
-
-INSERT INTO `member` (`memberID`, `name`, `email`, `password`, `phone`, `photo`, `createdAt`) VALUES
-(1, 'Qa', 'lim@student.tarc.edu.my', '', '', '693f1462e1068.jpg', '2025-12-14 17:03:50');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `orders`
 --
 
@@ -349,13 +326,6 @@ ALTER TABLE `cart`
   ADD KEY `productID` (`productID`);
 
 --
--- Indexes for table `member`
---
-ALTER TABLE `member`
-  ADD PRIMARY KEY (`memberID`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -405,12 +375,6 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `cart`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
-
---
--- AUTO_INCREMENT for table `member`
---
-ALTER TABLE `member`
-  MODIFY `memberID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `orders`
