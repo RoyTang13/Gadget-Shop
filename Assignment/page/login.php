@@ -65,8 +65,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_db->prepare("UPDATE user SET lastLogin = NOW() WHERE userID = ?")
             ->execute([$user['userID']]);
 
+            //set cookie for successsful login
+            if (!empty($_POST['remember_me'])) {
+                $token = bin2hex(random_bytes(32));
+                $expiry = time() + (30 * 24 * 60 * 60); // 30 days
+                setcookie('remember_me', $token, $expiry, '/', '', true, true);
+            
+                // Save token in database
+                $_db->prepare("UPDATE user SET remember_token = ? WHERE userID = ?")
+                    ->execute([$token, $user['userID']]);
+            }
+
             // Redirect to homepage or dashboard
             redirect('/'); 
+        }
+    }
+    
+    // check the session for new login  
+    if (!isset($_SESSION['userID']) && isset($_COOKIE['remember_me'])) {
+        $token = $_COOKIE['remember_me'];
+        $user = $_db->prepare("SELECT * FROM user WHERE remember_token = ?");
+        $user->execute([$token]);
+        $user = $user->fetch(PDO::FETCH_ASSOC);
+    
+        if ($user) {
+            $_SESSION['userID'] = $user['userID'];
+            $_SESSION['fname'] = $user['fname'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['userPhoto'] = $user['userPhoto'];
         }
     }
 }
@@ -87,10 +113,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="password">Password</label>
                 <?= html_password('password','maxlength="100"') ?>
                 <?= err('password') ?>
+
+                <div class="remember-me">
+                    <label>
+                        <input type="checkbox" name="remember_me" value="1">Remember Me
+                    </label>
+                </div>
+
 <!-- 
                 <div class="g-recaptcha" data-sitekey="6Lfymx4sAAAAABMqtubtNWizFORYHqcABGmCZeOl"></div>
                 <?= err('recaptcha') ?> -->
 
+                
                 <section>
                      <button type="reset">Reset</button>
                     <button>Submit</button> 

@@ -264,15 +264,32 @@
             color: #222;
         }
 
-        .login-form-box input {
+        .login-form-box input[type="text"],
+        .login-form-box input[type="password"] {
             width: 100%;
-            padding: 14px 16px;
-            font-size: 17px;
-            border: 1px solid #bbb;
-            border-radius: 6px;
-            margin-bottom: 20px;
+            padding: 8px 10px;
             box-sizing: border-box;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
+
+
+        .remember-me input[type="checkbox"] {
+            width: auto;
+            padding: 0;
+            margin: 0;
+        }
+
+        .remember-me label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
 
         /* Buttons section */
         section {
@@ -338,6 +355,7 @@
                 font-size: 1em;
             }
         }
+
 
         /*-------------- register form ----------------------*/
 
@@ -859,8 +877,8 @@
             }
         }
 
-          /* Product Badges */
-        .badges {  
+        /* Product Badges */
+        .badges {
 
             position: absolute;
             top: 10px;
@@ -881,11 +899,11 @@
         }
 
         .badge-new {
-            background: #3b82f6; 
+            background: #3b82f6;
         }
 
         .badge-popular {
-            background: #f59e0b; 
+            background: #f59e0b;
         }
 
         .badge-stock {
@@ -893,7 +911,7 @@
         }
 
         .badge-out {
-            background: #ef4444; 
+            background: #ef4444;
         }
 
         .product-card {
