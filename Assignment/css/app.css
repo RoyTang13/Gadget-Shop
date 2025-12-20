@@ -858,3 +858,44 @@
                 align-items: flex-start;
             }
         }
+
+          /* Product Badges */
+        .badges {  
+
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 5;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 4px;
+            color: #fff;
+            width: fit-content;
+        }
+
+        .badge-new {
+            background: #3b82f6; 
+        }
+
+        .badge-popular {
+            background: #f59e0b; 
+        }
+
+        .badge-stock {
+            background: #22c55e;
+        }
+
+        .badge-out {
+            background: #ef4444; 
+        }
+
+        .product-card {
+            position: relative;
+        }

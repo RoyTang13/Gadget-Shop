@@ -82,13 +82,19 @@ $page = max(1, intval($_GET['page'] ?? 1));
 $limit = 12;  // number of products per page
 $offset = ($page - 1) * $limit;
 
-$sql = "SELECT * FROM product";
+$sql = "
+SELECT 
+    p.*,
+    IFNULL(SUM(oi.quantity), 0) AS total_sold
+FROM product p
+LEFT JOIN order_items oi ON p.productID = oi.productID
+";
 
 if ($where) {
     $sql .= " WHERE " . implode(" AND ", $where);
 }
 
-$sql .= " ORDER BY $order LIMIT $limit OFFSET $offset";
+$sql .= " GROUP BY p.productID ORDER BY $order LIMIT $limit OFFSET $offset";
 
 $stmt = $_db->prepare($sql);
 $stmt->execute($params);
@@ -485,6 +491,22 @@ function buildQueryString(array $overrides = []): string {
     <div class = "product-grid">
         <?php foreach ($arr as $p): ?>
         <div class = "product-card">
+            <!-- Badges -->
+        <div class="badges">
+            <?php
+            if (isset($p->created_at) && strtotime($p->created_at) >= strtotime('-14 days')) {
+                echo '<span class="badge badge-new">NEW</span>';
+            }
+            if ($p->total_sold >= 10) {
+                echo '<span class="badge badge-popular">POPULAR</span>';
+            }
+            if ($p->productQty > 0) {
+                echo '<span class="badge badge-stock">IN STOCK</span>';
+            } else {
+                echo '<span class="badge badge-out">OUT OF STOCK</span>';
+            }
+            ?>
+        </div>
             <img src = "/photos/<?= $p->productPhoto ?>" alt="<?= htmlspecialchars($p->productName) ?>">
             <div class = "card-body">
                 <div class = "tag">
