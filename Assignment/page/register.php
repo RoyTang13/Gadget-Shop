@@ -106,9 +106,22 @@
             $_err['cpassword'] = 'Password does not match';
         }
 
+        // reCAPTCHA VALIDATION
+        $recaptcha = $_POST['g-recaptcha-response'] ?? '';
+        $secretKey = "6Lfymx4sAAAAAAhjdZaclLmEl69dKnxzS8PRqwM7"; 
+
+        $response = file_get_contents(
+            "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptcha"
+        );
+        $responseKeys = json_decode($response, true);
+
+        if (empty($recaptcha) || !$responseKeys["success"]) {
+            $_err['recaptcha'] = "Please verify you're not a robot";
+        }   
+
         // Output
         if (!$_err) {
-            $userPhoto = save_photo($f, "../Assignment/userPhoto");
+            $userPhoto = save_photo($f, "userPhoto");;
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $stm = $_db->prepare('INSERT INTO user
                 (fname, lname, email, phoneNo,userPhoto, password)
@@ -119,26 +132,14 @@
             redirect('/page/login.php');
         }
 
-        // ----------------------------------
-    // reCAPTCHA VALIDATION
-    // ----------------------------------
-    $recaptcha = $_POST['g-recaptcha-response'] ?? '';
-    $secretKey = "6Lfymx4sAAAAAAhjdZaclLmEl69dKnxzS8PRqwM7"; 
 
-    $response = file_get_contents(
-        "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptcha"
-    );
-    $responseKeys = json_decode($response, true);
-
-    if (empty($recaptcha) || !$responseKeys["success"]) {
-        $_err['recaptcha'] = "Please verify you're not a robot";
-    }   
 
     }
 
 
 
     include '../_head.php';
+    $preview = '/images/photo.jpg';
     ?>
 
 
@@ -164,8 +165,9 @@
 
                     <label for="photo">Photo</label>
                     <label class="upload" tabindex="0">
-                        <?= html_file('userPhoto', 'image/*','hidden') ?>
-                        <img src="/images/photo.jpg">
+                    <label class="upload">
+                    <?= html_file('userPhoto', 'accept="image/*"') ?>
+                    <img src="<?= $preview ?>" id="photoPreview">
                     </label>
                     <?= err('photo') ?>
 
@@ -191,3 +193,11 @@
             </form>
         </div>
     </div>
+
+<script>
+        $('label.upload input[type=file]').on('change', function () {
+            const f = this.files[0];
+            if (!f || !f.type.startsWith('image/')) return;
+            $('#photoPreview').attr('src', URL.createObjectURL(f));
+        });
+</script>
