@@ -144,6 +144,12 @@ function buildQueryString(array $overrides = []): string {
         </div>
     </div>
 
+    <!-- Add user -->
+    <div style="text-align:center; margin-bottom:15px;">
+        <a href="user_add.php" class="button">+ Add User</a>
+    </div>
+
+
     <!-- User Table -->
     <table class="table" border="1" cellpadding="5" cellspacing="0" style="margin: 20px auto; border-collapse: collapse;">
         <thead>
@@ -207,6 +213,9 @@ function buildQueryString(array $overrides = []): string {
         </div>
     <?php endif; ?>
 </main>
+    <?php if (isset($_GET['added'])): ?>
+        <p style="color:green; text-align:center;">User added successfully.</p>
+    <?php endif; ?>
 </section>
 
 <style>
