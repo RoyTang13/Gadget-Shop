@@ -338,8 +338,6 @@ function buildQueryString(array $overrides = []): string {
         max-width: 250px;
         padding: 20px;
         background-color: #f5f5f5;
-        border: 2.6px solid #ff6f61;
-        border-radius: 8px;
     }
 
     .filter-sidebar h3 {
