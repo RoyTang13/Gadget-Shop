@@ -14,9 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = $stm->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
-        $_err['code'] = 'Invalid or expired code';
+        $_err['code'] = 'User not found.';
+    } else if (!$user['reset_code'] || strtotime($user['reset_expiry']) < time()) {
+        // Token expired → delete from DB
+        $_db->prepare("UPDATE user SET reset_code=NULL, reset_expiry=NULL WHERE email=?")->execute([$email]);
+        $_err['code'] = 'Verification code has expired.';
+    } else if ($user['reset_code'] != $code) {
+        $_err['code'] = 'Invalid verification code.';
     } else {
-        // Code verified, redirect to reset password
+        // Code is valid → clear code and redirect
+        $_db->prepare("UPDATE user SET reset_code=NULL, reset_expiry=NULL WHERE email=?")->execute([$email]);
         redirect('/page/reset_password.php?email=' . urlencode($email));
     }
 }
