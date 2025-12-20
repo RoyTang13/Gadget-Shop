@@ -181,7 +181,7 @@ if (is_post()) {
             $placeholders = implode(',', array_fill(0, count($_SESSION['checkout_items']), '?'));
             $stmtDelete = $_db->prepare("DELETE FROM cart WHERE userID = ? AND id IN ($placeholders)");
             $stmtDelete->execute(array_merge([$userID], $_SESSION['checkout_items']));
-            unset($_SESSION['checkout_items']); // clear session
+            unset($_SESSION['checkout_items']); 
         }
 
 

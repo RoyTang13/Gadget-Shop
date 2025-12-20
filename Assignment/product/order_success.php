@@ -30,13 +30,6 @@
             exit;
         }
 
-        // Clear checkout session
-        unset($_SESSION['checkout_items']);
-
-        // --- MARK ORDER AS COMPLETE ---
-        $stmt = $_db->prepare("UPDATE orders SET status = 'Complete' WHERE orderID = ? AND userID = ?");
-        $stmt->execute([$orderID, $userID]);
-
         // Fetch order items
         $stmt = $_db->prepare(
             "SELECT oi.productID, oi.quantity, oi.price, p.productName, p.productPhoto
@@ -45,26 +38,7 @@
              WHERE oi.orderID = ?"
         );
         $stmt->execute([$orderID]);
-        $orderLineItems = $stmt->fetchAll(PDO::FETCH_OBJ);
-
-         // --- REDUCE PRODUCT STOCK ---
-        // --- REDUCE PRODUCT STOCK ---
-        foreach ($orderLineItems as $item) {
-            $stmt = $_db->prepare(
-                "UPDATE product 
-                SET productQty = GREATEST(productQty - :qty, 0) 
-                WHERE productID = :productID"
-            );
-            $stmt->execute([
-                ':qty' => $item->quantity,
-                ':productID' => $item->productID
-            ]);
-        }
-
-// --- MARK ORDER AS COMPLETE ---
-$stmt = $_db->prepare("UPDATE orders SET status = 'Complete' WHERE orderID = ? AND userID = ?");
-$stmt->execute([$orderID, $userID]);
-
+        $orderLineItems = $stmt->fetchAll(PDO::FETCH_OBJ);  
 
         unset($_SESSION['checkout_items']);
 
@@ -73,17 +47,6 @@ $stmt->execute([$orderID, $userID]);
         include '../_head.php';
 
         unset($_SESSION['checkout_items']);
-
-        // Fetch order (security: userID check)
-        $stmt = $_db->prepare(
-            "SELECT * FROM orders WHERE orderID = ? AND userID = ?"
-        );
-        $stmt->execute([$orderID, $userID]);
-        $order = $stmt->fetch(PDO::FETCH_OBJ);
-
-        // --- MARK ORDER AS COMPLETE ---
-        $stmt = $_db->prepare("UPDATE orders SET status = 'Complete' WHERE orderID = ? AND userID = ?");
-        $stmt->execute([$orderID, $userID]);
         ?>
 
         <main class="order-success">
@@ -147,7 +110,7 @@ $stmt->execute([$orderID, $userID]);
         }
 
         .items {
-            margin: 30px 0;
+            margin: 30px 0; 
             border-top: 1px solid #eee;
         }
 
