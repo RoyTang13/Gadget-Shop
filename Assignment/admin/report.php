@@ -75,6 +75,28 @@ LIMIT $limit OFFSET $offset
 $stmt = $_db->prepare($sql);
 $stmt->execute($params);
 $orders = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+/* ===== Top Selling Products ===== */
+$topSQL = "
+SELECT 
+    p.productID,
+    p.productName,
+    p.productPhoto,
+    SUM(oi.quantity) AS totalSold,
+    SUM(oi.quantity * oi.price) AS totalRevenue
+FROM order_items oi
+JOIN orders o ON oi.orderID = o.orderID
+JOIN product p ON oi.productID = p.productID
+WHERE o.status = 'Complete'
+GROUP BY p.productID, p.productName, p.productPhoto
+ORDER BY totalSold DESC
+LIMIT 5
+";
+
+$stmt = $_db->prepare($topSQL);
+$stmt->execute();
+$topProducts = $stmt->fetchAll(PDO::FETCH_OBJ);
+
 ?>
 
 <section class="page-wrap">
@@ -109,6 +131,21 @@ $orders = $stmt->fetchAll(PDO::FETCH_OBJ);
         <p>RM <?= number_format($summary->totalRevenue ?? 0, 2) ?></p>
     </div>
 </div>
+
+<!-- ===== Top 5 Product ===== -->
+<h3 style="margin-top:30px">🔥 Top 5 Selling Products</h3>
+
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:15px;margin-top:20px">
+<?php foreach ($topProducts as $i => $p): ?>
+<div style="background:#fff;border-radius:12px;padding:10px;text-align:center">
+    <img src="../photos/<?= htmlspecialchars($p->productPhoto) ?>" style="width:100%;height:120px;object-fit:cover;border-radius:8px">
+    <h5>#<?= $i+1 ?> <?= $p->productName ?></h5> 
+    <p><?= $p->totalSold ?> sold</p>
+</div>
+<?php endforeach ?>
+</div>
+
+
 
 <!-- ===== Table ===== -->
 <table class="order-table">
