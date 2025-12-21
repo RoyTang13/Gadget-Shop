@@ -29,17 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // ------------------------------
     // reCAPTCHA VALIDATION
     // ------------------------------
-    // $recaptcha = $_POST['g-recaptcha-response'] ?? '';
-    // $secretKey = "6Lfymx4sAAAAAAhjdZaclLmEl69dKnxzS8PRqwM7"; 
+    $recaptcha = $_POST['g-recaptcha-response'] ?? '';
+    $secretKey = "6LfGUTIsAAAAANLcl0ldV3z6AKObnZ6j3IK-Kxow"; 
 
-    // $response = file_get_contents(
-    //     "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptcha"
-    // );
-    // $responseKeys = json_decode($response, true);
+    $response = file_get_contents(
+        "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$recaptcha"
+    );
+    $responseKeys = json_decode($response, true);
 
-    // if (empty($recaptcha) || !$responseKeys["success"]) {
-    //     $_err['recaptcha'] = "Please verify you're not a robot";
-    // }
+    if (empty($recaptcha) || !$responseKeys["success"]) {
+        $_err['recaptcha'] = "Please verify you're not a robot";
+    }
 
     // If no errors, check database
     if (empty($_err)) {
@@ -120,11 +120,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </label>
                 </div>
 
-<!-- 
-                <div class="g-recaptcha" data-sitekey="6Lfymx4sAAAAABMqtubtNWizFORYHqcABGmCZeOl"></div>
-                <?= err('recaptcha') ?> -->
+                <div class="g-recaptcha" data-sitekey="6LfGUTIsAAAAABJy-kXMxWkWS5h9V5iUJzLseBxG"></div>
+                <?= err('recaptcha') ?> 
 
-                
                 <section>
                      <button type="reset">Reset</button>
                     <button>Submit</button> 

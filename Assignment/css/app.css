@@ -148,7 +148,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: background 0.2s ease;
-            bottom: 22%;
+            bottom: 23%;
             left: 8%;
             position: absolute;
         }
@@ -981,8 +981,8 @@
             cursor: pointer;
             font-weight: 600;
             transition: background 0.2s ease;
-            bottom: 22%;
-            left: 8%;
+            bottom: 23%;
+            left: 8%;   
             position: absolute;
         }
 
@@ -1028,7 +1028,7 @@
         body.dark-theme button:hover {
             background: #444;
             color: #ffffff
-        }   
+        }
 
         body.dark-theme .links {
             margin-top: 20px;
@@ -1081,7 +1081,7 @@
             border: 1px solid #000000;
         }
 
-        
+
 
         /* =============================== */
         /* DARK MODE - PRODUCT PAGE */
