@@ -133,6 +133,7 @@
             // check photo
             if (!$userPhoto) {
                 $_err['photo'] = 'Photo upload failed';
+                
             //hash the password
             } else {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);

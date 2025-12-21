@@ -78,6 +78,12 @@
 
         }
     }
+        $preview = '/images/photo.jpg';
+        if (!empty($userPhoto) && file_exists("../userPhoto/$userPhoto")) {
+            $preview = "/userPhoto/" . htmlspecialchars($userPhoto);
+        } else {
+            $preview = "/images/photo.jpg"; // default photo
+        }
 
     // UPDATE PASSWORD
     if (isset($_POST['update_password'])) {
@@ -128,11 +134,10 @@
             <?= err('phoneNo') ?>
 
             <label for="photo">Photo</label>
-            <label class="upload" tabindex="0">
-                <input type="file" name="userPhoto" id="photoInput" accept="image/*" style="display:none;">
-                <img id="photoPreview" src="/userPhoto/<?= htmlspecialchars($userPhoto) ?>?t=<?= time() ?>" 
-                    alt="Profile Photo" 
-                    style="width:180px;height:180px;object-fit:cover;border-radius:10px;cursor:pointer;">
+                <label class="upload" tabindex="0">
+                    <input type="file" name="userPhoto" id="photoInput" accept="image/*" style="display:none;">
+                    <img id="photoPreview" src="<?= $preview ?>" alt="Profile Photo">
+                </label>
             </label>
 
             <section>

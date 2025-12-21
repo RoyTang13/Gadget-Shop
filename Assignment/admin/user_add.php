@@ -24,18 +24,37 @@ include 'admin_head.php';
         $password = $_POST['password'] ?? '';
 
         // ---- Validation ----
-        if ($fname === '')     $errors[] = 'First name is required.';
-        if ($lname === '')     $errors[] = 'Last name is required.';
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Invalid email.';
-        if ($password === '')  $errors[] = 'Password is required.';
-        if (strlen($password) < 6) $errors[] = 'Password must be at least 6 characters.';
+        if ($fname === '') {
+            $errors['fname'] = 'First name is required.';
+        }
+
+        if ($lname === '') {
+            $errors['lname'] = 'Last name is required.';
+        }
+
+        if ($email === '') {
+            $errors['email'] = 'Email is required.';
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Invalid email format.';
+        }
+        if ($phoneNo === '') {
+            $errors['phoneNo'] = 'Phone number is required.';
+        } elseif (!preg_match('/^01[0-9]{1}-?[0-9]{7,8}$/', $phoneNo)) {
+            $errors['phoneNo'] = 'Phone format: 01X-XXXXXXX or 01XXXXXXXX';
+        }
+
+        if ($password === '') {
+            $errors['password'] = 'Password is required.';
+        } elseif (strlen($password) < 6) {
+            $errors['password'] = 'Minimum 6 characters.';
+        }
 
         // Check duplicate email
-        if (!$errors) {
+        if (empty($errors)) {
             $stm = $_db->prepare("SELECT COUNT(*) FROM user WHERE email = ?");
             $stm->execute([$email]);
             if ($stm->fetchColumn() > 0) {
-                $errors[] = 'Email already exists.';
+                $errors['email'] = 'Email already exists.';
             }
         }
 
@@ -73,27 +92,42 @@ include 'admin_head.php';
         <form method="post" class="user-form">
             <div class="form-group">
                 <label>First Name</label>
-                <input type="text" name="fname" value="<?= htmlspecialchars($fname) ?>" required>
+                <input type="text" name="fname" value="<?= htmlspecialchars($fname) ?>">
+                <?php if (isset($errors['fname'])): ?>
+                    <small class="err"><?= $errors['fname'] ?></small>
+                <?php endif; ?>
             </div>
 
             <div class="form-group">
                 <label>Last Name</label>
-                <input type="text" name="lname" value="<?= htmlspecialchars($lname) ?>" required>
+                <input type="text" name="lname" value="<?= htmlspecialchars($lname) ?>">
+                <?php if (isset($errors['lname'])): ?>
+                    <small class="err"><?= $errors['lname'] ?></small>
+                <?php endif; ?>
             </div>
 
             <div class="form-group">
                 <label>Email Address</label>
-                <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" required>
+                <input type="email" name="email" value="<?= htmlspecialchars($email) ?>">
+                <?php if (isset($errors['email'])): ?>
+                    <small class="err"><?= $errors['email'] ?></small>
+                <?php endif; ?>
             </div>
 
             <div class="form-group">
                 <label>Phone Number</label>
                 <input type="text" name="phoneNo" value="<?= htmlspecialchars($phoneNo) ?>">
+                <?php if (isset($errors['phoneNo'])): ?>
+                    <small class="err"><?= $errors['phoneNo'] ?></small>
+                <?php endif; ?>
             </div>
 
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" required>
+                <input type="password" name="password">
+                <?php if (isset($errors['password'])): ?>
+                    <small class="err"><?= $errors['password'] ?></small>
+                <?php endif; ?>
             </div>
 
             <div class="form-actions">
