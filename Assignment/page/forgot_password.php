@@ -13,67 +13,67 @@ require '../lib/SMTP.php';
 $_err = [];
 $email = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'] ?? '';
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $email = $_POST['email'] ?? '';
 
-    if ($email == '') {
-        $_err['email'] = 'Email is required';
-    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $_err['email'] = 'Invalid email format';
-    } else {
-        // Check email exists
-        $stm = $_db->prepare("SELECT * FROM user WHERE email = ?");
-        $stm->execute([$email]);
-        $user = $stm->fetch(PDO::FETCH_ASSOC);
+            if ($email == '') {
+                $_err['email'] = 'Email is required';
+            } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $_err['email'] = 'Invalid email format';
+            } else {
+            // Check email exists
+            $stm = $_db->prepare("SELECT * FROM user WHERE email = ?");
+            $stm->execute([$email]);
+            $user = $stm->fetch(PDO::FETCH_ASSOC);
 
-        if (!$user) {
-            $_err['email'] = 'Email not found';
-        } else {
-            // Generate code
-            $code = rand(100000, 999999);
-            $expiry = date('Y-m-d H:i:s', strtotime('+15 minutes'));
+            if (!$user) {
+                $_err['email'] = 'Email not found';
+            } else {
+                // Generate code
+                $code = rand(100000, 999999);
+                $expiry = date('Y-m-d H:i:s', strtotime('+15 minutes'));
 
-            // Save code
-            $up = $_db->prepare("UPDATE user SET reset_code=?, reset_expiry=? WHERE email=?");
-            $up->execute([$code, $expiry, $email]);
+                // Save code
+                $up = $_db->prepare("UPDATE user SET reset_code=?, reset_expiry=? WHERE email=?");
+                $up->execute([$code, $expiry, $email]);
 
-            // Send email using PHPMailer
-            $mail = new PHPMailer(true);
+                // Send email using PHPMailer
+                $mail = new PHPMailer(true);
 
-            try {
-                // SMTP settings
-                $mail->isSMTP();
-                $mail->SMTPOptions = [
-                    'ssl' => [
-                        'verify_peer' => false,
-                        'verify_peer_name' => false,
-                        'allow_self_signed' => true
-                    ]
-                ];
-                $mail->Host = "smtp.gmail.com";
-                $mail->SMTPAuth = true;
-                $mail->Username = "technest0123@gmail.com";  
-                $mail->Password = "gmxj vniw ypjk dish";  
-                $mail->SMTPSecure = "tls";
-                $mail->Port = 587;
+                try {
+                    // SMTP settings
+                    $mail->isSMTP();
+                    $mail->SMTPOptions = [
+                        'ssl' => [
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        ]
+                    ];
+                    $mail->Host = "smtp.gmail.com";
+                    $mail->SMTPAuth = true;
+                    $mail->Username = "technest0123@gmail.com";  
+                    $mail->Password = "gmxj vniw ypjk dish";  
+                    $mail->SMTPSecure = "tls";
+                    $mail->Port = 587;
 
-                // Email content
-                $mail->setFrom("technest0123@gmail.com", "TechNest");
-                $mail->addAddress($email);
-                $mail->Subject = "Password Reset Code";
-                $mail->Body = "Your verification code is: $code";
+                    // Email content
+                    $mail->setFrom("technest0123@gmail.com", "TechNest");
+                    $mail->addAddress($email);
+                    $mail->Subject = "Password Reset Code";
+                    $mail->Body = "Your verification code is: $code";
 
-                $mail->send();
+                    $mail->send();
 
-                temp('info', 'Verification code sent to your email.');
-                redirect('/page/verify_code.php?email=' . urlencode($email));
+                    temp('info', 'Verification code sent to your email.');
+                    redirect('/page/verify_code.php?email=' . urlencode($email));
 
-            } catch (Exception $e) {
-                $_err['email'] = "Email could not be sent. Error: {$mail->ErrorInfo}";
+                } catch (Exception $e) {
+                    $_err['email'] = "Email could not be sent. Error: {$mail->ErrorInfo}";
+                }
             }
         }
     }
-}
 ?>
 
 <div class="container">

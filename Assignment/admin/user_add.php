@@ -3,56 +3,56 @@ require '../_base.php';
 $_title = 'Add User';
 include 'admin_head.php';
 
-// Admin protection
-if (!isset($_SESSION['adminID'])) {
-    header('Location: index.php');
-    exit;
-}
-
-$errors = [];
-$success = false;
-
-// Default values
-$fname = $lname = $email = $phoneNo = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $fname    = trim($_POST['fname'] ?? '');
-    $lname    = trim($_POST['lname'] ?? '');
-    $email    = trim($_POST['email'] ?? '');
-    $phoneNo  = trim($_POST['phoneNo'] ?? '');
-    $password = $_POST['password'] ?? '';
-
-    // ---- Validation ----
-    if ($fname === '')     $errors[] = 'First name is required.';
-    if ($lname === '')     $errors[] = 'Last name is required.';
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Invalid email.';
-    if ($password === '')  $errors[] = 'Password is required.';
-    if (strlen($password) < 6) $errors[] = 'Password must be at least 6 characters.';
-
-    // Check duplicate email
-    if (!$errors) {
-        $stm = $_db->prepare("SELECT COUNT(*) FROM user WHERE email = ?");
-        $stm->execute([$email]);
-        if ($stm->fetchColumn() > 0) {
-            $errors[] = 'Email already exists.';
-        }
-    }
-
-    // ---- Insert ----
-    if (!$errors) {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-
-        $stm = $_db->prepare("
-            INSERT INTO user (fname, lname, email, phoneNo, password, status)
-            VALUES (?, ?, ?, ?, ?, 'active')
-        ");
-        $stm->execute([$fname, $lname, $email, $phoneNo, $hash]);
-
-        header('Location: user_list.php?added=1');
+    // Admin protection
+    if (!isset($_SESSION['adminID'])) {
+        header('Location: index.php');
         exit;
     }
-}
+
+    $errors = [];
+    $success = false;
+
+    // Default values
+    $fname = $lname = $email = $phoneNo = '';
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $fname    = trim($_POST['fname'] ?? '');
+        $lname    = trim($_POST['lname'] ?? '');
+        $email    = trim($_POST['email'] ?? '');
+        $phoneNo  = trim($_POST['phoneNo'] ?? '');
+        $password = $_POST['password'] ?? '';
+
+        // ---- Validation ----
+        if ($fname === '')     $errors[] = 'First name is required.';
+        if ($lname === '')     $errors[] = 'Last name is required.';
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Invalid email.';
+        if ($password === '')  $errors[] = 'Password is required.';
+        if (strlen($password) < 6) $errors[] = 'Password must be at least 6 characters.';
+
+        // Check duplicate email
+        if (!$errors) {
+            $stm = $_db->prepare("SELECT COUNT(*) FROM user WHERE email = ?");
+            $stm->execute([$email]);
+            if ($stm->fetchColumn() > 0) {
+                $errors[] = 'Email already exists.';
+            }
+        }
+
+        // ---- Insert ----
+        if (!$errors) {
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+
+            $stm = $_db->prepare("
+                INSERT INTO user (fname, lname, email, phoneNo, password, status)
+                VALUES (?, ?, ?, ?, ?, 'active')
+            ");
+            $stm->execute([$fname, $lname, $email, $phoneNo, $hash]);
+
+            header('Location: user_list.php?added=1');
+            exit;
+        }
+    }
 ?>
 
 <main class="page-wrapper">
@@ -71,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="post" class="user-form">
-
             <div class="form-group">
                 <label>First Name</label>
                 <input type="text" name="fname" value="<?= htmlspecialchars($fname) ?>" required>
@@ -105,105 +104,102 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     Cancel
                 </a>
             </div>
-
         </form>
     </div>
 </main>
 
 
 <style>
-.page-wrapper {
-    display: flex;
-    justify-content: center;
-    padding: 40px 20px;
-}
+    .page-wrapper {
+        display: flex;
+        justify-content: center;
+        padding: 40px 20px;
+    }
 
-.form-card {
-    width: 100%;
-    max-width: 520px;
-    background: #ffffff;
-    border-radius: 14px;
-    padding: 30px;
-    box-shadow: 0 8px 25px rgba(0,0,0,.08);
-}
+    .form-card {
+        width: 100%;
+        max-width: 520px;
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 30px;
+        box-shadow: 0 8px 25px rgba(0,0,0,.08);
+    }
 
-.title {
-    text-align: center;
-    margin-bottom: 5px;
-    font-weight: 700;
-}
+    .title {
+        text-align: center;
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
 
-.subtitle {
-    text-align: center;
-    color: #666;
-    margin-bottom: 25px;
-}
+    .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 25px;
+    }
 
-.user-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+    .user-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
 
-.form-group label {
-    font-weight: 600;
-    font-size: 14px;
-}
+    .form-group label {
+        font-weight: 600;
+        font-size: 14px;
+    }
 
-.form-group input {
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    transition: 0.2s;
-}
+    .form-group input {
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        transition: 0.2s;
+    }
 
-.form-group input:focus {
-    border-color: #be06ec;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(190,6,236,.15);
-}
+    .form-group input:focus {
+        border-color: #be06ec;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(190,6,236,.15);
+    }
 
-.form-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
 
-.btn-primary {
-    flex: 1;
-    background: #be06ec;
-    color: #fff;
-    border: none;
-    padding: 11px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-}
+    .btn-primary {
+        flex: 1;
+        background: #be06ec;
+        color: #fff;
+        border: none;
+        padding: 11px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
 
-.btn-primary:hover {
-    background: #d17de6;
-}
+    .btn-primary:hover {
+        background: #d17de6;
+    }
 
-.btn-secondary {
-    flex: 1;
-    background: #e5e5e5;
-    color: #333;
-    padding: 11px;
-    text-align: center;
-    border-radius: 8px;
-    text-decoration: none;
-}
+    .btn-secondary {
+        flex: 1;
+        background: #e5e5e5;
+        color: #333;
+        padding: 11px;
+        text-align: center;
+        border-radius: 8px;
+        text-decoration: none;
+    }
 
-.btn-secondary:hover {
-    background: #ccc;
-}
-
+    .btn-secondary:hover {
+        background: #ccc;
+    }
 </style>
-
 <?php include '../_foot.php'; ?>

@@ -1,34 +1,28 @@
 <?php
 require '../_base.php';
-
-$_title = 'Page | Demo 2';
 include '../_head.php';
-
 $_err = [];
-show_popup();
-
 $email = '';
 $password = '';
+show_popup();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get input values
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Get input values
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
 
-    // Validate input
-    if ($email == '') {
-        $_err['email'] = 'Email is required';
-    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $_err['email'] = 'Invalid email format';
-    }
+        // Validate input
+        if ($email == '') {
+            $_err['email'] = 'Email is required';
+        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_err['email'] = 'Invalid email format';
+        }
+        //Validate Password if empty
+        if ($password == '') {
+            $_err['password'] = 'Password is required';
+        }
 
-    if ($password == '') {
-        $_err['password'] = 'Password is required';
-    }
-
-    // ------------------------------
     // reCAPTCHA VALIDATION
-    // ------------------------------
     $recaptcha = $_POST['g-recaptcha-response'] ?? '';
     $secretKey = "6LfGUTIsAAAAANLcl0ldV3z6AKObnZ6j3IK-Kxow"; 
 

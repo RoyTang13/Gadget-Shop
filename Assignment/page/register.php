@@ -130,9 +130,10 @@
             // Save photo
             $userPhoto = save_photo($f, $photoFolder);
         
-            // Extra safety
+            // check photo
             if (!$userPhoto) {
                 $_err['photo'] = 'Photo upload failed';
+            //hash the password
             } else {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         
@@ -161,7 +162,7 @@
     <div class="container">
         <div class="box form-box">
         <h2 class="login-title">Sign Up</h2>
-        <form method="post" class="form" enctype="multipart/form-data">
+            <form method="post" class="form" enctype="multipart/form-data">
                     <label for="fname">First Name</label>
                     <?= html_text('fname','maxlength="100" data-upper placeholder="Roy"') ?>
                     <?= err('fname') ?>

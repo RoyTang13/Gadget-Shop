@@ -6,24 +6,24 @@ include '../_head.php';
 $email = $_GET['email'] ?? '';
 $_err = [];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $password = $_POST['password'] ?? '';
-    $cpassword = $_POST['cpassword'] ?? '';
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $password = $_POST['password'] ?? '';
+        $cpassword = $_POST['cpassword'] ?? '';
 
-    if ($password == '') $_err['password'] = 'Required';
-    else if (strlen($password) < 8) $_err['password'] = 'Minimum 8 characters';
-    
-    if ($cpassword != $password) $_err['cpassword'] = 'Passwords do not match';
+        if ($password == '') $_err['password'] = 'Required';
+        else if (strlen($password) < 8) $_err['password'] = 'Minimum 8 characters';
+        
+        if ($cpassword != $password) $_err['cpassword'] = 'Passwords do not match';
 
-    if (empty($_err)) {
-        $hashed = password_hash($password, PASSWORD_DEFAULT);
-        $stm = $_db->prepare("UPDATE user SET password=?, reset_code=NULL, reset_expiry=NULL WHERE email=?");
-        $stm->execute([$hashed, $email]);
+        if (empty($_err)) {
+            $hashed = password_hash($password, PASSWORD_DEFAULT);
+            $stm = $_db->prepare("UPDATE user SET password=?, reset_code=NULL, reset_expiry=NULL WHERE email=?");
+            $stm->execute([$hashed, $email]);
 
-        temp('info', 'Password reset successfully. You can now login.');
-        redirect('/page/login.php');
+            temp('info', 'Password reset successfully. You can now login.');
+            redirect('/page/login.php');
+        }
     }
-}
 ?>
 
 <div class="container">

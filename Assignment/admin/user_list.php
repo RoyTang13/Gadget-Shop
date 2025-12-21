@@ -3,92 +3,104 @@ require '../_base.php';
 $_title = 'User List';
 include 'admin_head.php';
 
-// Make sure only logged-in admins can access this page
-if (!isset($_SESSION['adminID'])) {
-    header('Location: index.php');
-    exit;
-}
+    // Make sure only logged-in admins can access this page
+    if (!isset($_SESSION['adminID'])) {
+        header('Location: index.php');
+        exit;
+    }
 
-// Get current sort parameters
-$currentIdSort = $_GET['sort_id'] ?? null;
-$currentFNameSort = $_GET['sort_fname'] ?? null;
-$currentLNameSort = $_GET['sort_lname'] ?? null;
+    // Get current sort parameters
+    $currentIdSort = $_GET['sort_id'] ?? null;
+    $currentFNameSort = $_GET['sort_fname'] ?? null;
+    $currentLNameSort = $_GET['sort_lname'] ?? null;
 
-// Determine next toggle states for each column
-$nextIdSort = ($currentIdSort === 'asc') ? 'desc' : 'asc';
-$nextFNameSort = ($currentFNameSort === 'asc') ? 'desc' : 'asc';
-$nextLNameSort = ($currentLNameSort === 'asc') ? 'desc' : 'asc';
+    // Determine next toggle states for each column
+    $nextIdSort = ($currentIdSort === 'asc') ? 'desc' : 'asc';
+    $nextFNameSort = ($currentFNameSort === 'asc') ? 'desc' : 'asc';
+    $nextLNameSort = ($currentLNameSort === 'asc') ? 'desc' : 'asc';
 
-// Determine the order clause based on active sorting
-if ($currentIdSort !== null) {
-    $order = "userID " . ($currentIdSort === 'asc' ? "ASC" : "DESC");
-} elseif ($currentFNameSort !== null) {
-    $order = "fname " . ($currentFNameSort === 'asc' ? "ASC" : "DESC");
-} elseif ($currentLNameSort !== null) {
-    $order = "lname " . ($currentLNameSort === 'asc' ? "ASC" : "DESC");
-} else {
-    $order = "userID ASC"; // default
-}
+    // Determine the order clause based on active sorting
+    if ($currentIdSort !== null) {
+        $order = "userID " . ($currentIdSort === 'asc' ? "ASC" : "DESC");
+    } elseif ($currentFNameSort !== null) {
+        $order = "fname " . ($currentFNameSort === 'asc' ? "ASC" : "DESC");
+    } elseif ($currentLNameSort !== null) {
+        $order = "lname " . ($currentLNameSort === 'asc' ? "ASC" : "DESC");
+    } else {
+        $order = "userID ASC"; // default
+    }
 
-// Item per page
-$itemsPerPage = 10;
+    // Item per page
+    $itemsPerPage = 10;
 
-// Get current page
-$page = isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0 ? (int) $_GET['page'] : 1;
+    // Get current page
+    $page = isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0 ? (int) $_GET['page'] : 1;
 
-// Get search term
-$search = trim($_GET['search'] ?? '');
+    // Get search term
+    $search = trim($_GET['search'] ?? '');
 
-// --- Calculate total number of users for pagination ---
-$sqlCount = "SELECT COUNT(*) FROM user WHERE 1";
-$params = [];
+    // --- Calculate total number of users for pagination ---
+    $sqlCount = "SELECT COUNT(*) FROM user WHERE 1";
+    $params = [];
 
-if ($search !== '') {
-    $sqlCount .= " AND (fname LIKE :s OR lname LIKE :s OR email LIKE :s)";
-    $params[':s'] = "%$search%";
-}
+    if ($search !== '') {
+        $sqlCount .= " AND (fname LIKE :s OR lname LIKE :s OR email LIKE :s)";
+        $params[':s'] = "%$search%";
+    }
 
-$stmCount = $_db->prepare($sqlCount);
-if ($search !== '') {
-    $stmCount->bindValue(':s', "%$search%", PDO::PARAM_STR);
-}
-$stmCount->execute();
-$totalUsers = (int)$stmCount->fetchColumn();
+    $stmCount = $_db->prepare($sqlCount);
+    if ($search !== '') {
+        $stmCount->bindValue(':s', "%$search%", PDO::PARAM_STR);
+    }
+    $stmCount->execute();
+    $totalUsers = (int)$stmCount->fetchColumn();
 
-$totalPages = ceil($totalUsers / $itemsPerPage);
-if ($totalPages == 0) {
-    $totalPages = 1; // To avoid division by zero, show at least 1 page
-}
-$offset = ($page - 1) * $itemsPerPage;
+    $totalPages = ceil($totalUsers / $itemsPerPage);
+    if ($totalPages == 0) {
+        $totalPages = 1; // To avoid division by zero, show at least 1 page
+    }
+    $offset = ($page - 1) * $itemsPerPage;
 
-// --- Fetch users for current page ---
-$sqlData = "SELECT * FROM user WHERE 1";
+    // --- Fetch users for current page ---
+    $sqlData = "SELECT * FROM user WHERE 1";
 
-if ($search !== '') {
-    $sqlData .= " AND (fname LIKE :s OR lname LIKE :s OR email LIKE :s)";
-}
+    if ($search !== '') {
+        $sqlData .= " AND (fname LIKE :s OR lname LIKE :s OR email LIKE :s)";
+    }
 
-$sqlData .= " ORDER BY $order LIMIT :limit OFFSET :offset";
+    $sqlData .= " ORDER BY $order LIMIT :limit OFFSET :offset";
 
-$stm = $_db->prepare($sqlData);
-if ($search !== '') {
-    $stm->bindValue(':s', "%$search%", PDO::PARAM_STR);
-}
-$stm->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
-$stm->bindValue(':offset', $offset, PDO::PARAM_INT);
-$stm->execute();
+    $stm = $_db->prepare($sqlData);
+    if ($search !== '') {
+        $stm->bindValue(':s', "%$search%", PDO::PARAM_STR);
+    }
+    $stm->bindValue(':limit', $itemsPerPage, PDO::PARAM_INT);
+    $stm->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stm->execute();
 
-$users = $stm->fetchAll(PDO::FETCH_ASSOC);
+    $users = $stm->fetchAll(PDO::FETCH_ASSOC);
 
-// Function to build query string with overrides
-function buildQueryString(array $overrides = []): string {
-    $keepKeys = [ 'sort_id', 'sort_fname', 'sort_lname', 'page', 'search' ];
-    $parts = [];
+    // Function to build query string with overrides
+    function buildQueryString(array $overrides = []): string {
+        $keepKeys = [ 'sort_id', 'sort_fname', 'sort_lname', 'page', 'search' ];
+        $parts = [];
 
-    foreach ($keepKeys as $key) {
-        if (array_key_exists($key, $overrides)) {
-            $val = $overrides[$key];
-            if ($val === null) continue; // skip this param
+        foreach ($keepKeys as $key) {
+            if (array_key_exists($key, $overrides)) {
+                $val = $overrides[$key];
+                if ($val === null) continue; // skip this param
+                if (is_array($val)) {
+                    foreach ($val as $v) {
+                        $parts[] = urlencode($key) . '[]=' . urlencode((string)$v);
+                    }
+                } else {
+                    $parts[] = urlencode($key) . '=' . urlencode((string)$val);
+                }
+                continue;
+            }
+
+            if (!isset($_GET[$key])) continue;
+            $val = $_GET[$key];
             if (is_array($val)) {
                 foreach ($val as $v) {
                     $parts[] = urlencode($key) . '[]=' . urlencode((string)$v);
@@ -96,123 +108,111 @@ function buildQueryString(array $overrides = []): string {
             } else {
                 $parts[] = urlencode($key) . '=' . urlencode((string)$val);
             }
-            continue;
         }
-
-        if (!isset($_GET[$key])) continue;
-        $val = $_GET[$key];
-        if (is_array($val)) {
-            foreach ($val as $v) {
-                $parts[] = urlencode($key) . '[]=' . urlencode((string)$v);
-            }
-        } else {
-            $parts[] = urlencode($key) . '=' . urlencode((string)$val);
-        }
+        return $parts ? '?' . implode('&', $parts) : '';
     }
-    return $parts ? '?' . implode('&', $parts) : '';
-}
 ?>
 
 <section>
-<main>
-    <h1 class="text-center">User List</h1>
-    <p class="text-center"><?= $totalUsers ?> total users</p>
+    <main>
+        <h1 class="text-center">User List</h1>
+        <p class="text-center"><?= $totalUsers ?> total users</p>
 
-    <!-- Search Form -->
-    <form class="search-box" method="get" role="search">
-        <label for="search-input" class="visually-hidden">Search first name / last name / email:</label>
-        <input id="search-input" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search first name / last name / email" type="text">
-        <button type="submit">Search</button>
-    </form>
+        <!-- Search Form -->
+        <form class="search-box" method="get" role="search">
+            <label for="search-input" class="visually-hidden">Search first name / last name / email:</label>
+            <input id="search-input" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search first name / last name / email" type="text">
+            <button type="submit">Search</button>
+        </form>
 
-    <!-- Sort Bar + Paging -->
-    <div class="sort_bar">
-        <div class="sorting_left">
-            <h5>Sorting By: </h5>
-            <!-- Sort by ID button -->
-            <a href="/admin/user_list.php<?= buildQueryString(['sort_id' => $nextIdSort, 'sort_fname' => null, 'sort_lname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
-                ID <?= $currentIdSort === 'asc' ? '⇓' : '⇑' ?>
-            </a>
-            <!-- Sort by First Name button -->
-            <a href="/admin/user_list.php<?= buildQueryString(['sort_fname' => $nextFNameSort, 'sort_id' => null, 'sort_lname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
-                First Name <?= $currentFNameSort === 'asc' ? '⇓' : '⇑' ?>
-            </a>
-            <!-- Sort by Last Name button -->
-            <a href="/admin/user_list.php<?= buildQueryString(['sort_lname' => $nextLNameSort, 'sort_id' => null, 'sort_fname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
-                Last Name <?= $currentLNameSort === 'asc' ? '⇓' : '⇑' ?>
-            </a>
+        <!-- Sort Bar + Paging -->
+        <div class="sort_bar">
+            <div class="sorting_left">
+                <h5>Sorting By: </h5>
+                <!-- Sort by ID button -->
+                <a href="/admin/user_list.php<?= buildQueryString(['sort_id' => $nextIdSort, 'sort_fname' => null, 'sort_lname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
+                    ID <?= $currentIdSort === 'asc' ? '⇓' : '⇑' ?>
+                </a>
+                <!-- Sort by First Name button -->
+                <a href="/admin/user_list.php<?= buildQueryString(['sort_fname' => $nextFNameSort, 'sort_id' => null, 'sort_lname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
+                    First Name <?= $currentFNameSort === 'asc' ? '⇓' : '⇑' ?>
+                </a>
+                <!-- Sort by Last Name button -->
+                <a href="/admin/user_list.php<?= buildQueryString(['sort_lname' => $nextLNameSort, 'sort_id' => null, 'sort_fname' => null, 'page' => 1, 'search' => $search]) ?>" class="sort-btn">
+                    Last Name <?= $currentLNameSort === 'asc' ? '⇓' : '⇑' ?>
+                </a>
+            </div>
         </div>
-    </div>
 
-    <!-- Add user -->
-    <div style="text-align:center; margin-bottom:15px;">
-        <a href="user_add.php" class="button">+ Add User</a>
-    </div>
+        <!-- Add user -->
+        <div style="text-align:center; margin-bottom:15px;">
+            <a href="user_add.php" class="button">+ Add User</a>
+        </div>
 
 
-    <!-- User Table -->
-    <table class="table" border="1" cellpadding="5" cellspacing="0" style="margin: 20px auto; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>User ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (count($users) > 0): ?>
-                <?php foreach ($users as $user): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($user['userID']) ?></td>
-                        <td><?= htmlspecialchars($user['fname']) ?></td>
-                        <td><?= htmlspecialchars($user['lname']) ?></td>
-                        <td><?= htmlspecialchars($user['email']) ?></td>
-                        <td><?= htmlspecialchars($user['phoneNo']) ?></td>
-                        <td>
-                            <span class="<?= $user['status']=='banned' ? 'status-banned' : 'status-active' ?>">
-                                <?= ucfirst($user['status']) ?>
-                            </span>
-                        </td>
-                        <td>
-                            <!-- VIEW DETAILS -->
-                             <a href="user_detail.php?id=<?= $user['userID'] ?>" class="button">
-                                View
-                            </a>
-                            <!-- BAN / UNBAN -->
-                             <form action="user_status.php" method="post" style="display:inline;">
-                                <input type="hidden" name="userID" value="<?= $user['userID'] ?>">
-                                <button class="button">
-                                    <?= $user['status'] === 'banned' ? 'Unban' : 'Ban' ?>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+        <!-- User Table -->
+        <table class="table" border="1" cellpadding="5" cellspacing="0" style="margin: 20px auto; border-collapse: collapse;">
+            <thead>
                 <tr>
-                    <td colspan="5" style="text-align:center;">No users found.</td>
+                    <th>User ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php if (count($users) > 0): ?>
+                    <?php foreach ($users as $user): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($user['userID']) ?></td>
+                            <td><?= htmlspecialchars($user['fname']) ?></td>
+                            <td><?= htmlspecialchars($user['lname']) ?></td>
+                            <td><?= htmlspecialchars($user['email']) ?></td>
+                            <td><?= htmlspecialchars($user['phoneNo']) ?></td>
+                            <td>
+                                <span class="<?= $user['status']=='banned' ? 'status-banned' : 'status-active' ?>">
+                                    <?= ucfirst($user['status']) ?>
+                                </span>
+                            </td>
+                            <td>
+                                <!-- VIEW DETAILS -->
+                                <a href="user_detail.php?id=<?= $user['userID'] ?>" class="button">
+                                    View
+                                </a>
+                                <!-- BAN / UNBAN -->
+                                <form action="user_status.php" method="post" style="display:inline;">
+                                    <input type="hidden" name="userID" value="<?= $user['userID'] ?>">
+                                    <button class="button">
+                                        <?= $user['status'] === 'banned' ? 'Unban' : 'Ban' ?>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" style="text-align:center;">No users found.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
 
-    <!-- Pagination Links -->
-    <?php if ($totalPages > 1): ?>
-        <div style="text-align: center;">
-            <?php for ($p = 1; $p <= $totalPages; $p++): ?>
-                <?php
-                    $queryArray = ['search' => $search, 'page' => $p];
-                    $queryString = http_build_query($queryArray);
-                ?>
-                <a href="?<?= $queryString ?>" style="margin: 0 5px; <?= ($p == $page) ? 'font-weight: bold;' : '' ?>"><?= $p ?></a>
-            <?php endfor; ?>
-        </div>
-    <?php endif; ?>
-</main>
+        <!-- Pagination Links -->
+        <?php if ($totalPages > 1): ?>
+            <div style="text-align: center;">
+                <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+                    <?php
+                        $queryArray = ['search' => $search, 'page' => $p];
+                        $queryString = http_build_query($queryArray);
+                    ?>
+                    <a href="?<?= $queryString ?>" style="margin: 0 5px; <?= ($p == $page) ? 'font-weight: bold;' : '' ?>"><?= $p ?></a>
+                <?php endfor; ?>
+            </div>
+        <?php endif; ?>
+    </main>
     <?php if (isset($_GET['added'])): ?>
         <p style="color:green; text-align:center;">User added successfully.</p>
     <?php endif; ?>
@@ -220,70 +220,74 @@ function buildQueryString(array $overrides = []): string {
 
 <style>
     /* user status(ban/active)*/
-    .status-active { color: green; font-weight: bold; }
-    .status-banned { color: red; font-weight: bold; }
+    .status-active {
+        color: green;
+        font-weight: bold;
+    }
+    .status-banned {
+        color: red;
+        font-weight: bold;
+    }
     /* ===== Search ===== */
-.search-box {
-    justify-content: center;
-    max-width: 1100px;
-    display: flex;
-    gap: 10px;
-    position: center;
-    margin: 0 auto 15px auto;
-    text-align: center;
-}
-
-.search-box input {
-    max-width: 1100px;
-    flex: 1;
-    padding: 9px 12px;
-    border-radius: 8px;
-    border: 1px solid #c7d2fe;
-}
-
-.search-box button {
-    padding: 9px 16px;
-    border: none;
-    border-radius: 8px;
-    background: #be06ec;
-    color: #fff;
-    cursor: pointer;
-}
-
-.search-box button:hover {
-    background: #d17de6;
-}
-
-.sort_bar{
-    max-width:1100px;
-}
-    .table {
-    max-width: 1100px;
-    border-collapse: collapse;
-    font-size: 20px;
-    text-align: center;
-    vertical-align: middle;
-}
-  .button {
-    background-color: #be06ec; 
-    border: none;
-    color: white;
-    padding: 10px 12px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 2px 2px;
-    cursor: pointer;
-    border-radius: 2px;
+    .search-box {
+        justify-content: center;
+        max-width: 1100px;
+        display: flex;
+        gap: 10px;
+        position: center;
+        margin: 0 auto 15px auto;
+        text-align: center;
     }
 
-  .button:hover {
-    background-color: #d17de6;
-  }
-body {
-    margin-bottom: 100px; /* to prevent overlap with footer */
-}
-</style>
+    .search-box input {
+        max-width: 1100px;
+        flex: 1;
+        padding: 9px 12px;
+        border-radius: 8px;
+        border: 1px solid #c7d2fe;
+    }
 
+    .search-box button {
+        padding: 9px 16px;
+        border: none;
+        border-radius: 8px;
+        background: #be06ec;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .search-box button:hover {
+        background: #d17de6;
+    }
+
+    .sort_bar{
+        max-width:1100px;
+    }
+        .table {
+        max-width: 1100px;
+        border-collapse: collapse;
+        font-size: 20px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .button {
+        background-color: #be06ec; 
+        border: none;
+        color: white;
+        padding: 10px 12px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 2px 2px;
+        cursor: pointer;
+        border-radius: 2px;
+        }
+    .button:hover {
+        background-color: #d17de6;
+    }
+    body {
+        margin-bottom: 100px; /* to prevent overlap with footer */
+    }
+</style>
 <?php include '../_foot.php'; ?>

@@ -3,44 +3,37 @@ require '../_base.php';
 $_title = 'User Detail';
 include 'admin_head.php';
 
-// ===============================
-// Validate ID
-// ===============================
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-if (!$id) {
-    set_popup('Invalid user ID');
-    redirect('user_list.php');
-    exit;
-}
+    // Validate ID
+    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+    if (!$id) {
+        set_popup('Invalid user ID');
+        redirect('user_list.php');
+        exit;
+    }
 
-// ===============================
-// Fetch user
-// ===============================
-$stm = $_db->prepare('SELECT * FROM user WHERE userID = ?');
-$stm->execute([$id]);
-$m = $stm->fetch(PDO::FETCH_OBJ);
+    // Fetch user
+    $stm = $_db->prepare('SELECT * FROM user WHERE userID = ?');
+    $stm->execute([$id]);
+    $m = $stm->fetch(PDO::FETCH_OBJ);
 
-if (!$m) {
-    set_popup('User not found');
-    redirect('user_list.php');
-    exit;
-}
-if ($m->status === 'banned') {
-    set_popup('⚠ This user is currently banned');
-}
+    if (!$m) {
+        set_popup('User not found');
+        redirect('user_list.php');
+        exit;
+    }
+    if ($m->status === 'banned') {
+        set_popup('⚠ This user is currently banned');
+    }
 
-// ===============================
-// Fetch Order History
-// ===============================
-$stm = $_db->prepare("
-    SELECT orderID, totalAmount, status, orderDate
-    FROM orders
-    WHERE userID = ?
-    ORDER BY orderDate DESC
-");
-$stm->execute([$id]);
-$orders = $stm->fetchAll(PDO::FETCH_OBJ);
-
+    // Fetch Order History
+    $stm = $_db->prepare("
+        SELECT orderID, totalAmount, status, orderDate
+        FROM orders
+        WHERE userID = ?
+        ORDER BY orderDate DESC
+    ");
+    $stm->execute([$id]);
+    $orders = $stm->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 <section class="admin-container">
@@ -123,152 +116,151 @@ $orders = $stm->fetchAll(PDO::FETCH_OBJ);
     </div>
 </section>
 
-<style>
-/* ===== Layout ===== */
-.admin-container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 20px;
-}
+    <style>
+    .admin-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+    }
 
-.page-title {
-    text-align: center;
-    margin-bottom: 30px;
-}
+    .page-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-/* ===== Card ===== */
-.user-card {
-    display: flex;
-    gap: 30px;
-    background: #fff;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 6px 20px rgba(0,0,0,.08);
-}
+    /* ===== Card ===== */
+    .user-card {
+        display: flex;
+        gap: 30px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 6px 20px rgba(0,0,0,.08);
+    }
 
-/* ===== Photo ===== */
-.user-photo img {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #be06ec;
-}
+    /* ===== Photo ===== */
+    .user-photo img {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #be06ec;
+    }
 
-.photo-placeholder {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    background: #f3f4f6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #888;
-    font-size: 14px;
-}
+    .photo-placeholder {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: #f3f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+        font-size: 14px;
+    }
 
-/* ===== Info ===== */
-.user-info {
-    flex: 1;
-    font-size: 18px;
-}
+    /* ===== Info ===== */
+    .user-info {
+        flex: 1;
+        font-size: 18px;
+    }
 
-.user-info p {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-}
+    .user-info p {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+    }
 
-.user-info span {
-    font-weight: 600;
-    color: #555;
-}
+    .user-info span {
+        font-weight: 600;
+        color: #555;
+    }
 
-/* ===== Status ===== */
-.status-active {
-    color: green;
-}
+    /* ===== Status ===== */
+    .status-active {
+        color: green;
+    }
 
-.status-banned {
-    color: red;
-}
+    .status-banned {
+        color: red;
+    }
 
-/* ===== Actions ===== */
-.actions {
-    margin-top: 25px;
-    text-align: center;
-}
+    /* ===== Actions ===== */
+    .actions {
+        margin-top: 25px;
+        text-align: center;
+    }
 
-.btn {
-    padding: 10px 18px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 16px;
-}
+    .btn {
+        padding: 10px 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 16px;
+    }
 
-.btn-secondary {
-    background: #be06ec;
-    color: #fff;
-}
+    .btn-secondary {
+        background: #be06ec;
+        color: #fff;
+    }
 
-.btn-secondary:hover {
-    background: #d17de6;
-}
-/* ===== Order Table ===== */
-.order-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 16px;
-}
+    .btn-secondary:hover {
+        background: #d17de6;
+    }
+    /* ===== Order Table ===== */
+    .order-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-size: 16px;
+    }
 
-.order-table th, .order-table td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    text-align: center;
-}
+    .order-table th, .order-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        text-align: center;
+    }
 
-.order-table th {
-    background: #f9f5ff;
-}
+    .order-table th {
+        background: #f9f5ff;
+    }
 
-/* ===== Status Badges ===== */
-.badge {
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 14px;
-}
+    /* ===== Status Badges ===== */
+    .badge {
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 14px;
+    }
 
-.badge.pending {
-    background: #fff3cd;
-    color: #856404;
-}
+    .badge.pending {
+        background: #fff3cd;
+        color: #856404;
+    }
 
-.badge.complete {
-    background: #d4edda;
-    color: #155724;
-}
+    .badge.complete {
+        background: #d4edda;
+        color: #155724;
+    }
 
-.badge.cancelled {
-    background: #f8d7da;
-    color: #721c24;
-}
+    .badge.cancelled {
+        background: #f8d7da;
+        color: #721c24;
+    }
 
-/* ===== Buttons ===== */
-.btn-small {
-    padding: 6px 12px;
-    background: #be06ec;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 14px;
-}
+    /* ===== Buttons ===== */
+    .btn-small {
+        padding: 6px 12px;
+        background: #be06ec;
+        color: white;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+    }
 
-.btn-small:hover {
-    background: #d17de6;
-}
+    .btn-small:hover {
+        background: #d17de6;
+    }
 
 </style>
 

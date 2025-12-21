@@ -16,13 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!$user) {
         $_err['code'] = 'User not found.';
     } else if (!$user['reset_code'] || strtotime($user['reset_expiry']) < time()) {
-        // Token expired → delete from DB
+        // Token expired, update date to null
         $_db->prepare("UPDATE user SET reset_code=NULL, reset_expiry=NULL WHERE email=?")->execute([$email]);
         $_err['code'] = 'Verification code has expired.';
     } else if ($user['reset_code'] != $code) {
         $_err['code'] = 'Invalid verification code.';
     } else {
-        // Code is valid → clear code and redirect
+        // Code is valid, redirect to resetpassword.php
         $_db->prepare("UPDATE user SET reset_code=NULL, reset_expiry=NULL WHERE email=?")->execute([$email]);
         redirect('/page/reset_password.php?email=' . urlencode($email));
     }

@@ -32,7 +32,7 @@
         $email   = $_POST['email'] ?? '';
         $phoneNo = $_POST['phoneNo'] ?? '';
 
-        // --- VALIDATION ---
+        // VALIDATION
         if ($fname == '') $_err['fname'] = 'Required';
         if ($lname == '') $_err['lname'] = 'Required';
 
@@ -53,7 +53,7 @@
 
         if (empty($_err)) {
 
-            // ---- PHOTO SAVE ----
+            // photo save
             if ($f) {
                 if ($userPhoto) {
                     @unlink("../userPhoto/$userPhoto");  
@@ -61,7 +61,7 @@
                 $userPhoto = save_photo($f, "../userPhoto"); 
             }
 
-            // ---- UPDATE DB ---- 
+            // UPDATE DB  
             $up = $_db->prepare("
                 UPDATE user
                 SET fname=?, lname=?, email=?, phoneNo=?, userPhoto=?
@@ -69,7 +69,7 @@
             ");
             $up->execute([$fname, $lname, $email, $phoneNo, $userPhoto, $userID]);
 
-            // ---- UPDATE SESSION ----
+            // UPDATE SESSION 
             $_SESSION['fname'] = $fname;
             $_SESSION['email'] = $email;
             $_SESSION['userPhoto'] = $userPhoto; 
@@ -79,10 +79,7 @@
         }
     }
 
-
-    // -----------------------------------------
     // UPDATE PASSWORD
-    // -----------------------------------------
     if (isset($_POST['update_password'])) {
         $current_pass = $_POST['current_pass'] ?? '';
         $new_pass = $_POST['new_pass'] ?? '';
@@ -138,7 +135,6 @@
                     style="width:180px;height:180px;object-fit:cover;border-radius:10px;cursor:pointer;">
             </label>
 
-
             <section>
                 <button type="submit" name="update_profile">Update Profile</button>
             </section>
@@ -174,20 +170,20 @@
         </form>
     </div>
 
-    <script>
-document.getElementById('photoInput').addEventListener('change', function(e){
-    const file = e.target.files[0];
-    if (!file) return;
+<script>
+    document.getElementById('photoInput').addEventListener('change', function(e){
+        const file = e.target.files[0];
+        if (!file) return;
 
-    // Only image files
-    if (!file.type.startsWith('image/')) return;
+        // Only image files
+        if (!file.type.startsWith('image/')) return;
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        document.getElementById('photoPreview').src = e.target.result;
-    }
-    reader.readAsDataURL(file);
-});
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('photoPreview').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    });
 </script>
 <style>
     .err{

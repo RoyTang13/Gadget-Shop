@@ -3,10 +3,7 @@ require '../_base.php';
 include '../_head.php';
 ?>
 
-
 <div class="contactus">
-
-
     <div class="contact-wrapper">   
 
         <!-- LEFT: Address box -->
@@ -22,9 +19,6 @@ include '../_head.php';
 
         <!-- RIGHT: Company + map + button -->
         <div class="right-box">
-
-
-
             <!-- Company Details -->
             <div class="company-details">
             <!-- Company Info -->
@@ -37,8 +31,6 @@ include '../_head.php';
             <p>Saturday: Closed</p>
             <p>Sunday: Closed</p>
             </div>
-
-
 
             <!-- Bottom Button -->
             <div class="button-row">
@@ -54,10 +46,7 @@ include '../_head.php';
                         <i class="fab fa-facebook-f"></i> Facebook
                     </a>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </div>

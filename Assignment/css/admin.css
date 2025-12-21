@@ -140,7 +140,7 @@ label #cancel {
     cursor: pointer;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+/* Smaller screens on sidenav */
 @media screen and (max-height: 450px) {
     .sidebar {
         padding-top: 15px;
@@ -459,32 +459,6 @@ button:hover {
     border: 1px solid #c3e6cb;
 }
 
-
-/* Searching
-    /* Search bar style */
-/* .search_bar-font {
-        font-style: italic;
-        font-size: 12px;
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: lighter;
-        width: 250px;
-        height: 30px;
-        padding: 3px 0px 2px 6px;
-        border: #000 solid 2px;
-    } */
-
-/* "Search" button style */
-/* .search_bar-button {
-        background: #be06ec;
-        color: #fff;
-        padding: 4px 17px;
-        width: 100px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 16px;
-        border: #000 solid 2px;
-        cursor: pointer;
-    } */
-
 /* Change background color of "Search" button */
 .search_bar-button:hover {
     background: #d17de6;
@@ -501,7 +475,7 @@ button:hover {
     margin-top: 15px;
 
 }
-
+/* ---------------------------------------------- */
 /* Filtering and Category*/
 
 /* Adjust dropdown position */
