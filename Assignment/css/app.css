@@ -623,7 +623,6 @@
         .contactus {
             width: 100%;
             /* padding: 10px 10px; */
-            /* FIX: pushes everything below header + nav */
             box-sizing: border-box;
             padding-top: 20px;
             /* padding: 30px; */
@@ -982,7 +981,7 @@
             font-weight: 600;
             transition: background 0.2s ease;
             bottom: 23%;
-            left: 8%;   
+            left: 8%;
             position: absolute;
         }
 
